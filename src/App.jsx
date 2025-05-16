@@ -8,6 +8,13 @@ import {
   Popup,
 } from "react-leaflet";
 import { CRS, LatLngBounds, LatLng } from "leaflet";
+import {
+  compressToEncodedURIComponent,
+  decompressFromEncodedURIComponent,
+} from "lz-string";
+
+import "./normalize.css";
+import "./skeleton.css";
 import "./index.css";
 
 function App() {
@@ -15,9 +22,61 @@ function App() {
   const [selectedMap, setSelectedMap] = useState(null);
   const [stands, setStands] = useState([]);
   const [exhibitors, setExhibitors] = useState([]);
-  const [favorites, setFavorites] = useState(() =>
-    JSON.parse(localStorage.getItem("favorites") || "[]")
-  );
+  const [listKey, setListKey] = useState("default");
+  const [favorites, setFavorites] = useState([]);
+  const [favoriteLists, setFavoriteLists] = useState([]);
+  const [newListName, setNewListName] = useState("");
+
+  useEffect(() => {
+    const compressed = compressToEncodedURIComponent(favorites.join(","));
+    window.location.hash = `list=${listKey}&favs=${compressed}`;
+  }, [favorites, listKey]);
+
+  function loadFavoritesFromHash() {
+    const hash = window.location.hash.startsWith("#")
+      ? window.location.hash.substring(1)
+      : window.location.hash;
+
+    const params = new URLSearchParams("?" + hash);
+
+    const key = params.get("list") || "default";
+    const favEncoded = params.get("favs");
+
+    let favs = [];
+
+    try {
+      if (favEncoded) {
+        const decompressed = decompressFromEncodedURIComponent(favEncoded);
+        if (decompressed && typeof decompressed === "string") {
+          favs = decompressed
+            .split(",")
+            .map((f) => f.trim())
+            .filter(Boolean);
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to decode favorites from URL:", err);
+    }
+
+    setListKey(key);
+
+    const stored = JSON.parse(localStorage.getItem(`favorites:${key}`) || "[]");
+    const initial = stored.length ? stored : favs;
+
+    setFavorites(initial);
+    localStorage.setItem(`favorites:${key}`, JSON.stringify(initial));
+  }
+
+  useEffect(() => {
+    loadFavoritesFromHash(); // run once on mount
+
+    const onHashChange = () => {
+      loadFavoritesFromHash(); // run whenever hash changes
+    };
+
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   useEffect(() => {
     fetch("/mapdata.json")
@@ -54,15 +113,25 @@ function App() {
   }, [selectedMap, stands]);
 
   const toggleFavorite = (label) => {
-    let updated;
-    if (favorites.includes(label)) {
-      updated = favorites.filter((f) => f !== label);
-    } else {
-      updated = [...favorites, label];
-    }
-    setFavorites(updated);
-    localStorage.setItem("favorites", JSON.stringify(updated));
+    setFavorites((prev) => {
+      const updated = prev.includes(label)
+        ? prev.filter((f) => f !== label)
+        : [...prev, label];
+      localStorage.setItem(`favorites:${listKey}`, JSON.stringify(updated));
+      return updated;
+    });
   };
+
+  useEffect(() => {
+    const updateLists = () => {
+      const keys = Object.keys(localStorage)
+        .filter((k) => k.startsWith("favorites:"))
+        .map((k) => k.replace("favorites:", ""));
+      setFavoriteLists(keys);
+    };
+
+    updateLists();
+  }, [favorites, listKey]);
 
   function MapClickHandler() {
     useMapEvents({
@@ -79,26 +148,113 @@ function App() {
 
   return (
     <div>
-      <select
-        onChange={(e) => {
-          const selected = maps.find((m) => m.title === e.target.value);
-          setSelectedMap(selected);
-        }}
-        value={selectedMap?.title || ""}
-        style={{
-          position: "absolute",
-          zIndex: 1000,
-          top: 10,
-          right: 10,
-          height: "35px",
-        }}
-      >
-        {maps.map((m) => (
-          <option key={m.title} value={m.title}>
-            {m.title}
-          </option>
-        ))}
-      </select>
+      <div className="controls">
+        <select
+          onChange={(e) => {
+            const selected = maps.find((m) => m.title === e.target.value);
+            setSelectedMap(selected);
+          }}
+          value={selectedMap?.title || ""}
+        >
+          {maps.map((m) => (
+            <option key={m.title} value={m.title}>
+              {m.title}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() => {
+            const compressed = compressToEncodedURIComponent(
+              favorites.join(",")
+            );
+            const url = `${window.location.origin}${window.location.pathname}#list=${listKey}&favs=${compressed}`;
+            navigator.clipboard
+              .writeText(url)
+              .then(() => alert("Link copied to clipboard!"))
+              .catch(() => alert("Failed to copy link"));
+          }}
+        >
+          🔗 Share List
+        </button>
+        <details>
+          <summary>📜 Manage Lists</summary>
+          <div>
+            <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+              {favoriteLists.map((key) => (
+                <li key={key} style={{ marginBottom: "6px" }}>
+                  <button
+                    onClick={() => {
+                      setListKey(key);
+                      const stored = JSON.parse(
+                        localStorage.getItem(`favorites:${key}`) || "[]"
+                      );
+                      setFavorites(stored);
+                      window.location.hash = `list=${key}&favs=${stored.join(
+                        ","
+                      )}`;
+                    }}
+                  >
+                    📄 {key}
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (window.confirm(`Delete list "${key}"?`)) {
+                        if (key === listKey) {
+                          const fallbackKey = "default";
+                          const stored = JSON.parse(
+                            localStorage.getItem(`favorites:${fallbackKey}`) ||
+                              "[]"
+                          );
+
+                          setListKey(fallbackKey);
+                          setFavorites(stored);
+
+                          const compressed = compressToEncodedURIComponent(
+                            stored.join(",")
+                          );
+                          window.location.hash = `list=${fallbackKey}&favs=${compressed}`;
+                        }
+
+                        // Remove the list and refresh the dropdown
+                        localStorage.removeItem(`favorites:${key}`);
+                        setFavoriteLists(
+                          Object.keys(localStorage)
+                            .filter((k) => k.startsWith("favorites:"))
+                            .map((k) => k.replace("favorites:", ""))
+                        );
+                      }
+                    }}
+                  >
+                    ❌
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <input
+              type="text"
+              placeholder="New list name"
+              value={newListName}
+              onChange={(e) => setNewListName(e.target.value)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            <button
+              className="button"
+              onClick={() => {
+                const newKey = newListName.trim();
+                if (newKey && !favoriteLists.includes(newKey)) {
+                  localStorage.setItem(`favorites:${newKey}`, "[]");
+                  setListKey(newKey);
+                  setFavorites([]);
+                  setNewListName("");
+                  window.location.hash = `list=${newKey}`;
+                }
+              }}
+            >
+              ➕ Create
+            </button>
+          </div>
+        </details>
+      </div>
 
       {selectedMap && (
         <MapContainer
@@ -132,23 +288,14 @@ function App() {
                   <p>{stand.exhibitor?.description}</p>
                   <p>
                     <button
-                      style={{
-                        height: "35px",
-                        padding: "6px",
-                        background: favorites.includes(stand.label)
-                          ? "goldenrod"
-                          : "none",
-                        border: "2px solid goldenrod",
-                        borderRadius: "6px",
-                      }}
                       type="button"
                       onClick={() => {
                         toggleFavorite(stand.label);
                       }}
                     >
                       {favorites.includes(stand.label)
-                        ? "★ Remove Favorite"
-                        : "☆ Add to Favorites"}
+                        ? "❌ Remove Favorite"
+                        : "⭐ Add to Favorites"}
                     </button>
                   </p>
                 </div>

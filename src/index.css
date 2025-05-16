@@ -21,3 +21,26 @@ a.leaflet-popup-close-button {
   font-size: 24px !important;
   margin: 12px 0 !important;
 }
+.controls {
+  background: #ffffff;
+  position: absolute;
+  z-index: 9000;
+  right: 10px;
+  top: 10px;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 250px;
+}
+
+details {
+  cursor: pointer;
+}
+details button {
+  border: none;
+}
+summary:hover {
+  font-weight: bold;
+}
