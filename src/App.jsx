@@ -60,7 +60,7 @@ function App() {
       : window.location.hash;
 
     const params = new URLSearchParams("?" + hash);
-    const key = params.get("list") || generateRandomListName();
+    const key = params.get("list") || "default";
     const favEncoded = params.get("favs");
 
     let favsFromUrl = [];
