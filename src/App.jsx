@@ -28,13 +28,39 @@ function App() {
   const [favoriteLists, setFavoriteLists] = useState([]);
   const [newListName, setNewListName] = useState("");
 
+  function generateRandomListName() {
+    const adjectives = [
+      "brave",
+      "cheeky",
+      "happy",
+      "sleepy",
+      "sneaky",
+      "gentle",
+      "noisy",
+      "bouncy",
+    ];
+    const animals = [
+      "otter",
+      "fox",
+      "tiger",
+      "panda",
+      "sloth",
+      "owl",
+      "lizard",
+      "turtle",
+    ];
+    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const animal = animals[Math.floor(Math.random() * animals.length)];
+    return `${adjective}-${animal}`;
+  }
+
   function getInitialListState() {
     const hash = window.location.hash.startsWith("#")
       ? window.location.hash.substring(1)
       : window.location.hash;
 
     const params = new URLSearchParams("?" + hash);
-    const key = params.get("list") || "default";
+    const key = params.get("list") || generateRandomListName();
     const favEncoded = params.get("favs");
 
     let favsFromUrl = [];
@@ -59,9 +85,13 @@ function App() {
     let final = stored.length ? stored : favsFromUrl;
 
     if (key === "default" && !stored.length && legacy.length) {
+      const randomKey = generateRandomListName();
       final = legacy;
-      localStorage.setItem("favorites:default", JSON.stringify(legacy));
+
+      localStorage.setItem(`favorites:${randomKey}`, JSON.stringify(legacy));
       localStorage.removeItem("favorites");
+
+      return { initialKey: randomKey, initialFavorites: final };
     }
 
     return { initialKey: key, initialFavorites: final };
@@ -208,6 +238,7 @@ function App() {
                     📄 {key}
                   </button>
                   <button
+                    className="x-button"
                     onClick={() => {
                       if (window.confirm(`Delete list "${key}"?`)) {
                         if (key === listKey) {

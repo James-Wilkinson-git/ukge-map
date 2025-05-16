@@ -44,3 +44,6 @@ details button {
 summary:hover {
   font-weight: bold;
 }
+.x-button {
+  padding: 0;
+}
