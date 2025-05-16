@@ -22,72 +22,61 @@ function App() {
   const [selectedMap, setSelectedMap] = useState(null);
   const [stands, setStands] = useState([]);
   const [exhibitors, setExhibitors] = useState([]);
-  const [listKey, setListKey] = useState("default");
-  const [favorites, setFavorites] = useState([]);
+  const { initialKey, initialFavorites } = getInitialListState();
+  const [listKey, setListKey] = useState(initialKey);
+  const [favorites, setFavorites] = useState(initialFavorites);
   const [favoriteLists, setFavoriteLists] = useState([]);
   const [newListName, setNewListName] = useState("");
+
+  function getInitialListState() {
+    const hash = window.location.hash.startsWith("#")
+      ? window.location.hash.substring(1)
+      : window.location.hash;
+
+    const params = new URLSearchParams("?" + hash);
+    const key = params.get("list") || "default";
+    const favEncoded = params.get("favs");
+
+    let favsFromUrl = [];
+    try {
+      if (favEncoded) {
+        const decoded = decompressFromEncodedURIComponent(favEncoded);
+        if (decoded) {
+          favsFromUrl = decoded
+            .split(",")
+            .map((f) => f.trim())
+            .filter(Boolean);
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to parse compressed favorites from URL:", e);
+    }
+
+    // 🔁 Migration from legacy format
+    const legacy = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const stored = JSON.parse(localStorage.getItem(`favorites:${key}`) || "[]");
+
+    let final = stored.length ? stored : favsFromUrl;
+
+    if (key === "default" && !stored.length && legacy.length) {
+      final = legacy;
+      localStorage.setItem("favorites:default", JSON.stringify(legacy));
+      localStorage.removeItem("favorites");
+    }
+
+    return { initialKey: key, initialFavorites: final };
+  }
 
   useEffect(() => {
     const compressed = compressToEncodedURIComponent(favorites.join(","));
     window.location.hash = `list=${listKey}&favs=${compressed}`;
   }, [favorites, listKey]);
 
-  function loadFavoritesFromHash() {
-    const hash = window.location.hash.startsWith("#")
-      ? window.location.hash.substring(1)
-      : window.location.hash;
-
-    const params = new URLSearchParams("?" + hash);
-
-    const key = params.get("list") || "default";
-    const favEncoded = params.get("favs");
-
-    let favs = [];
-
-    try {
-      if (favEncoded) {
-        const decompressed = decompressFromEncodedURIComponent(favEncoded);
-        if (decompressed && typeof decompressed === "string") {
-          favs = decompressed
-            .split(",")
-            .map((f) => f.trim())
-            .filter(Boolean);
-        }
-      }
-    } catch (err) {
-      console.warn("Failed to decode favorites from URL:", err);
-    }
-
-    setListKey(key);
-
-    let stored = JSON.parse(localStorage.getItem(`favorites:${key}`) || "[]");
-
-    // 🔁 migrate from legacy format only if default is missing
-    if (key === "default" && stored.length === 0) {
-      const legacy = JSON.parse(localStorage.getItem("favorites") || "[]");
-      if (legacy.length > 0) {
-        localStorage.setItem("favorites:default", JSON.stringify(legacy));
-        localStorage.removeItem("favorites");
-        stored = legacy;
-      }
-    }
-
-    const initial = stored.length ? stored : favs;
-
-    setFavorites(initial);
-    localStorage.setItem(`favorites:${key}`, JSON.stringify(initial));
-  }
-
   useEffect(() => {
-    loadFavoritesFromHash(); // run once on mount
-
-    const onHashChange = () => {
-      loadFavoritesFromHash(); // run whenever hash changes
-    };
-
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
+    if (listKey && favorites) {
+      localStorage.setItem(`favorites:${listKey}`, JSON.stringify(favorites));
+    }
+  }, [favorites, listKey]);
 
   useEffect(() => {
     fetch("/mapdata.json")
@@ -143,6 +132,17 @@ function App() {
 
     updateLists();
   }, [favorites, listKey]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const { initialKey, initialFavorites } = getInitialListState();
+      setListKey(initialKey);
+      setFavorites(initialFavorites);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   function MapClickHandler() {
     useMapEvents({
