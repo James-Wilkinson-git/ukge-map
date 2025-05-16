@@ -1,4 +1,6 @@
-body, html, #root {
+body,
+html,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -6,4 +8,16 @@ body, html, #root {
 .leaflet-container {
   width: 100%;
   height: 100%;
+}
+a.leaflet-popup-close-button {
+  width: 35px !important;
+  height: 35px !important;
+  font-size: 32px !important;
+}
+.leaflet-popup-content {
+  font-size: 24px !important;
+}
+.leaflet-popup-content p {
+  font-size: 24px !important;
+  margin: 12px 0 !important;
 }

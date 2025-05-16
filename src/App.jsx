@@ -5,8 +5,10 @@ import {
   Polygon,
   useMapEvents,
   Tooltip,
+  Popup,
 } from "react-leaflet";
 import { CRS, LatLngBounds, LatLng } from "leaflet";
+import "./index.css";
 
 function App() {
   const [maps, setMaps] = useState([]);
@@ -83,7 +85,13 @@ function App() {
           setSelectedMap(selected);
         }}
         value={selectedMap?.title || ""}
-        style={{ position: "absolute", zIndex: 1000, top: 10, left: 10 }}
+        style={{
+          position: "absolute",
+          zIndex: 1000,
+          top: 10,
+          right: 10,
+          height: "35px",
+        }}
       >
         {maps.map((m) => (
           <option key={m.title} value={m.title}>
@@ -115,13 +123,36 @@ function App() {
               }}
               positions={stand.points.map(([y, x]) => [y, x])}
             >
-              <Tooltip sticky>
-                <p>
-                  <strong>{stand.label}</strong>
-                </p>
-                <p>{stand.exhibitor?.title || "Unknown Exhibitor"}</p>
-                <p>{stand.exhibitor?.description}</p>
-              </Tooltip>
+              <Popup closeButton="true">
+                <div>
+                  <p>
+                    <strong>{stand.label}</strong>
+                  </p>
+                  <p>{stand.exhibitor?.title || "Unknown Exhibitor"}</p>
+                  <p>{stand.exhibitor?.description}</p>
+                  <p>
+                    <button
+                      style={{
+                        height: "35px",
+                        padding: "6px",
+                        background: favorites.includes(stand.label)
+                          ? "goldenrod"
+                          : "none",
+                        border: "2px solid goldenrod",
+                        borderRadius: "6px",
+                      }}
+                      type="button"
+                      onClick={() => {
+                        toggleFavorite(stand.label);
+                      }}
+                    >
+                      {favorites.includes(stand.label)
+                        ? "★ Remove Favorite"
+                        : "☆ Add to Favorites"}
+                    </button>
+                  </p>
+                </div>
+              </Popup>
             </Polygon>
           ))}
         </MapContainer>
