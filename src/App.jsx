@@ -190,39 +190,67 @@ function App() {
   return (
     <div>
       <div className="controls">
-        <select
-          onChange={(e) => {
-            const selected = maps.find((m) => m.title === e.target.value);
-            setSelectedMap(selected);
-          }}
-          value={selectedMap?.title || ""}
-        >
-          {maps.map((m) => (
-            <option key={m.title} value={m.title}>
-              {m.title}
-            </option>
-          ))}
-        </select>
-        <button
-          onClick={() => {
-            const compressed = compressToEncodedURIComponent(
-              favorites.join(",")
-            );
-            const url = `${window.location.origin}${window.location.pathname}#list=${listKey}&favs=${compressed}`;
-            navigator.clipboard
-              .writeText(url)
-              .then(() => alert("Link copied to clipboard!"))
-              .catch(() => alert("Failed to copy link"));
-          }}
-        >
-          🔗 Share List
-        </button>
         <details>
-          <summary>📜 Manage Lists</summary>
+          <summary>➡️ Start Here</summary>
+          <p>
+            Open controls and name your list, make your selections, then hit
+            share link or copy the browser url and open it on your phone. If you
+            go back and forth you will need to make a new list first thats not
+            on your other device, I might fix this before the show.
+          </p>
+          <p>
+            You cant use the same name twice, everything is stored on your
+            device
+          </p>
+          <p>
+            All data is copyright UK Games Expo and their respective owners, and
+            this app is brought to you by{" "}
+            <a href="http://boardgaymesjames.com" target="_blank">
+              @BoardGaymesJames
+            </a>
+          </p>
+          <p>
+            <img
+              src="/bo-arnak.png"
+              width="150"
+              alt="German Shepard Cartoon hold tokens from lost ruins of arnak"
+            />
+          </p>
+        </details>
+        <details>
+          <summary>⚙️ Controls</summary>
+          <select
+            onChange={(e) => {
+              const selected = maps.find((m) => m.title === e.target.value);
+              setSelectedMap(selected);
+            }}
+            value={selectedMap?.title || ""}
+          >
+            {maps.map((m) => (
+              <option key={m.title} value={m.title}>
+                {m.title}
+              </option>
+            ))}
+          </select>
+          <button
+            className="button"
+            onClick={() => {
+              const compressed = compressToEncodedURIComponent(
+                favorites.join(",")
+              );
+              const url = `${window.location.origin}${window.location.pathname}#list=${listKey}&favs=${compressed}`;
+              navigator.clipboard
+                .writeText(url)
+                .then(() => alert("Link copied to clipboard!"))
+                .catch(() => alert("Failed to copy link"));
+            }}
+          >
+            🔗 Share List
+          </button>
           <div>
-            <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            <ul>
               {favoriteLists.map((key) => (
-                <li key={key} style={{ marginBottom: "6px" }}>
+                <li key={key}>
                   <button
                     onClick={() => {
                       setListKey(key);

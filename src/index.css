@@ -31,18 +31,29 @@ a.leaflet-popup-close-button {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   width: 250px;
 }
 
 details {
   cursor: pointer;
 }
-details button {
+details ul li button {
   border: none;
+  padding: 4px 30px 4px 0px !important;
+}
+summary {
+  display: list-item;
 }
 summary:hover {
   font-weight: bold;
+}
+ul {
+  margin: 4px;
+}
+ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .x-button {
   padding: 0;
