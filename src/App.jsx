@@ -60,7 +60,18 @@ function App() {
 
     setListKey(key);
 
-    const stored = JSON.parse(localStorage.getItem(`favorites:${key}`) || "[]");
+    let stored = JSON.parse(localStorage.getItem(`favorites:${key}`) || "[]");
+
+    // 🔁 migrate from legacy format only if default is missing
+    if (key === "default" && stored.length === 0) {
+      const legacy = JSON.parse(localStorage.getItem("favorites") || "[]");
+      if (legacy.length > 0) {
+        localStorage.setItem("favorites:default", JSON.stringify(legacy));
+        localStorage.removeItem("favorites");
+        stored = legacy;
+      }
+    }
+
     const initial = stored.length ? stored : favs;
 
     setFavorites(initial);
