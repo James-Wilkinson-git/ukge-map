@@ -8589,15 +8589,6 @@
       "url": "/whats-on/show/exhibitors/mikedalzellartist/"
     },
     {
-      "pk": 15861,
-      "title": "XWC Miniatures",
-      "logo": "https://common-media.ukgamesexpo.co.uk/XWC_Logo_Black_for_Light_Backgrounds.8f91e07ee4b46172a99a6e9b2550dbb8583f761053118eec43d_9lrxTDR.png",
-      "website": "https://xwcminiatures.com",
-      "description": "XWC Miniatures is an independent fantasy miniature sculptor and manufacturer for TTRPGS",
-      "stand": "2-218",
-      "url": "/whats-on/show/exhibitors/xwc-miniatures/"
-    },
-    {
       "pk": 16646,
       "title": "Moon Beast Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/Moon_Beast_Games.a1055e5cbb1d37c8488ca550589721536fa689f20ac3777124100e46f2147930.jpg",
@@ -8605,6 +8596,15 @@
       "description": "Independent author and publisher creating Lovecraftian adventures and encounters.",
       "stand": "2-218",
       "url": "/whats-on/show/exhibitors/moon-beast-games/"
+    },
+    {
+      "pk": 15861,
+      "title": "XWC Miniatures",
+      "logo": "https://common-media.ukgamesexpo.co.uk/XWC_Logo_Black_for_Light_Backgrounds.8f91e07ee4b46172a99a6e9b2550dbb8583f761053118eec43d_9lrxTDR.png",
+      "website": "https://xwcminiatures.com",
+      "description": "XWC Miniatures is an independent fantasy miniature sculptor and manufacturer for TTRPGS",
+      "stand": "2-218",
+      "url": "/whats-on/show/exhibitors/xwc-miniatures/"
     },
     {
       "pk": 15855,
@@ -9003,15 +9003,6 @@
       "url": "/whats-on/show/exhibitors/hatchlings-games/"
     },
     {
-      "pk": 16516,
-      "title": "Philip S Davies",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Philip_Profile_4.3f8016dceb21ab73d58e637d7640e89bb47bbe4ccaf8f2563e9e91355b44785f.jpg",
-      "website": "https://www.philipsdavies.com",
-      "description": "Author of the fantasy novel series: Destiny's Rebel, and Cave of Immortality",
-      "stand": "2-310",
-      "url": "/whats-on/show/exhibitors/phillip-s-davies/"
-    },
-    {
       "pk": 16517,
       "title": "Marisa Noelle",
       "logo": "https://common-media.ukgamesexpo.co.uk/All_Books22.7cf85b09e04b3153b822feeeda1f9a5345f2bece158290b3b89aa8e9f6864a93.png",
@@ -9037,6 +9028,15 @@
       "description": "Historical/fantasy fiction including The Northern Crown & Hourglass Institute Series",
       "stand": "2-310",
       "url": "/whats-on/show/exhibitors/mercia-books/"
+    },
+    {
+      "pk": 16516,
+      "title": "Philip S Davies",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Philip_Profile_4.3f8016dceb21ab73d58e637d7640e89bb47bbe4ccaf8f2563e9e91355b44785f.jpg",
+      "website": "https://www.philipsdavies.com",
+      "description": "Author of the fantasy novel series: Destiny's Rebel, and Cave of Immortality",
+      "stand": "2-310",
+      "url": "/whats-on/show/exhibitors/phillip-s-davies/"
     },
     {
       "pk": 16421,
@@ -9066,15 +9066,6 @@
       "url": "/whats-on/show/exhibitors/slightly-ghosts/"
     },
     {
-      "pk": 15880,
-      "title": "Mikomaestra",
-      "logo": "https://common-media.ukgamesexpo.co.uk/miko_icon_png_200px.578dbdd378b57bcc813fa242930197b22ca2cba6e2ec173bd9b2df5c9e7bc701.png",
-      "website": "https://beacons.ai/mikomaestra",
-      "description": "A self-employed Mangaka, comic artist and illustrator.",
-      "stand": "2-321",
-      "url": "/whats-on/show/exhibitors/mikomaestra/"
-    },
-    {
       "pk": 17520,
       "title": "Hiimacupcake",
       "logo": "https://common-media.ukgamesexpo.co.uk/Chibi_me.c9be5e8192c1259fb6ab49a7303a9822eb90f903f4262f112bc987d63fe49bac.jpeg",
@@ -9082,6 +9073,15 @@
       "description": "Stickers, prints and badges of original/fan art. Handmade jewellery and accessories.",
       "stand": "2-321",
       "url": "/whats-on/show/exhibitors/hiimacupcake/"
+    },
+    {
+      "pk": 15880,
+      "title": "Mikomaestra",
+      "logo": "https://common-media.ukgamesexpo.co.uk/miko_icon_png_200px.578dbdd378b57bcc813fa242930197b22ca2cba6e2ec173bd9b2df5c9e7bc701.png",
+      "website": "https://beacons.ai/mikomaestra",
+      "description": "A self-employed Mangaka, comic artist and illustrator.",
+      "stand": "2-321",
+      "url": "/whats-on/show/exhibitors/mikomaestra/"
     },
     {
       "pk": 15881,
@@ -9264,15 +9264,6 @@
       "url": "/whats-on/show/exhibitors/the-dragons-library/"
     },
     {
-      "pk": 15913,
-      "title": "Robert J Marsters",
-      "logo": "https://common-media.ukgamesexpo.co.uk/covers3_paler.c0a9edfc61d1b755d80c74984c82b862ecc53ddb89192bf4e58c38424779f382.jpg",
-      "website": "https://www.facebook.com/robertjmarsters",
-      "description": "Fantasy books by the author, resin dragons and faeries, reapers and skulls",
-      "stand": "2-381",
-      "url": "/whats-on/show/exhibitors/robert-j-marsters/"
-    },
-    {
       "pk": 16383,
       "title": "UK Tabletop Industry Network",
       "logo": "https://common-media.ukgamesexpo.co.uk/UK-TIN-LOGO-FinalWhiteBG.ec3180561d730d302072565aa9f4d6b57e45d58db9f3c0d607e190890243517b.png",
@@ -9309,15 +9300,6 @@
       "url": "/whats-on/show/exhibitors/you-know-it/"
     },
     {
-      "pk": 16592,
-      "title": "Synka Games",
-      "logo": "https://common-media.ukgamesexpo.co.uk/SYNKA-LOGO-full.ccd6cbc376e6139ccc1998f9ed6e01b963556a7c11b4d1958566fc6a0954058f.png",
-      "website": "",
-      "description": "Boardgame publisher based in Japan",
-      "stand": "2-387",
-      "url": "/whats-on/show/exhibitors/synka-games/"
-    },
-    {
       "pk": 16733,
       "title": "Wise Box",
       "logo": "https://common-media.ukgamesexpo.co.uk/Artboard_2.f769d3ce5ed4613bbdd3d0d9d8ce6479816aeaa0b6df75df15d2d21a48f843ca.png",
@@ -9327,11 +9309,20 @@
       "url": "/whats-on/show/exhibitors/wise-box/"
     },
     {
+      "pk": 16592,
+      "title": "Synka Games",
+      "logo": "https://common-media.ukgamesexpo.co.uk/SYNKA-LOGO-full.ccd6cbc376e6139ccc1998f9ed6e01b963556a7c11b4d1958566fc6a0954058f.png",
+      "website": "",
+      "description": "Boardgame publisher based in Japan",
+      "stand": "2-387",
+      "url": "/whats-on/show/exhibitors/synka-games/"
+    },
+    {
       "pk": 15919,
       "title": "023 GAMES",
       "logo": "https://common-media.ukgamesexpo.co.uk/023-logo.a45f1334950ade6f1ff28db25daa298b7ce53b4147b4438f6747db33cb28dc67.jpg",
       "website": "https://www.023games.nl",
-      "description": "Our mission is to create fun, fresh & simple boardgames.",
+      "description": "023 GAMES is a small independent boardgames company based in the Netherlands,",
       "stand": "2-393",
       "url": "/whats-on/show/exhibitors/023-games/"
     },
@@ -9534,15 +9525,6 @@
       "url": "/whats-on/show/exhibitors/wayland-games/"
     },
     {
-      "pk": 16119,
-      "title": "Coiledspring Games",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Coiledspring_Games_Logo_-_Blue.35358f3dbc5cb1fd31ea903a0da807ac72c5a0f493782dbf818ba7c374ddb864.png",
-      "website": "https://coiledspring.co.uk/",
-      "description": "Coiledspring Games is the exclusive distributor of some of the best games you can find.",
-      "stand": "2-518",
-      "url": "/whats-on/show/exhibitors/coiledspring-games/"
-    },
-    {
       "pk": 16692,
       "title": "Esdevium Games Ltd T/A Asmodee UK",
       "logo": null,
@@ -9550,6 +9532,15 @@
       "description": "",
       "stand": "2-518",
       "url": "/whats-on/show/exhibitors/esdevium-games-ltd-ta-asmodee-uk/"
+    },
+    {
+      "pk": 16119,
+      "title": "Coiledspring Games",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Coiledspring_Games_Logo_-_Blue.35358f3dbc5cb1fd31ea903a0da807ac72c5a0f493782dbf818ba7c374ddb864.png",
+      "website": "https://coiledspring.co.uk/",
+      "description": "Coiledspring Games is the exclusive distributor of some of the best games you can find.",
+      "stand": "2-518",
+      "url": "/whats-on/show/exhibitors/coiledspring-games/"
     },
     {
       "pk": 16542,
@@ -9624,13 +9615,13 @@
       "url": "/whats-on/show/exhibitors/ukge-cosplay-zone/"
     },
     {
-      "pk": 17545,
+      "pk": 18488,
       "title": "Bridge Command",
-      "logo": null,
-      "website": "",
-      "description": "Ever wanted to fly your own starship?",
+      "logo": "https://common-media.ukgamesexpo.co.uk/BC_Logo_new_Stacked_BLUE_small.c3184c9bf2dbf8fe35c062e9b96f3c1547d14a6e6cf7dad7f362148642fe7305.png",
+      "website": "https://bridgecommand.space/",
+      "description": "Ever wanted to fly your own starship? Bridge Command is a live-action starship simulator.",
       "stand": "2-597",
-      "url": "/whats-on/show/exhibitors/starship-simulator/"
+      "url": "/whats-on/show/exhibitors/bridge-command/"
     },
     {
       "pk": 18006,
@@ -9804,15 +9795,6 @@
       "url": "/whats-on/show/exhibitors/magicraft-co-ltd/"
     },
     {
-      "pk": 16639,
-      "title": "Stone Sword Games",
-      "logo": null,
-      "website": "",
-      "description": "Inspired by history, delivering fun! We are a passionate game development studio.",
-      "stand": "2-714",
-      "url": "/whats-on/show/exhibitors/stone-sword-games/"
-    },
-    {
       "pk": 15887,
       "title": "Paper Fort Games Ltd",
       "logo": "https://common-media.ukgamesexpo.co.uk/PFG_Logo_Transparent_BG_no_Outline.c15db19f693664ec20b31a58e69bc8caa9de567f3802e64f59d50_cRRf0aT.png",
@@ -9820,6 +9802,15 @@
       "description": "Come to our stand to check out Terraria: The Board Game and our newest release Fathom!",
       "stand": "2-714",
       "url": "/whats-on/show/exhibitors/paper-fort-games-ltd/"
+    },
+    {
+      "pk": 16639,
+      "title": "Stone Sword Games",
+      "logo": null,
+      "website": "",
+      "description": "Inspired by history, delivering fun! We are a passionate game development studio.",
+      "stand": "2-714",
+      "url": "/whats-on/show/exhibitors/stone-sword-games/"
     },
     {
       "pk": 16445,
@@ -9858,15 +9849,6 @@
       "url": "/whats-on/show/exhibitors/boda-games-manufacturing/"
     },
     {
-      "pk": 16524,
-      "title": "Ravensburger Ltd",
-      "logo": "https://common-media.ukgamesexpo.co.uk/RB_BlueTriangle_TriangleLogo_RGB_Primary_800x800px.7db6edd684875c6ed65caa6aee5c04a33b44c_KlozUI0.png",
-      "website": "https://www.ravensburger.co.uk/en-GB",
-      "description": "Discover our new boardgames and Disney Lorcana TCG on Stand 736 in Hall 2!",
-      "stand": "2-736",
-      "url": "/whats-on/show/exhibitors/ravensburger-ltd/"
-    },
-    {
       "pk": 17857,
       "title": "Disney Lorcana TCG",
       "logo": "https://common-media.ukgamesexpo.co.uk/eyJwYXRoIjoicmF2ZW5zYnVyZ2VyXC9maWxlXC96OHJ3eGFYaWZMZk5YNG55RktvTC5wbmcifQ_ravensburger__3GyVApD.png",
@@ -9874,6 +9856,15 @@
       "description": "Discover Reign of Jafar set and cooperative gameplay with Illumineer's Quest Palace Heist!",
       "stand": "2-736",
       "url": "/whats-on/show/exhibitors/lorcana-2/"
+    },
+    {
+      "pk": 16524,
+      "title": "Ravensburger Ltd",
+      "logo": "https://common-media.ukgamesexpo.co.uk/RB_BlueTriangle_TriangleLogo_RGB_Primary_800x800px.7db6edd684875c6ed65caa6aee5c04a33b44c_KlozUI0.png",
+      "website": "https://www.ravensburger.co.uk/en-GB",
+      "description": "Discover our new boardgames and Disney Lorcana TCG on Stand 736 in Hall 2!",
+      "stand": "2-736",
+      "url": "/whats-on/show/exhibitors/ravensburger-ltd/"
     },
     {
       "pk": 16005,
@@ -9984,15 +9975,6 @@
       "url": "/whats-on/show/exhibitors/natural-twenty-gaming-tables/"
     },
     {
-      "pk": 15966,
-      "title": "Evil Pigeon Games",
-      "logo": "https://common-media.ukgamesexpo.co.uk/pigeon.f5be13801a1a2310ef5f778372684aaacd3e713c559607bf54fb1b7e476d66ff.png",
-      "website": "https://evilpigeongames.itch.io/",
-      "description": "Books and supplements for Fantasy TTRPGs",
-      "stand": "2-808",
-      "url": "/whats-on/show/exhibitors/evil-pigeon-games/"
-    },
-    {
       "pk": 16630,
       "title": "Whimsical Whale",
       "logo": null,
@@ -10000,6 +9982,15 @@
       "description": "Gorgeously cute art to fill your home with fun and whimsy.",
       "stand": "2-808",
       "url": "/whats-on/show/exhibitors/whimsical-whale/"
+    },
+    {
+      "pk": 15966,
+      "title": "Evil Pigeon Games",
+      "logo": "https://common-media.ukgamesexpo.co.uk/pigeon.f5be13801a1a2310ef5f778372684aaacd3e713c559607bf54fb1b7e476d66ff.png",
+      "website": "https://evilpigeongames.itch.io/",
+      "description": "Books and supplements for Fantasy TTRPGs",
+      "stand": "2-808",
+      "url": "/whats-on/show/exhibitors/evil-pigeon-games/"
     },
     {
       "pk": 16060,
@@ -10245,15 +10236,6 @@
       "url": "/whats-on/show/exhibitors/mammoth-miniatures/"
     },
     {
-      "pk": 16636,
-      "title": "Nuts About Miniatures Ltd",
-      "logo": null,
-      "website": "",
-      "description": "Fantasy Miniatures",
-      "stand": "2-897",
-      "url": "/whats-on/show/exhibitors/nuts-about-miniatures-ltd/"
-    },
-    {
       "pk": 16425,
       "title": "Nuts About Magic",
       "logo": null,
@@ -10261,6 +10243,15 @@
       "description": "Card retailer.",
       "stand": "2-897",
       "url": "/whats-on/show/exhibitors/nuts-about-magic/"
+    },
+    {
+      "pk": 16636,
+      "title": "Nuts About Miniatures Ltd",
+      "logo": null,
+      "website": "",
+      "description": "Fantasy Miniatures",
+      "stand": "2-897",
+      "url": "/whats-on/show/exhibitors/nuts-about-miniatures-ltd/"
     },
     {
       "pk": 15943,
@@ -10758,15 +10749,6 @@
       "url": "/whats-on/show/exhibitors/misty-moon-illustrations/"
     },
     {
-      "pk": 17148,
-      "title": "Reserve Demo Team Base",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-T47",
-      "url": "/whats-on/show/exhibitors/reserve-demo-team-base/"
-    },
-    {
       "pk": 16533,
       "title": "Hall 2 UKGE Help Desk",
       "logo": "https://common-media.ukgamesexpo.co.uk/Help_Desk_Icon.9183ac69f87083db089145ca60a7c637ab6154edf762b33bb1789cb16b8fc722.png",
@@ -10774,6 +10756,15 @@
       "description": "Get help and ask your questions.",
       "stand": "2-T47",
       "url": "/whats-on/show/exhibitors/ukge-help-desk-hall-2/"
+    },
+    {
+      "pk": 17148,
+      "title": "Reserve Demo Team Base",
+      "logo": null,
+      "website": "",
+      "description": "",
+      "stand": "2-T47",
+      "url": "/whats-on/show/exhibitors/reserve-demo-team-base/"
     },
     {
       "pk": 16118,
@@ -11226,15 +11217,6 @@
       "url": "/whats-on/show/exhibitors/solent-designers-co-operative/"
     },
     {
-      "pk": 16339,
-      "title": "11:44 Games",
-      "logo": null,
-      "website": "https://www.allswellthatends.co.uk",
-      "description": "11:44 Games is the publisher of the adventure and skirmish board game All's Well That Ends",
-      "stand": "3-164",
-      "url": "/whats-on/show/exhibitors/1144-games/"
-    },
-    {
       "pk": 17927,
       "title": "Light Mane Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/LMG-Logo_Master_Design_File-v2-04.2e75c64efe2f1ccb1a2edb9f07ac70e4d721343a732d594099698f_chmf5t9.png",
@@ -11244,13 +11226,13 @@
       "url": "/whats-on/show/exhibitors/light-mane-games/"
     },
     {
-      "pk": 16004,
-      "title": "Kuma Cards",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Kuma_Cards_Logo_-_Yellow.f0383b2ae4bf319dc106e7015cdbdc5cc6dff5561b2032f56607c49242671dd8.jpg",
-      "website": "https://www.kumacards.com",
-      "description": "Come find us for trading games, board games, plush, figures, japanese and more!",
-      "stand": "3-201",
-      "url": "/whats-on/show/exhibitors/kuma-cards/"
+      "pk": 16339,
+      "title": "11:44 Games",
+      "logo": null,
+      "website": "https://www.allswellthatends.co.uk",
+      "description": "11:44 Games is the publisher of the adventure and skirmish board game All's Well That Ends",
+      "stand": "3-164",
+      "url": "/whats-on/show/exhibitors/1144-games/"
     },
     {
       "pk": 16632,
@@ -11260,6 +11242,15 @@
       "description": "All things Collectable, TCG & Japanese",
       "stand": "3-201",
       "url": "/whats-on/show/exhibitors/dancing-cake/"
+    },
+    {
+      "pk": 16004,
+      "title": "Kuma Cards",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Kuma_Cards_Logo_-_Yellow.f0383b2ae4bf319dc106e7015cdbdc5cc6dff5561b2032f56607c49242671dd8.jpg",
+      "website": "https://www.kumacards.com",
+      "description": "Come find us for trading games, board games, plush, figures, japanese and more!",
+      "stand": "3-201",
+      "url": "/whats-on/show/exhibitors/kuma-cards/"
     },
     {
       "pk": 16337,
@@ -11305,6 +11296,15 @@
       "description": "Alt. apparel inspired by heavy metal and D&D + our own collection of indie TTRPGs & more!",
       "stand": "3-214",
       "url": "/whats-on/show/exhibitors/uknite-the-realm-apparel/"
+    },
+    {
+      "pk": 15913,
+      "title": "Robert J Marsters",
+      "logo": "https://common-media.ukgamesexpo.co.uk/covers3_paler.c0a9edfc61d1b755d80c74984c82b862ecc53ddb89192bf4e58c38424779f382.jpg",
+      "website": "https://www.facebook.com/robertjmarsters",
+      "description": "Fantasy books by the author, resin dragons and faeries, reapers and skulls",
+      "stand": "3-221",
+      "url": "/whats-on/show/exhibitors/robert-j-marsters/"
     },
     {
       "pk": 16069,
@@ -11451,15 +11451,6 @@
       "url": "/whats-on/show/exhibitors/golden-petal-emporium/"
     },
     {
-      "pk": 16619,
-      "title": "Foam Brain Games",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Logo.df6a9992652435504d27ce6c4519197dea3ddbac305ea162e7f9b2ccc9f0413c.png",
-      "website": "https://www.foambrain.com/",
-      "description": "Plastic & Metal RPG Dice Sets. Enamel Pins. Dice Bags. RPG Accessories.",
-      "stand": "3-261",
-      "url": "/whats-on/show/exhibitors/foam-brain-games/"
-    },
-    {
       "pk": 16230,
       "title": "3DByLeigh",
       "logo": "https://common-media.ukgamesexpo.co.uk/3dbyleigh_shopify_logo_Custom.824175b70b4ab10c2fc6714102cd821c7a942ec85a3eb464056277e0ade5b7c5.jpg",
@@ -11532,15 +11523,6 @@
       "url": "/whats-on/show/exhibitors/minerva-tabletop-games/"
     },
     {
-      "pk": 16075,
-      "title": "Pegasus Spiele GmbH",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Peg_Log_Duo_Neg_1201-2535x2940px.9bb1f6dc5aee575247de52e74256edd197c7c6b09de4060b8370ba2_FjiZtsU.png",
-      "website": "https://pegasus.de/",
-      "description": "German boardgame card game publisher",
-      "stand": "3-322",
-      "url": "/whats-on/show/exhibitors/pegasus-spiele-gmbh/"
-    },
-    {
       "pk": 17356,
       "title": "Spiral Galaxy Games",
       "logo": null,
@@ -11548,6 +11530,15 @@
       "description": "",
       "stand": "3-322",
       "url": "/whats-on/show/exhibitors/spiral-galaxy-games-2/"
+    },
+    {
+      "pk": 16075,
+      "title": "Pegasus Spiele GmbH",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Peg_Log_Duo_Neg_1201-2535x2940px.9bb1f6dc5aee575247de52e74256edd197c7c6b09de4060b8370ba2_FjiZtsU.png",
+      "website": "https://pegasus.de/",
+      "description": "German boardgame card game publisher",
+      "stand": "3-322",
+      "url": "/whats-on/show/exhibitors/pegasus-spiele-gmbh/"
     },
     {
       "pk": 16444,
@@ -11667,15 +11658,6 @@
       "url": "/whats-on/show/exhibitors/byte-bard-software/"
     },
     {
-      "pk": 17502,
-      "title": "Spiral Galaxy Games",
-      "logo": null,
-      "website": "",
-      "description": "UK based distributor for a range of Board and Card Games",
-      "stand": "3-402",
-      "url": "/whats-on/show/exhibitors/spiral-galaxy-games/"
-    },
-    {
       "pk": 16886,
       "title": "Play to Z Games",
       "logo": null,
@@ -11703,6 +11685,15 @@
       "url": "/whats-on/show/exhibitors/red-raven-games/"
     },
     {
+      "pk": 17502,
+      "title": "Spiral Galaxy Games",
+      "logo": null,
+      "website": "",
+      "description": "UK based distributor for a range of Board and Card Games",
+      "stand": "3-402",
+      "url": "/whats-on/show/exhibitors/spiral-galaxy-games/"
+    },
+    {
       "pk": 16032,
       "title": "Geeknson",
       "logo": "https://common-media.ukgamesexpo.co.uk/Geeknson-logo-geek_furniture.141062c84918999198c6511bf65f979eb9a2c8be6685fc050cc28c9d68ebace2.png",
@@ -11725,27 +11716,27 @@
       "title": "Uloomi ApS",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Create and publish distinct and friendly games that can be explained in 60 seconds or less",
       "stand": "3-430",
       "url": "/whats-on/show/exhibitors/uloomi-aps/"
-    },
-    {
-      "pk": 16621,
-      "title": "Warp Miniatures",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-433",
-      "url": "/whats-on/show/exhibitors/warp-miniatures/"
     },
     {
       "pk": 16251,
       "title": "CHRONICLE RPG ACCESSORIES PTY LTD",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Brushes, dice, miniatures, and RPG accessories",
       "stand": "3-433",
       "url": "/whats-on/show/exhibitors/chronicle-rpg-accessories-pty-ltd/"
+    },
+    {
+      "pk": 16621,
+      "title": "Warp Miniatures",
+      "logo": null,
+      "website": "",
+      "description": "For all things characterful and exciting in the world of tabletop gaming miniatures",
+      "stand": "3-433",
+      "url": "/whats-on/show/exhibitors/warp-miniatures/"
     },
     {
       "pk": 16082,
@@ -11820,15 +11811,6 @@
       "url": "/whats-on/show/exhibitors/rogue-and-bard-ltd/"
     },
     {
-      "pk": 16618,
-      "title": "Lantern Man Gaming",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-510",
-      "url": "/whats-on/show/exhibitors/lantern-man-gaming/"
-    },
-    {
       "pk": 16037,
       "title": "Bindwood Gaming",
       "logo": "https://common-media.ukgamesexpo.co.uk/Bindwood_Logo_1.88fc3824acb8e267e76e097844fd6122bc25e036fa3e2759c8c7cce5b423b0de.png",
@@ -11836,6 +11818,15 @@
       "description": "A selection of handmade wooden and fabric gaming accessories",
       "stand": "3-510",
       "url": "/whats-on/show/exhibitors/bindwood-gaming/"
+    },
+    {
+      "pk": 16618,
+      "title": "Lantern Man Gaming",
+      "logo": null,
+      "website": "",
+      "description": "Adventures, supplements and magic items for D&D",
+      "stand": "3-510",
+      "url": "/whats-on/show/exhibitors/lantern-man-gaming/"
     },
     {
       "pk": 16033,
@@ -11874,15 +11865,6 @@
       "url": "/whats-on/show/exhibitors/en-publishing/"
     },
     {
-      "pk": 16041,
-      "title": "Dice of the Seeker",
-      "logo": "https://common-media.ukgamesexpo.co.uk/1000041928.3831ca2843db45b435c9d810632ddb47e8c2391d979f9981b4f4dbaf9a38ef8b.png",
-      "website": "https://Instagram.com/diceoftheseeker",
-      "description": "Maker of handmade TTRPG dice and dice accessories.",
-      "stand": "3-526",
-      "url": "/whats-on/show/exhibitors/dice-of-the-seeker/"
-    },
-    {
       "pk": 16625,
       "title": "Painting Sorcerer",
       "logo": "https://common-media.ukgamesexpo.co.uk/LOGO.6971e7447b18e12e8fa9faa2f6a2fd5af65d63c9b83c3db95477b05a096cc101.png",
@@ -11890,6 +11872,15 @@
       "description": "Stickers, bookmarks, fantasy prints, button badges",
       "stand": "3-526",
       "url": "/whats-on/show/exhibitors/painting-sorcerer/"
+    },
+    {
+      "pk": 16041,
+      "title": "Dice of the Seeker",
+      "logo": "https://common-media.ukgamesexpo.co.uk/1000041928.3831ca2843db45b435c9d810632ddb47e8c2391d979f9981b4f4dbaf9a38ef8b.png",
+      "website": "https://Instagram.com/diceoftheseeker",
+      "description": "Maker of handmade TTRPG dice and dice accessories.",
+      "stand": "3-526",
+      "url": "/whats-on/show/exhibitors/dice-of-the-seeker/"
     },
     {
       "pk": 16083,
@@ -11905,7 +11896,7 @@
       "title": "Dragon Chains",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Jewellery, Chainmaille, Scalemaille, and Jewellery craft supplies",
       "stand": "3-530",
       "url": "/whats-on/show/exhibitors/dragon-chains/"
     },
@@ -12333,6 +12324,24 @@
       "url": "/whats-on/show/exhibitors/print-is-dead/"
     },
     {
+      "pk": 17230,
+      "title": "Spielefaible",
+      "logo": null,
+      "website": "",
+      "description": "A new boardgame company based in the northern part of Germany near Hamburg.",
+      "stand": "3-745",
+      "url": "/whats-on/show/exhibitors/spielefaible/"
+    },
+    {
+      "pk": 17228,
+      "title": "Playlogue Creations",
+      "logo": "https://common-media.ukgamesexpo.co.uk/PLC_Logo_Black_Stack.4761c1161ba9dc45d687959ba9bbfc2fd4a8a823cb1d43202c7312c5dfb35456.png",
+      "website": "https://www.playlogue.sg/?srsltid=AfmBOopz6lXA32QJ9nV73iqBi6jQmu3bxAcFdqA_f8OY6OlOvljYPqfG",
+      "description": "Playlogue Creations is an indie tabletop game publisher from Singapore",
+      "stand": "3-745",
+      "url": "/whats-on/show/exhibitors/playlogue-creations/"
+    },
+    {
       "pk": 17227,
       "title": "Incrediquest Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/IncrediQuest_Final_Master_Logo_5.0_Horns.41b60e89074406e899b7dcb1182e81134d10e0bbb37bad1_tsd2I04.png",
@@ -12351,13 +12360,13 @@
       "url": "/whats-on/show/exhibitors/dragon-dawn-productions/"
     },
     {
-      "pk": 17230,
-      "title": "Spielefaible",
-      "logo": null,
-      "website": "",
-      "description": "",
+      "pk": 16530,
+      "title": "Revelation Games",
+      "logo": "https://common-media.ukgamesexpo.co.uk/png_c1320126231a487b8863cd074ab7f8ef.671f497583d7deec4d92640344dafe2869ddb489f634c3daa99_NG5Y9i1.png",
+      "website": "https://www.revelationgames.co.uk/games/",
+      "description": "Bringing Essen to You.",
       "stand": "3-745",
-      "url": "/whats-on/show/exhibitors/spielefaible/"
+      "url": "/whats-on/show/exhibitors/revelation-games/"
     },
     {
       "pk": 17229,
@@ -12367,24 +12376,6 @@
       "description": "Playte is a game publisher from South Korea, famous for their L Board Games",
       "stand": "3-745",
       "url": "/whats-on/show/exhibitors/playte/"
-    },
-    {
-      "pk": 17228,
-      "title": "Playlogue Creations",
-      "logo": "https://common-media.ukgamesexpo.co.uk/PLC_Logo_Black_Stack.4761c1161ba9dc45d687959ba9bbfc2fd4a8a823cb1d43202c7312c5dfb35456.png",
-      "website": "https://www.playlogue.sg/?srsltid=AfmBOopz6lXA32QJ9nV73iqBi6jQmu3bxAcFdqA_f8OY6OlOvljYPqfG",
-      "description": "Playlogue Creations is an indie tabletop game publisher from Singapore",
-      "stand": "3-745",
-      "url": "/whats-on/show/exhibitors/playlogue-creations/"
-    },
-    {
-      "pk": 16530,
-      "title": "Revelation Games",
-      "logo": "https://common-media.ukgamesexpo.co.uk/png_c1320126231a487b8863cd074ab7f8ef.671f497583d7deec4d92640344dafe2869ddb489f634c3daa99_NG5Y9i1.png",
-      "website": "https://www.revelationgames.co.uk/games/",
-      "description": "Bringing Essen to You.",
-      "stand": "3-745",
-      "url": "/whats-on/show/exhibitors/revelation-games/"
     },
     {
       "pk": 16136,
@@ -12418,7 +12409,7 @@
       "title": "SAASHI-AND INC.",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Japanese studio that produces and publishes analog games",
       "stand": "3-761",
       "url": "/whats-on/show/exhibitors/saashi-and-inc/"
     },
@@ -12481,7 +12472,7 @@
       "title": "Void Scar Miniatures",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Produce high quality 1/100 scale sci-fi models and associated wargames rules",
       "stand": "3-820",
       "url": "/whats-on/show/exhibitors/void-scar-miniatures/"
     },
@@ -12495,15 +12486,6 @@
       "url": "/whats-on/show/exhibitors/bloodforged-games/"
     },
     {
-      "pk": 16243,
-      "title": "Hive Mind Games Ltd",
-      "logo": null,
-      "website": "",
-      "description": "Manchester-based Tabletop Games Publishing",
-      "stand": "3-828",
-      "url": "/whats-on/show/exhibitors/hive-mind-games-ltd/"
-    },
-    {
       "pk": 16631,
       "title": "Art of Arklin",
       "logo": "https://common-media.ukgamesexpo.co.uk/Untitled-4.abfa709207437049bfce2c02de9571d9e0c6c118964736913ce24fd0e2cf8a65.jpg",
@@ -12511,6 +12493,15 @@
       "description": "Josh is a highly talented digital artist and illustrator, renowned for his captivating art",
       "stand": "3-828",
       "url": "/whats-on/show/exhibitors/art-of-arklin/"
+    },
+    {
+      "pk": 16243,
+      "title": "Hive Mind Games Ltd",
+      "logo": null,
+      "website": "",
+      "description": "Manchester-based Tabletop Games Publishing",
+      "stand": "3-828",
+      "url": "/whats-on/show/exhibitors/hive-mind-games-ltd/"
     },
     {
       "pk": 16155,
@@ -12666,24 +12657,6 @@
       "url": "/whats-on/show/exhibitors/asmodee-uk-tabletop-games-1/"
     },
     {
-      "pk": 17070,
-      "title": "Win-Win Board Games LLC",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-962",
-      "url": "/whats-on/show/exhibitors/win-win-board-games-llc/"
-    },
-    {
-      "pk": 16868,
-      "title": "Crimson Keep",
-      "logo": "https://common-media.ukgamesexpo.co.uk/CK_logo.15c709dee619e2cfe25a5717b195353e8031cbf696302db2e8aa8f923e0c83b4.png",
-      "website": "https://www.crimsonkeep.co.uk",
-      "description": "An epic fantasy, tower building, set-collection, strategy game for 1-2 players.",
-      "stand": "3-962",
-      "url": "/whats-on/show/exhibitors/nicholas-warren/"
-    },
-    {
       "pk": 16624,
       "title": "Icklefam Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/1_4-1.371a0730d06076bdc9a699cf34dc9f9e9065662b5bddb9056aef1335b575c8cd.png",
@@ -12700,6 +12673,24 @@
       "description": "Game Marketing Studio with some of our publisher friends",
       "stand": "3-962",
       "url": "/whats-on/show/exhibitors/dina-said-so-studio/"
+    },
+    {
+      "pk": 17070,
+      "title": "Win-Win Board Games LLC",
+      "logo": null,
+      "website": "",
+      "description": "U.S. publisher if cooperative board games.",
+      "stand": "3-962",
+      "url": "/whats-on/show/exhibitors/win-win-board-games-llc/"
+    },
+    {
+      "pk": 16868,
+      "title": "Crimson Keep",
+      "logo": "https://common-media.ukgamesexpo.co.uk/CK_logo.15c709dee619e2cfe25a5717b195353e8031cbf696302db2e8aa8f923e0c83b4.png",
+      "website": "https://www.crimsonkeep.co.uk",
+      "description": "An epic fantasy, tower building, set-collection, strategy game for 1-2 players.",
+      "stand": "3-962",
+      "url": "/whats-on/show/exhibitors/nicholas-warren/"
     },
     {
       "pk": 17499,
@@ -12747,6 +12738,15 @@
       "url": "/whats-on/show/exhibitors/firestorm-cards/"
     },
     {
+      "pk": 18478,
+      "title": "Grimskald",
+      "logo": null,
+      "website": "",
+      "description": "Play Torch and Shield with the designers of the game!",
+      "stand": "3A-102",
+      "url": "/whats-on/show/exhibitors/grimskald/"
+    },
+    {
       "pk": 18475,
       "title": "Xplored",
       "logo": null,
@@ -12754,42 +12754,6 @@
       "description": "First preview for Teburu Dungeons: Sword and Sorcery plus other tech-infused games!",
       "stand": "3A-102",
       "url": "/whats-on/show/exhibitors/xplored/"
-    },
-    {
-      "pk": 16208,
-      "title": "All About Games Consulting",
-      "logo": "https://common-media.ukgamesexpo.co.uk/aagc_small.2fd4696b0abfedb9fd85ab2642bfea0b1e12d58a63d849256d88ed6e5904a37d.png",
-      "website": "https://www.facebook.com/allaboutgamesconsulting",
-      "description": "Discover new games from Leder Games, Wehrlegig Games, Incredible Dream and more!",
-      "stand": "3A-102",
-      "url": "/whats-on/show/exhibitors/all-about-games-consulting-ltd/"
-    },
-    {
-      "pk": 18479,
-      "title": "Party Snails",
-      "logo": null,
-      "website": "",
-      "description": "Change the past to win the future in Timelancers!",
-      "stand": "3A-102",
-      "url": "/whats-on/show/exhibitors/party-snails/"
-    },
-    {
-      "pk": 18474,
-      "title": "Wehrlegig Games",
-      "logo": "https://common-media.ukgamesexpo.co.uk/wehr.0a77177c984f8f2d46f2137ede0705ab9dd418c8db93365ced69a2741c72ec5d.png",
-      "website": "",
-      "description": "New from Cole Wehrle and Jo Kelly, play and buy Molly House!",
-      "stand": "3A-102",
-      "url": "/whats-on/show/exhibitors/wehrlegig-games/"
-    },
-    {
-      "pk": 18476,
-      "title": "Dirty Rascal Games",
-      "logo": null,
-      "website": "",
-      "description": "Help your cute critter forage for food in Survival of the Fattest!",
-      "stand": "3A-102",
-      "url": "/whats-on/show/exhibitors/dirty-rascal-games/"
     },
     {
       "pk": 18471,
@@ -12801,13 +12765,13 @@
       "url": "/whats-on/show/exhibitors/favro-ventures-llc/"
     },
     {
-      "pk": 18472,
-      "title": "Incredible Dream",
-      "logo": "https://common-media.ukgamesexpo.co.uk/incredible_dream.08a2605804f13a7a24b5d8d95c854a79d13e6c9fb3d84e9ed2136d242ca58849.png",
+      "pk": 18474,
+      "title": "Wehrlegig Games",
+      "logo": "https://common-media.ukgamesexpo.co.uk/wehr.0a77177c984f8f2d46f2137ede0705ab9dd418c8db93365ced69a2741c72ec5d.png",
       "website": "",
-      "description": "New games from the Kinfire world, plus mindfulness with A Gentle Rain.",
+      "description": "New from Cole Wehrle and Jo Kelly, play and buy Molly House!",
       "stand": "3A-102",
-      "url": "/whats-on/show/exhibitors/incredible-dream/"
+      "url": "/whats-on/show/exhibitors/wehrlegig-games/"
     },
     {
       "pk": 18473,
@@ -12819,13 +12783,40 @@
       "url": "/whats-on/show/exhibitors/leder-games/"
     },
     {
-      "pk": 18478,
-      "title": "Grimskald",
+      "pk": 16208,
+      "title": "All About Games Consulting",
+      "logo": "https://common-media.ukgamesexpo.co.uk/aagc_small.2fd4696b0abfedb9fd85ab2642bfea0b1e12d58a63d849256d88ed6e5904a37d.png",
+      "website": "https://www.facebook.com/allaboutgamesconsulting",
+      "description": "Discover new games from Leder Games, Wehrlegig Games, Incredible Dream and more!",
+      "stand": "3A-102",
+      "url": "/whats-on/show/exhibitors/all-about-games-consulting-ltd/"
+    },
+    {
+      "pk": 18472,
+      "title": "Incredible Dream",
+      "logo": "https://common-media.ukgamesexpo.co.uk/incredible_dream.08a2605804f13a7a24b5d8d95c854a79d13e6c9fb3d84e9ed2136d242ca58849.png",
+      "website": "",
+      "description": "New games from the Kinfire world, plus mindfulness with A Gentle Rain.",
+      "stand": "3A-102",
+      "url": "/whats-on/show/exhibitors/incredible-dream/"
+    },
+    {
+      "pk": 18479,
+      "title": "Party Snails",
       "logo": null,
       "website": "",
-      "description": "Play Torch and Shield with the designers of the game!",
+      "description": "Change the past to win the future in Timelancers!",
       "stand": "3A-102",
-      "url": "/whats-on/show/exhibitors/grimskald/"
+      "url": "/whats-on/show/exhibitors/party-snails/"
+    },
+    {
+      "pk": 18476,
+      "title": "Dirty Rascal Games",
+      "logo": null,
+      "website": "",
+      "description": "Help your cute critter forage for food in Survival of the Fattest!",
+      "stand": "3A-102",
+      "url": "/whats-on/show/exhibitors/dirty-rascal-games/"
     },
     {
       "pk": 16091,
@@ -12873,15 +12864,6 @@
       "url": "/whats-on/show/exhibitors/the-dice-dungeon/"
     },
     {
-      "pk": 18481,
-      "title": "The Game Kitchen",
-      "logo": "https://common-media.ukgamesexpo.co.uk/game_kitchen_logo.4d8c9e26f2ff5101af9d22c233de094fe0e341427ae40064eada026f56609819.png",
-      "website": "",
-      "description": "Get your game included in an exciting library of VR titles!",
-      "stand": "3A-144",
-      "url": "/whats-on/show/exhibitors/the-game-kitchen/"
-    },
-    {
       "pk": 18477,
       "title": "Gamefound",
       "logo": "https://common-media.ukgamesexpo.co.uk/gamefound.476c583db76170385d9eed07b60bb2be4c6f99498c8ced54ca7d6c2ff7b3fcc4.png",
@@ -12889,6 +12871,15 @@
       "description": "Meet with the Gamefound team and discuss crowdfunding opportunities.",
       "stand": "3A-144",
       "url": "/whats-on/show/exhibitors/gamefound/"
+    },
+    {
+      "pk": 16211,
+      "title": "All About Games Consulting Business Lounge",
+      "logo": "https://common-media.ukgamesexpo.co.uk/aagc_logo.ef1f947ba08c8424fd16ab3de681c2baccaa055dd7ff6c65050b9fed62594913.png",
+      "website": "https://aagc.games/",
+      "description": "Meet the AAGC team and discover how a partnership with us can benefit you!",
+      "stand": "3A-144",
+      "url": "/whats-on/show/exhibitors/all-about-games-consulting-ltd-2/"
     },
     {
       "pk": 18480,
@@ -12900,13 +12891,13 @@
       "url": "/whats-on/show/exhibitors/gamequest/"
     },
     {
-      "pk": 16211,
-      "title": "All About Games Consulting Business Lounge",
-      "logo": "https://common-media.ukgamesexpo.co.uk/aagc_logo.ef1f947ba08c8424fd16ab3de681c2baccaa055dd7ff6c65050b9fed62594913.png",
-      "website": "https://aagc.games/",
-      "description": "Meet the AAGC team and discover how a partnership with us can benefit you!",
+      "pk": 18481,
+      "title": "The Game Kitchen",
+      "logo": "https://common-media.ukgamesexpo.co.uk/game_kitchen_logo.4d8c9e26f2ff5101af9d22c233de094fe0e341427ae40064eada026f56609819.png",
+      "website": "",
+      "description": "Get your game included in an exciting library of VR titles!",
       "stand": "3A-144",
-      "url": "/whats-on/show/exhibitors/all-about-games-consulting-ltd-2/"
+      "url": "/whats-on/show/exhibitors/the-game-kitchen/"
     },
     {
       "pk": 16161,
@@ -13003,7 +12994,7 @@
       "title": "Loot the Room",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Small games for big people",
       "stand": "3A-171",
       "url": "/whats-on/show/exhibitors/loot-the-room/"
     },
@@ -13030,7 +13021,7 @@
       "title": "Bandai",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Japanese publisher of ONE PIECE, Dragon ballZ and other card games.",
       "stand": "3A-244",
       "url": "/whats-on/show/exhibitors/bandai/"
     },
@@ -13089,15 +13080,6 @@
       "url": "/whats-on/show/exhibitors/glass-cannon-unplugged/"
     },
     {
-      "pk": 16620,
-      "title": "Outset Media",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3A-314",
-      "url": "/whats-on/show/exhibitors/outset-media/"
-    },
-    {
       "pk": 16217,
       "title": "Cheatwell Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/CHEATWELL_LOGO_NEW.406ff0686462bb3f7abada7e034c51bf9fa650d751471286baa6054d843b0f96.jpg",
@@ -13105,6 +13087,15 @@
       "description": "Cheatwell creates quirky, high-energy games, puzzles and gifts with global appeal.",
       "stand": "3A-314",
       "url": "/whats-on/show/exhibitors/cheatwell-games/"
+    },
+    {
+      "pk": 16620,
+      "title": "Outset Media",
+      "logo": null,
+      "website": "",
+      "description": "Canadian company that develops and distributes family entertainment products",
+      "stand": "3A-314",
+      "url": "/whats-on/show/exhibitors/outset-media/"
     },
     {
       "pk": 16220,
@@ -13143,15 +13134,6 @@
       "url": "/whats-on/show/exhibitors/asmodee-uk-lifestyle-games-2/"
     },
     {
-      "pk": 16474,
-      "title": "Naylor Games Ltd",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Naylor_Games_full_logo_-_transparent_background.96023a0278b733a78fe806a566c349e9dce0f10d_dWhGUjs.png",
-      "website": "https://naylorgames.com/",
-      "description": "A tabletop games publisher that's ambitious about games.",
-      "stand": "3A-370",
-      "url": "/whats-on/show/exhibitors/naylor-games-ltd/"
-    },
-    {
       "pk": 16635,
       "title": "Earthborne Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/EBBlackLogo.d13fe0713eeddb9cd04f5a552193f2b02a81dcb691c8152c8427fa0834172742.png",
@@ -13168,6 +13150,15 @@
       "description": "A comprehensive service that gets your games from the factory to your players' hands.",
       "stand": "3A-370",
       "url": "/whats-on/show/exhibitors/back-office/"
+    },
+    {
+      "pk": 16474,
+      "title": "Naylor Games Ltd",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Naylor_Games_full_logo_-_transparent_background.96023a0278b733a78fe806a566c349e9dce0f10d_dWhGUjs.png",
+      "website": "https://naylorgames.com/",
+      "description": "A tabletop games publisher that's ambitious about games.",
+      "stand": "3A-370",
+      "url": "/whats-on/show/exhibitors/naylor-games-ltd/"
     },
     {
       "pk": 16218,
@@ -13318,7 +13309,7 @@
       "title": "Legend Story Studios Trading LTD",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Publisher of the Flesh and Blood TCG",
       "stand": "3A-514",
       "url": "/whats-on/show/exhibitors/legend-story-studios-trading-ltd/"
     },
@@ -13332,15 +13323,6 @@
       "url": "/whats-on/show/exhibitors/magic-madhouse/"
     },
     {
-      "pk": 16640,
-      "title": "Mondiversi",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3A-534",
-      "url": "/whats-on/show/exhibitors/mondiversi/"
-    },
-    {
       "pk": 16440,
       "title": "Stratagemma",
       "logo": "https://common-media.ukgamesexpo.co.uk/logo_edizioni.74fe36fde7d59cccf5501ff1ea571e60db653c90ae3fb8db53236cd25c195691.png",
@@ -13350,11 +13332,20 @@
       "url": "/whats-on/show/exhibitors/stratagemma/"
     },
     {
+      "pk": 16640,
+      "title": "Mondiversi",
+      "logo": null,
+      "website": "",
+      "description": "New and vintage RPG products",
+      "stand": "3A-534",
+      "url": "/whats-on/show/exhibitors/mondiversi/"
+    },
+    {
       "pk": 16642,
       "title": "Officina Mengini",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Award-winning RPGs and gamebooks. They are celebrating their 10-year anniversary.",
       "stand": "3A-534",
       "url": "/whats-on/show/exhibitors/officina-mengini/"
     },
@@ -13372,7 +13363,7 @@
       "title": "Chobanov Games",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Discover a wide range of collectible card games",
       "stand": "3A-543",
       "url": "/whats-on/show/exhibitors/chobanov-games-2/"
     },
@@ -13381,7 +13372,7 @@
       "title": "TTCombat",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Wargames terrain and MDF scenery",
       "stand": "3A-544",
       "url": "/whats-on/show/exhibitors/ttcombat/"
     },
@@ -13489,7 +13480,7 @@
       "title": "Jak Bolger",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Apparel and accessories for creeps and cryptids!",
       "stand": "3A-608",
       "url": "/whats-on/show/exhibitors/jak-bolger/"
     },
@@ -13503,15 +13494,6 @@
       "url": "/whats-on/show/exhibitors/eldritch-rach/"
     },
     {
-      "pk": 16641,
-      "title": "Mythic Minds",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3A-614",
-      "url": "/whats-on/show/exhibitors/mythic-minds/"
-    },
-    {
       "pk": 16413,
       "title": "The Role Play Haven",
       "logo": "https://common-media.ukgamesexpo.co.uk/New_RPH_Logo_NO_BG_1.fe2e2277dd00e5a200402b0e9c831115cf9aaee9899db4a235b6154d5236dd72.png",
@@ -13519,6 +13501,15 @@
       "description": "The Role Play Haven is the UK's largest charity fundraising RPG club.",
       "stand": "3A-614",
       "url": "/whats-on/show/exhibitors/the-role-play-haven/"
+    },
+    {
+      "pk": 16641,
+      "title": "Mythic Minds",
+      "logo": null,
+      "website": "",
+      "description": "Exploring the natural therapeutic, educational and healing qualities of role playing games",
+      "stand": "3A-614",
+      "url": "/whats-on/show/exhibitors/mythic-minds/"
     },
     {
       "pk": 16255,
@@ -13611,15 +13602,6 @@
       "url": "/whats-on/show/exhibitors/simplexity-games/"
     },
     {
-      "pk": 16368,
-      "title": "Crit Happens Dice",
-      "logo": "https://common-media.ukgamesexpo.co.uk/Logo_for_UKGE.9e32eeca4a1edce4986796adbea704168e82818a75d635e34be080b947b34b01.png",
-      "website": "https://www.crithappensdice.com",
-      "description": "Specialising in Handmade Dice and Handcrafted TTRPG Accessories",
-      "stand": "3A-663",
-      "url": "/whats-on/show/exhibitors/crit-happens-dice/"
-    },
-    {
       "pk": 16623,
       "title": "HAillustrates",
       "logo": "https://common-media.ukgamesexpo.co.uk/HA_logo_concepts-_illustrates_Logo_main.d49ce2c7e40e5aea8a039b9395fcc73bfcc8b102acf49272_wJOKabG.png",
@@ -13629,11 +13611,20 @@
       "url": "/whats-on/show/exhibitors/haillustrates/"
     },
     {
+      "pk": 16368,
+      "title": "Crit Happens Dice",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Logo_for_UKGE.9e32eeca4a1edce4986796adbea704168e82818a75d635e34be080b947b34b01.png",
+      "website": "https://www.crithappensdice.com",
+      "description": "Specialising in Handmade Dice and Handcrafted TTRPG Accessories",
+      "stand": "3A-663",
+      "url": "/whats-on/show/exhibitors/crit-happens-dice/"
+    },
+    {
       "pk": 16505,
       "title": "Guangzhou Yimi Paper Co., Ltd.",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Chinese games manufacturer",
       "stand": "3A-664",
       "url": "/whats-on/show/exhibitors/guangzhou-yimi-paper-co-ltd/"
     },
@@ -13669,7 +13660,7 @@
       "title": "Blue Box Bizarre",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "The alternative artisan market",
       "stand": "3A-702",
       "url": "/whats-on/show/exhibitors/blue-box-bizarre/"
     },
@@ -13822,7 +13813,7 @@
       "title": "Midnight Trading Co.",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Game studio & publisher based in Edinburgh working with creatives around the world",
       "stand": "3A-738",
       "url": "/whats-on/show/exhibitors/midnight-trading-co/"
     },
@@ -14011,7 +14002,7 @@
       "title": "Bad Trevor",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "The comic book card game where it pays to be BAD",
       "stand": "3A-806",
       "url": "/whats-on/show/exhibitors/bad-trevor/"
     },
@@ -14128,7 +14119,7 @@
       "title": "Vizardmedia, Schmieder & Schmiedecke GbR",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Berlin based independent boardgame publishing company",
       "stand": "3A-853",
       "url": "/whats-on/show/exhibitors/vizardmedia-schmieder-schmiedecke-gbr/"
     },
@@ -14146,7 +14137,7 @@
       "title": "Dracolour",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Spooky themed handmade watercolours",
       "stand": "3A-865",
       "url": "/whats-on/show/exhibitors/dracolour/"
     },
@@ -14173,7 +14164,7 @@
       "title": "Eilidh Price Illustration",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Scottish illustrator & graphic designer working in the games industry in London.",
       "stand": "3A-B1",
       "url": "/whats-on/show/exhibitors/eilidh-price-illustration/"
     },
@@ -14209,7 +14200,7 @@
       "title": "Tatakai",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "In Tatakai (Ta-Ta-Kai), you play as a warlord embroiled in an assassination plot.",
       "stand": "3A-B19",
       "url": "/whats-on/show/exhibitors/tatakai/"
     },
@@ -14245,7 +14236,7 @@
       "title": "Princefizz Art",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "We're a small artist-owned store offering uniquely designed keychains and lifestyle itemsl",
       "stand": "3A-B4",
       "url": "/whats-on/show/exhibitors/princefizz-art/"
     },
@@ -14254,7 +14245,7 @@
       "title": "World Domination! Ltd.",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "World Domination! A card game for those power hungry psychopaths amongst us.",
       "stand": "3A-B43",
       "url": "/whats-on/show/exhibitors/world-domination-ltd/"
     },
@@ -14308,7 +14299,7 @@
       "title": "Sleepy Sparrow Games",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Publisher of Dead Air, a Game about Radio Activity.",
       "stand": "3A-B62",
       "url": "/whats-on/show/exhibitors/sleepy-sparrow-games/"
     },
@@ -14592,15 +14583,6 @@
       "url": "/whats-on/show/exhibitors/simon-j-curd/"
     },
     {
-      "pk": 16629,
-      "title": "Traveller's Trinkets",
-      "logo": null,
-      "website": "",
-      "description": "3D-Printed items for your Dungeon and Dragons games",
-      "stand": "3-B66",
-      "url": "/whats-on/show/exhibitors/travellers-trinkets/"
-    },
-    {
       "pk": 16452,
       "title": "Final Boss Fight",
       "logo": "https://common-media.ukgamesexpo.co.uk/logo-square-icon-blue.5615781d1c8568807cbe2cb667ca10d680dcc4a4f55252396ae2a343291c32f3.png",
@@ -14608,6 +14590,15 @@
       "description": "Final Boss Fight is an independent gaming website focused on storytelling through Dungeons",
       "stand": "3-B66",
       "url": "/whats-on/show/exhibitors/final-boss-fight/"
+    },
+    {
+      "pk": 16629,
+      "title": "Traveller's Trinkets",
+      "logo": null,
+      "website": "",
+      "description": "3D-Printed items for your Dungeon and Dragons games",
+      "stand": "3-B66",
+      "url": "/whats-on/show/exhibitors/travellers-trinkets/"
     },
     {
       "pk": 16627,
@@ -14683,21 +14674,12 @@
     },
     {
       "pk": 16396,
-      "title": "Retroble / DJ Supplies",
+      "title": "Retroble",
       "logo": null,
-      "website": "",
+      "website": "https://www.retroble.co.uk",
       "description": "Sell collectible card games",
       "stand": "3-B90",
       "url": "/whats-on/show/exhibitors/retroble-dj-supplies/"
-    },
-    {
-      "pk": 16749,
-      "title": "Ferguson Games",
-      "logo": null,
-      "website": "",
-      "description": "We love board games!",
-      "stand": "3-B96",
-      "url": "/whats-on/show/exhibitors/ferguson-games/"
     },
     {
       "pk": 16397,
@@ -14707,6 +14689,15 @@
       "description": "Find the Ennie-nominated TTRPG Flabbergasted, Deadline - A Clockwork Press, and more!",
       "stand": "3-B96",
       "url": "/whats-on/show/exhibitors/the-wanderers-tome/"
+    },
+    {
+      "pk": 16749,
+      "title": "Ferguson Games",
+      "logo": null,
+      "website": "",
+      "description": "We love board games!",
+      "stand": "3-B96",
+      "url": "/whats-on/show/exhibitors/ferguson-games/"
     },
     {
       "pk": 16366,
@@ -14945,9 +14936,9 @@
     {
       "pk": 17992,
       "title": "Easyship",
-      "logo": null,
-      "website": "",
-      "description": "Shipping platform that connects sellers and market places to couriers",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Logo-Dark.fad3ddb0a3b8421b5fac620d6ba26a2ecfcd21cfd2481e5ee2f808f4a3161e05.png",
+      "website": "https://www.easyship.com/",
+      "description": "Shipping platform that connects sellers and market places to couriers.",
       "stand": "4-210",
       "url": "/whats-on/show/exhibitors/easyship/"
     },
@@ -14997,15 +14988,6 @@
       "url": "/whats-on/show/exhibitors/bitter-rivals/"
     },
     {
-      "pk": 17217,
-      "title": "Stonemaier",
-      "logo": null,
-      "website": "",
-      "description": "We strive to bring joy to tabletops worldwide through memorable, beautiful, fun games",
-      "stand": "4-302",
-      "url": "/whats-on/show/exhibitors/stonemaier/"
-    },
-    {
       "pk": 16260,
       "title": "Inside Up Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/IUG_Logo_Colour.a8c29ca484daf907827df36a6231fd057ab76fb1033740a346e17df6f2fa6ed4.png",
@@ -15024,6 +15006,15 @@
       "url": "/whats-on/show/exhibitors/eagle-gryphon-games/"
     },
     {
+      "pk": 17217,
+      "title": "Stonemaier",
+      "logo": null,
+      "website": "",
+      "description": "We strive to bring joy to tabletops worldwide through memorable, beautiful, fun games",
+      "stand": "4-302",
+      "url": "/whats-on/show/exhibitors/stonemaier/"
+    },
+    {
       "pk": 18005,
       "title": "Mood Publishing",
       "logo": null,
@@ -15035,9 +15026,9 @@
     {
       "pk": 17994,
       "title": "Palm Springs",
-      "logo": null,
-      "website": "",
-      "description": "Selection of board games and TTRPG supplies",
+      "logo": "https://common-media.ukgamesexpo.co.uk/Palm_Springs_white_background.153bacbc573d6941f9219d63613f33d5f60b6e9d48b9dba8808b8ae9a0536b5b.jpg",
+      "website": "https://palmspring.co.uk/",
+      "description": "TTRPG dice and dice accessories",
       "stand": "4-307",
       "url": "/whats-on/show/exhibitors/palm-springs/"
     },
@@ -15253,7 +15244,7 @@
       "title": "Mega Games",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "Large scale multiplayer startegy game events.",
       "stand": "4-AA",
       "url": "/whats-on/show/exhibitors/mega-games/"
     },
@@ -15388,7 +15379,7 @@
       "title": "Sir Coates Painting Masters",
       "logo": "https://common-media.ukgamesexpo.co.uk/Painting_Competition_Partner.a73444e62dde3000e78d88a74c6155b98528f7862d1b752eef0d1f55dec4301f.png",
       "website": "",
-      "description": "Come see the minature masterpices entered into the Painting Masters",
+      "description": "Come see the miniature masterpieces entered into the Painting Masters",
       "stand": "4-BB",
       "url": "/whats-on/show/exhibitors/painting-competition/"
     },
@@ -15451,7 +15442,7 @@
       "title": "Pile Of Games",
       "logo": "https://common-media.ukgamesexpo.co.uk/Pile_O_Games_Icon.a78bfaa29a8b424d6b94ae67ec49bfa7198581f0d80313310ae454d94cabf872.png",
       "website": "",
-      "description": "",
+      "description": "Purchase a raffle ticket for charity and potentially win a massive pile of games",
       "stand": "4-F",
       "url": "/whats-on/show/exhibitors/pile-of-games/"
     },
@@ -15460,7 +15451,7 @@
       "title": "Board Game Library",
       "logo": null,
       "website": "",
-      "description": "",
+      "description": "1000 Game for borrowing to play at UKGE",
       "stand": "4-FF",
       "url": "/whats-on/show/exhibitors/board-game-library/"
     },
@@ -15600,15 +15591,6 @@
       "url": "/whats-on/show/exhibitors/giant-catan/"
     },
     {
-      "pk": 18451,
-      "title": "Simuls",
-      "logo": null,
-      "website": "",
-      "description": "You and your mates can challenge a champion at Azul, Carcassonne and other games",
-      "stand": "4-N",
-      "url": "/whats-on/show/exhibitors/simuls/"
-    },
-    {
       "pk": 18449,
       "title": "Giant Carcassonne",
       "logo": null,
@@ -15618,6 +15600,33 @@
       "url": "/whats-on/show/exhibitors/giant-carcassonne/"
     },
     {
+      "pk": 18486,
+      "title": "Playstrategy",
+      "logo": null,
+      "website": "",
+      "description": "PlayStrategy is a real-time platform to play two-player Mind Sports board games.",
+      "stand": "4-N",
+      "url": "/whats-on/show/exhibitors/playstrategy/"
+    },
+    {
+      "pk": 18451,
+      "title": "Simuls",
+      "logo": null,
+      "website": "",
+      "description": "You and your mates can challenge a champion at Azul, Carcassonne and other games",
+      "stand": "4-N",
+      "url": "/whats-on/show/exhibitors/simuls/"
+    },
+    {
+      "pk": 17558,
+      "title": "Giant Games",
+      "logo": null,
+      "website": "",
+      "description": "A collection of large scale games to play",
+      "stand": "4-N",
+      "url": "/whats-on/show/exhibitors/giant-games/"
+    },
+    {
       "pk": 18450,
       "title": "Mind Sports Olympiad",
       "logo": null,
@@ -15625,15 +15634,6 @@
       "description": "MInd sports.",
       "stand": "4-N",
       "url": "/whats-on/show/exhibitors/mind-sports-olympiad/"
-    },
-    {
-      "pk": 17558,
-      "title": "Giant Games",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-N",
-      "url": "/whats-on/show/exhibitors/giant-games/"
     },
     {
       "pk": 17609,
@@ -15717,13 +15717,13 @@
       "url": "/whats-on/show/exhibitors/open-gaming-2/"
     },
     {
-      "pk": 18169,
+      "pk": 18487,
       "title": "Volunteer HQ and Gamesquest Warehouse",
       "logo": null,
       "website": "",
       "description": "",
       "stand": "4-T",
-      "url": "/whats-on/show/exhibitors/pallett-store-and-gamesquest-warehouse/"
+      "url": "/whats-on/show/exhibitors/volunteer-hq-and-gamesquest-warehouse/"
     },
     {
       "pk": 16377,
@@ -15892,7 +15892,7 @@
       "title": "The Pin Collective Swap Zone",
       "logo": "https://common-media.ukgamesexpo.co.uk/The_Pin_Collective_Partner.817248ea2eaa1970f5276afee98e45b5a74a2b4d8f475a4220242c63fcdb41dc.png",
       "website": "",
-      "description": "Meet up with fellow clletors and swap badges",
+      "description": "Meet up with fellow collectors and swap badges",
       "stand": "4-Z",
       "url": "/whats-on/show/exhibitors/the-pin-collective-swap-zone/"
     },

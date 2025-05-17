@@ -22,9 +22,9 @@ function App() {
   const [selectedMap, setSelectedMap] = useState(null);
   const [stands, setStands] = useState([]);
   const [exhibitors, setExhibitors] = useState([]);
-  const { initialKey, initialFavorites } = getInitialListState();
-  const [listKey, setListKey] = useState(initialKey);
-  const [favorites, setFavorites] = useState(initialFavorites);
+
+  const [listKey, setListKey] = useState(null);
+  const [favorites, setFavorites] = useState([]);
   const [favoriteLists, setFavoriteLists] = useState([]);
   const [newListName, setNewListName] = useState("");
 
@@ -54,59 +54,98 @@ function App() {
     return `${adjective}-${animal}`;
   }
 
-  function getInitialListState() {
+  function loadInitialList() {
     const hash = window.location.hash.startsWith("#")
       ? window.location.hash.substring(1)
       : window.location.hash;
-
     const params = new URLSearchParams("?" + hash);
-    const key = params.get("list") || "default";
+    const keyFromHash = params.get("list");
     const favEncoded = params.get("favs");
 
-    let favsFromUrl = [];
-    try {
-      if (favEncoded) {
-        const decoded = decompressFromEncodedURIComponent(favEncoded);
-        if (decoded) {
-          favsFromUrl = decoded
-            .split(",")
-            .map((f) => f.trim())
-            .filter(Boolean);
+    if (keyFromHash) {
+      let favsFromUrl = [];
+      try {
+        if (favEncoded) {
+          const decoded = decompressFromEncodedURIComponent(favEncoded);
+          if (decoded) {
+            favsFromUrl = decoded
+              .split(",")
+              .map((f) => f.trim())
+              .filter(Boolean);
+          }
         }
+      } catch (e) {
+        console.warn("Error decoding favorites from URL:", e);
       }
-    } catch (e) {
-      console.warn("Failed to parse compressed favorites from URL:", e);
+      setListKey(keyFromHash);
+      setFavorites(favsFromUrl);
+      return;
     }
 
-    // 🔁 Migration from legacy format
+    // Migrate legacy
     const legacy = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const stored = JSON.parse(localStorage.getItem(`favorites:${key}`) || "[]");
-
-    let final = stored.length ? stored : favsFromUrl;
-
-    if (key === "default" && !stored.length && legacy.length) {
-      const randomKey = generateRandomListName();
-      final = legacy;
-
-      localStorage.setItem(`favorites:${randomKey}`, JSON.stringify(legacy));
+    if (legacy.length > 0) {
+      const newKey = generateRandomListName();
+      localStorage.setItem(`favorites:${newKey}`, JSON.stringify(legacy));
       localStorage.removeItem("favorites");
-
-      return { initialKey: randomKey, initialFavorites: final };
+      setListKey(newKey);
+      setFavorites(legacy);
+      const compressed = compressToEncodedURIComponent(legacy.join(","));
+      window.location.hash = `list=${newKey}&favs=${compressed}`;
+      return;
     }
 
-    return { initialKey: key, initialFavorites: final };
+    // Load first saved list
+    const keys = Object.keys(localStorage)
+      .filter((k) => k.startsWith("favorites:"))
+      .map((k) => k.replace("favorites:", ""));
+    if (keys.length > 0) {
+      const firstKey = keys[0];
+      const stored = JSON.parse(
+        localStorage.getItem(`favorites:${firstKey}`) || "[]"
+      );
+      setListKey(firstKey);
+      setFavorites(stored);
+      return;
+    }
+
+    // No list at all
+    setListKey(null);
+    setFavorites([]);
   }
 
+  // Run once on first load
   useEffect(() => {
+    loadInitialList();
+  }, []);
+
+  // Sync favorites to localStorage and URL
+  useEffect(() => {
+    if (!listKey) return;
+    localStorage.setItem(`favorites:${listKey}`, JSON.stringify(favorites));
     const compressed = compressToEncodedURIComponent(favorites.join(","));
     window.location.hash = `list=${listKey}&favs=${compressed}`;
   }, [favorites, listKey]);
 
+  // Load all favorite list names
   useEffect(() => {
-    if (listKey && favorites) {
-      localStorage.setItem(`favorites:${listKey}`, JSON.stringify(favorites));
-    }
+    const updateLists = () => {
+      const keys = Object.keys(localStorage)
+        .filter((k) => k.startsWith("favorites:"))
+        .map((k) => k.replace("favorites:", ""));
+      setFavoriteLists(keys);
+    };
+    updateLists();
   }, [favorites, listKey]);
+
+  // Handle manual hash changes (browser back/forward)
+  useEffect(() => {
+    const handleHashChange = () => {
+      loadInitialList();
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   useEffect(() => {
     fetch("/mapdata.json")
@@ -152,59 +191,31 @@ function App() {
     });
   };
 
-  useEffect(() => {
-    const updateLists = () => {
-      const keys = Object.keys(localStorage)
-        .filter((k) => k.startsWith("favorites:"))
-        .map((k) => k.replace("favorites:", ""));
-      setFavoriteLists(keys);
-    };
-
-    updateLists();
-  }, [favorites, listKey]);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const { initialKey, initialFavorites } = getInitialListState();
-      setListKey(initialKey);
-      setFavorites(initialFavorites);
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
-
-  function MapClickHandler() {
-    useMapEvents({
-      click(e) {
-        const point = [e.latlng.lat, e.latlng.lng]; // [y, x]
-        const clicked = mapStands.find((stand) =>
-          pointInPolygon(point, stand.points)
-        );
-        if (clicked) toggleFavorite(clicked.label);
-      },
-    });
-    return null;
-  }
-
   return (
     <div>
       <div className="controls">
-        <details>
-          <summary>➡️ Start Here</summary>
+        {!listKey && (
+          <div
+            style={{ padding: "1rem", background: "#ffe0e0", color: "#900" }}
+          >
+            <strong>
+              Please create a list before using the map or you will get a silly
+              name of null.
+            </strong>
+          </div>
+        )}
+        <details open>
+          <summary>ℹ️ Info</summary>
           <p>
-            Open controls and name your list, make your selections, then hit
-            share link or copy the browser url and open it on your phone. If you
-            go back and forth you will need to make a new list first thats not
-            on your other device, I might fix this before the show.
+            Make your selections, then hit share link or copy the browser url
+            and open it on your phone. If you go back and forth you will need to
+            make a new list first thats not on your other device, with a new
+            name.
           </p>
           <p>
-            You cant use the same name twice, everything is stored on your
-            device
-          </p>
-          <p>
-            All data is copyright UK Games Expo and their respective owners, and
-            this app is brought to you by{" "}
+            All data is copyright UK Games Expo and their Terms of Service and
+            Privacy Policy applies to their servers other images copyright their
+            respective owners, and this app is brought to you by{" "}
             <a href="http://boardgaymesjames.com" target="_blank">
               @BoardGaymesJames
             </a>
@@ -217,8 +228,8 @@ function App() {
             />
           </p>
         </details>
-        <details>
-          <summary>⚙️ Controls</summary>
+        <details open>
+          <summary>🗺️ Hall Maps</summary>
           <select
             onChange={(e) => {
               const selected = maps.find((m) => m.title === e.target.value);
@@ -232,6 +243,10 @@ function App() {
               </option>
             ))}
           </select>
+        </details>
+        <details open>
+          <summary>📜 Adventure Plans</summary>
+
           <button
             className="button"
             onClick={() => {
@@ -268,31 +283,42 @@ function App() {
                   <button
                     className="x-button"
                     onClick={() => {
-                      if (window.confirm(`Delete list "${key}"?`)) {
-                        if (key === listKey) {
-                          const fallbackKey = "default";
-                          const stored = JSON.parse(
+                      if (!window.confirm(`Delete list "${key}"?`)) return;
+
+                      // Remove the list
+                      localStorage.removeItem(`favorites:${key}`);
+
+                      // If the deleted list is the active one:
+                      if (key === listKey) {
+                        const allKeys = Object.keys(localStorage)
+                          .filter((k) => k.startsWith("favorites:"))
+                          .map((k) => k.replace("favorites:", ""));
+
+                        const fallbackKey = allKeys[0] || null;
+
+                        if (fallbackKey) {
+                          const fallbackFavorites = JSON.parse(
                             localStorage.getItem(`favorites:${fallbackKey}`) ||
                               "[]"
                           );
-
                           setListKey(fallbackKey);
-                          setFavorites(stored);
-
+                          setFavorites(fallbackFavorites);
                           const compressed = compressToEncodedURIComponent(
-                            stored.join(",")
+                            fallbackFavorites.join(",")
                           );
                           window.location.hash = `list=${fallbackKey}&favs=${compressed}`;
+                        } else {
+                          setListKey(null);
+                          setFavorites([]);
+                          window.location.hash = "";
                         }
-
-                        // Remove the list and refresh the dropdown
-                        localStorage.removeItem(`favorites:${key}`);
-                        setFavoriteLists(
-                          Object.keys(localStorage)
-                            .filter((k) => k.startsWith("favorites:"))
-                            .map((k) => k.replace("favorites:", ""))
-                        );
                       }
+
+                      // Update list view immediately
+                      const updatedLists = Object.keys(localStorage)
+                        .filter((k) => k.startsWith("favorites:"))
+                        .map((k) => k.replace("favorites:", ""));
+                      setFavoriteLists(updatedLists);
                     }}
                   >
                     ❌
@@ -335,7 +361,6 @@ function App() {
           style={{ height: "100vh", width: "100%" }}
         >
           <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
-          <MapClickHandler />
           {mapStands.map((stand) => (
             <Polygon
               key={stand.label}
