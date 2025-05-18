@@ -171,16 +171,40 @@ function App() {
 
   const mapStands = useMemo(() => {
     if (!selectedMap) return [];
-    const lookup = Object.fromEntries(stands.map((s) => [s.label, s.points]));
-    return selectedMap.stands
-      .map((label) => ({
-        label,
-        points: lookup[label],
-        exhibitor: exhibitors.find((e) => e.stand === label),
-      }))
-      .filter((s) => s.points);
-  }, [selectedMap, stands]);
 
+    // Merge points by stand label
+    const lookup = stands.reduce((acc, s) => {
+      if (!acc[s.label]) acc[s.label] = [];
+      acc[s.label].push(...s.points);
+      return acc;
+    }, {});
+
+    return selectedMap.stands
+      .map((label) => {
+        const matchingExhibitors = exhibitors.filter((e) => e.stand === label);
+
+        if (matchingExhibitors.length === 0) return null;
+
+        const exhibitor = {
+          stand: label,
+          title: matchingExhibitors.map((e) => e.title).join(" / "),
+          description: matchingExhibitors
+            .map((e) => `${e.description}\n`)
+            .join("\n\n"),
+          logo: matchingExhibitors.find((e) => e.logo)?.logo || null,
+          website: matchingExhibitors.find((e) => e.website)?.website || "",
+          url: matchingExhibitors[0].url,
+          all: matchingExhibitors,
+        };
+
+        return {
+          label,
+          points: lookup[label],
+          exhibitor,
+        };
+      })
+      .filter((s) => s && s.points?.length);
+  }, [selectedMap, stands, exhibitors]);
   const toggleFavorite = (label) => {
     setFavorites((prev) => {
       const updated = prev.includes(label)
@@ -331,7 +355,6 @@ function App() {
               placeholder="New list name"
               value={newListName}
               onChange={(e) => setNewListName(e.target.value)}
-              style={{ marginRight: "0.5rem" }}
             />
             <button
               className="button"
@@ -361,6 +384,7 @@ function App() {
           style={{ height: "100vh", width: "100%" }}
         >
           <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
+
           {mapStands.map((stand) => (
             <Polygon
               key={stand.label}
@@ -380,7 +404,7 @@ function App() {
                     <strong>{stand.label}</strong>
                   </p>
                   <p>{stand.exhibitor?.title || "Unknown Exhibitor"}</p>
-                  <p>{stand.exhibitor?.description}</p>
+                  <p className="desc">{stand.exhibitor?.description}</p>
                   <p>
                     <button
                       type="button"
