@@ -1,17 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
-import {
-  MapContainer,
-  ImageOverlay,
-  Polygon,
-  useMapEvents,
-  Tooltip,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, ImageOverlay, Polygon, Popup } from "react-leaflet";
 import { CRS, LatLngBounds, LatLng } from "leaflet";
 import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
+import EasyPrintControl from "./EasyPrintControl";
 
 import "./normalize.css";
 import "./skeleton.css";
@@ -216,12 +210,10 @@ function App() {
   };
 
   return (
-    <div>
+    <div style={{ height: "100vh", width: "100%" }}>
       <div className="controls">
         {!listKey && (
-          <div
-            style={{ padding: "1rem", background: "#ffe0e0", color: "#900" }}
-          >
+          <div>
             <strong>
               Please create a list before using the map or you will get a silly
               name of null.
@@ -235,6 +227,11 @@ function App() {
             and open it on your phone. If you go back and forth you will need to
             make a new list first thats not on your other device, with a new
             name.
+          </p>
+          <p>
+            For Printing and Downloading make sure you zoom out all the way,
+            then you may have to move the map left or right a bit to get it all
+            in the page and press print again.
           </p>
           <p>
             All data is copyright UK Games Expo and their Terms of Service and
@@ -270,7 +267,6 @@ function App() {
         </details>
         <details open>
           <summary>📜 Adventure Plans</summary>
-
           <button
             className="button"
             onClick={() => {
@@ -379,12 +375,23 @@ function App() {
         <MapContainer
           crs={CRS.Simple}
           bounds={bounds}
-          minZoom={-5}
-          maxZoom={5}
-          style={{ height: "100vh", width: "100%" }}
+          minZoom={-2.5}
+          maxZoom={2}
+          zoomSnap={0.2}
+          style={{ height: "100%", width: "100%" }}
         >
           <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
-
+          <EasyPrintControl
+            position="topleft"
+            title="Print Map"
+            sizeModes={["A4Portrait", "A4Landscape", "Current"]}
+          />
+          <EasyPrintControl
+            position="topleft"
+            title="Export PNG"
+            sizeModes={["A4Portrait", "A4Landscape", "Current"]}
+            exportOnly
+          />
           {mapStands.map((stand) => (
             <Polygon
               key={stand.label}

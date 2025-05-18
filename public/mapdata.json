@@ -4,7 +4,7 @@
       "pk": 1,
       "title": "Hall Two",
       "image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall2.svg",
-      "flattened_image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall2.png",
+      "flattened_image": "hall2.png",
       "bounds": "0 0 3360.55 3548.98",
       "stands": [
         "2-299a",
@@ -259,7 +259,7 @@
       "pk": 4,
       "title": "Hall Three",
       "image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall3.svg",
-      "flattened_image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall3.png",
+      "flattened_image": "/hall3.png",
       "bounds": "0 0 2738.42 3507.95",
       "stands": [
         "3-B24",
@@ -498,7 +498,7 @@
       "pk": 5,
       "title": "Hall Three A",
       "image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall3a.svg",
-      "flattened_image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall3a_P9oqT0H.png",
+      "flattened_image": "/hall3a_P9oqT0H.png",
       "bounds": "0 0 2663.9 2583.86",
       "stands": [
         "3A-402",
@@ -677,7 +677,7 @@
       "pk": 6,
       "title": "Hall Four",
       "image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall4.svg",
-      "flattened_image": "https://ams3.digitaloceanspaces.com/ukge/prod/hall4.png",
+      "flattened_image": "/hall4.png",
       "bounds": "0 0 3531.97 5230.27",
       "stands": [
         "4-FF",
@@ -796,7 +796,7 @@
       "pk": 2,
       "title": "Hall One",
       "image": "https://ams3.digitaloceanspaces.com/ukge/prod/Hall1.svg",
-      "flattened_image": "https://ams3.digitaloceanspaces.com/ukge/prod/Hall1.png",
+      "flattened_image": "/Hall1.png",
       "bounds": "0 0 4308.66 4305.65",
       "stands": ["1-B", "1-A", "1-C"]
     }
