@@ -22,7 +22,7 @@ function App() {
   const [selectedMap, setSelectedMap] = useState(null);
   const [stands, setStands] = useState([]);
   const [exhibitors, setExhibitors] = useState([]);
-
+  const [desktop, setDesktop] = useState(null);
   const [listKey, setListKey] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [favoriteLists, setFavoriteLists] = useState([]);
@@ -117,6 +117,8 @@ function App() {
   // Run once on first load
   useEffect(() => {
     loadInitialList();
+    const isDesktop = window.innerWidth > 1024;
+    setDesktop(isDesktop);
   }, []);
 
   // Sync favorites to localStorage and URL
@@ -411,7 +413,11 @@ function App() {
               }}
               positions={stand.points.map(([y, x]) => [y, x])}
             >
-              <Tooltip>{stand.exhibitor?.title || "Unknown Exhibitor"}</Tooltip>
+              {desktop && (
+                <Tooltip>
+                  {stand.exhibitor?.title || "Unknown Exhibitor"}
+                </Tooltip>
+              )}
               <Popup closeButton="true">
                 <div>
                   <p>
