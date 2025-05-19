@@ -21,6 +21,10 @@ a.leaflet-popup-close-button {
   font-size: 24px !important;
   margin: 12px 0 !important;
 }
+.leaflet-tooltip-pane {
+  font-weight: bold;
+  font-size: 14px;
+}
 .controls {
   background: #ffffff;
   position: absolute;

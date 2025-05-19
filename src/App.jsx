@@ -1,5 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
-import { MapContainer, ImageOverlay, Polygon, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  ImageOverlay,
+  Polygon,
+  Popup,
+  Tooltip,
+} from "react-leaflet";
 import { CRS, LatLngBounds, LatLng } from "leaflet";
 import {
   compressToEncodedURIComponent,
@@ -405,6 +411,7 @@ function App() {
               }}
               positions={stand.points.map(([y, x]) => [y, x])}
             >
+              <Tooltip>{stand.exhibitor?.title || "Unknown Exhibitor"}</Tooltip>
               <Popup closeButton="true">
                 <div>
                   <p>
