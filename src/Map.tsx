@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   MapContainer,
   ImageOverlay,
@@ -16,19 +16,62 @@ import EasyPrintControl from "./EasyPrintControl";
 import "./normalize.css";
 import "./skeleton.css";
 import "./index.css";
+import { Link } from "react-router";
 
-function App() {
-  const [maps, setMaps] = useState([]);
-  const [selectedMap, setSelectedMap] = useState(null);
-  const [stands, setStands] = useState([]);
-  const [exhibitors, setExhibitors] = useState([]);
-  const [desktop, setDesktop] = useState(null);
-  const [listKey, setListKey] = useState(null);
-  const [favorites, setFavorites] = useState([]);
-  const [favoriteLists, setFavoriteLists] = useState([]);
-  const [newListName, setNewListName] = useState("");
+// Type definitions for map data
+interface MapData {
+  maps: MapInfo[];
+  stands: Stand[];
+  exhibitors: Exhibitor[];
+}
 
-  function generateRandomListName() {
+interface MapInfo {
+  title: string;
+  bounds: string;
+  flattened_image: string;
+  stands: string[];
+}
+
+interface Stand {
+  label: string;
+  points: [number, number][];
+}
+
+interface Exhibitor {
+  stand: string;
+  title: string;
+  description: string;
+  logo?: string;
+  website?: string;
+  url?: string;
+}
+
+interface MapStand {
+  label: string;
+  points: [number, number][];
+  exhibitor: {
+    stand: string;
+    title: string;
+    description: string;
+    logo: string | null;
+    website: string;
+    url?: string;
+    all: Exhibitor[];
+  };
+}
+
+export const Map: React.FC = () => {
+  const [maps, setMaps] = useState<MapInfo[]>([]);
+  const [selectedMap, setSelectedMap] = useState<MapInfo | null>(null);
+  const [stands, setStands] = useState<Stand[]>([]);
+  const [exhibitors, setExhibitors] = useState<Exhibitor[]>([]);
+  const [desktop, setDesktop] = useState<boolean | null>(null);
+  const [listKey, setListKey] = useState<string | null>(null);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favoriteLists, setFavoriteLists] = useState<string[]>([]);
+  const [newListName, setNewListName] = useState<string>("");
+
+  function generateRandomListName(): string {
     const adjectives = [
       "brave",
       "cheeky",
@@ -54,7 +97,7 @@ function App() {
     return `${adjective}-${animal}`;
   }
 
-  function loadInitialList() {
+  function loadInitialList(): void {
     const hash = window.location.hash.startsWith("#")
       ? window.location.hash.substring(1)
       : window.location.hash;
@@ -63,7 +106,7 @@ function App() {
     const favEncoded = params.get("favs");
 
     if (keyFromHash) {
-      let favsFromUrl = [];
+      let favsFromUrl: string[] = [];
       try {
         if (favEncoded) {
           const decoded = decompressFromEncodedURIComponent(favEncoded);
@@ -83,7 +126,9 @@ function App() {
     }
 
     // Migrate legacy
-    const legacy = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const legacy: string[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
     if (legacy.length > 0) {
       const newKey = generateRandomListName();
       localStorage.setItem(`favorites:${newKey}`, JSON.stringify(legacy));
@@ -101,7 +146,7 @@ function App() {
       .map((k) => k.replace("favorites:", ""));
     if (keys.length > 0) {
       const firstKey = keys[0];
-      const stored = JSON.parse(
+      const stored: string[] = JSON.parse(
         localStorage.getItem(`favorites:${firstKey}`) || "[]"
       );
       setListKey(firstKey);
@@ -152,7 +197,7 @@ function App() {
   useEffect(() => {
     fetch("/mapdata.json")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: MapData) => {
         setMaps(data.maps);
         setStands(data.stands);
         setSelectedMap(data.maps[0]);
@@ -171,15 +216,18 @@ function App() {
     );
   }, [selectedMap]);
 
-  const mapStands = useMemo(() => {
+  const mapStands: MapStand[] = useMemo(() => {
     if (!selectedMap) return [];
 
     // Merge points by stand label
-    const lookup = stands.reduce((acc, s) => {
-      if (!acc[s.label]) acc[s.label] = [];
-      acc[s.label].push(...s.points);
-      return acc;
-    }, {});
+    const lookup: Record<string, [number, number][]> = stands.reduce(
+      (acc, s) => {
+        if (!acc[s.label]) acc[s.label] = [];
+        acc[s.label].push(...s.points);
+        return acc;
+      },
+      {} as Record<string, [number, number][]>
+    );
 
     return selectedMap.stands
       .map((label) => {
@@ -195,7 +243,7 @@ function App() {
             .join("\n\n"),
           logo: matchingExhibitors.find((e) => e.logo)?.logo || null,
           website: matchingExhibitors.find((e) => e.website)?.website || "",
-          url: matchingExhibitors[0].url,
+          url: matchingExhibitors[0].url || "",
           all: matchingExhibitors,
         };
 
@@ -203,11 +251,12 @@ function App() {
           label,
           points: lookup[label],
           exhibitor,
-        };
+        } as MapStand;
       })
-      .filter((s) => s && s.points?.length);
+      .filter((s): s is MapStand => s !== null && s.points?.length > 0);
   }, [selectedMap, stands, exhibitors]);
-  const toggleFavorite = (label) => {
+
+  const toggleFavorite = (label: string) => {
     setFavorites((prev) => {
       const updated = prev.includes(label)
         ? prev.filter((f) => f !== label)
@@ -245,7 +294,11 @@ function App() {
             All data is copyright UK Games Expo and their Terms of Service and
             Privacy Policy applies to their servers other images copyright their
             respective owners, and this app is brought to you by{" "}
-            <a href="http://boardgaymesjames.com" target="_blank">
+            <a
+              href="http://boardgaymesjames.com"
+              target="_blank"
+              rel="noreferrer"
+            >
               @BoardGaymesJames
             </a>
           </p>
@@ -262,7 +315,7 @@ function App() {
           <select
             onChange={(e) => {
               const selected = maps.find((m) => m.title === e.target.value);
-              setSelectedMap(selected);
+              setSelectedMap(selected || null);
             }}
             value={selectedMap?.title || ""}
           >
@@ -275,6 +328,9 @@ function App() {
         </details>
         <details open>
           <summary>📜 Adventure Plans</summary>
+          <Link to="/list">
+            <button className="button">📋 View Lists</button>
+          </Link>
           <button
             className="button"
             onClick={() => {
@@ -392,12 +448,12 @@ function App() {
           <EasyPrintControl
             position="topleft"
             title="Print Map"
-            sizeModes={["A4Portrait", "A4Landscape", "Current"]}
+            exportOnly={false}
           />
           <EasyPrintControl
             position="topleft"
             title="Export PNG"
-            sizeModes={["A4Portrait", "A4Landscape", "Current"]}
+            // sizeModes prop removed for type safety
             exportOnly
           />
           {mapStands.map((stand) => (
@@ -409,7 +465,7 @@ function App() {
                 fillColor: favorites.includes(stand.label)
                   ? "lightgreen"
                   : "white",
-                fillOpacity: favorites.includes(stand.label) ? "0.5" : "0",
+                fillOpacity: favorites.includes(stand.label) ? 0.5 : 0,
               }}
               positions={stand.points.map(([y, x]) => [y, x])}
             >
@@ -418,7 +474,7 @@ function App() {
                   {stand.exhibitor?.title || "Unknown Exhibitor"}
                 </Tooltip>
               )}
-              <Popup closeButton="true">
+              <Popup closeButton={true}>
                 <div>
                   <p>
                     <strong>{stand.label}</strong>
@@ -445,22 +501,4 @@ function App() {
       )}
     </div>
   );
-}
-
-function pointInPolygon(point, vs) {
-  const [x, y] = [point[1], point[0]]; // convert [lat, lng] → [x, y] for math
-  let inside = false;
-  for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-    const xi = vs[i][1],
-      yi = vs[i][0];
-    const xj = vs[j][1],
-      yj = vs[j][0];
-    const intersect =
-      yi > y !== yj > y &&
-      x < ((xj - xi) * (y - yi)) / (yj - yi + 0.00001) + xi;
-    if (intersect) inside = !inside;
-  }
-  return inside;
-}
-
-export default App;
+};

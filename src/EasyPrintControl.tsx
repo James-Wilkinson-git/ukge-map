@@ -3,11 +3,22 @@ import { useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-easyprint";
 
+// Extend Leaflet's type definitions to include easyPrint
+declare module "leaflet" {
+  export function easyPrint(options: unknown): unknown;
+}
+
+interface Props {
+  position: string;
+  title: string;
+  exportOnly: boolean;
+}
+
 const EasyPrintControl = ({
   position = "topright",
   title = "Print Map",
   exportOnly = false,
-}) => {
+}: Props) => {
   const map = useMap();
 
   useEffect(() => {
@@ -20,7 +31,7 @@ const EasyPrintControl = ({
       filename: "ukge-map",
       exportOnly,
       hideControlContainer: false,
-    });
+    }) as L.Control;
 
     map.addControl(printControl);
 

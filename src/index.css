@@ -66,3 +66,48 @@ p.desc {
   font-size: 16px !important;
   white-space: pre-line;
 }
+.list-container {
+  padding: 16px;
+}
+.list-container h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.list-container h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #888;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-right: 8px;
+}
+input[type="checkbox"]:checked {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 4px;
+  top: -2px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #4caf5033;
+}
