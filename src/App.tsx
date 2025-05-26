@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route } from "react-router";
 import { Map } from "./Map";
 import List from "./List";
 
@@ -8,7 +8,7 @@ const App = () => {
     <Routes>
       <Route path="/list" element={<List />} />
       <Route index element={<Map />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Map />} />
     </Routes>
   );
 };
