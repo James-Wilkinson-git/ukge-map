@@ -4,7 +4,7 @@
       "pk": 1,
       "title": "Hall Two",
       "image": "https://ams3.digitaloceanspaces.com/ukge/prod/Hall2.svg",
-      "flattened_image": "/Hall2.png",
+      "flattened_image": "/hall2x.png",
       "bounds": "0 0 3360.55 3548.98",
       "stands": [
         "2-299a",
