@@ -68,79 +68,90 @@ const List: React.FC = () => {
           <h3 style={{ marginBottom: 8 }}>{list.key}</h3>
           <ul>
             {list.booths.length === 0 && <li>No booths in this list.</li>}
-            {list.booths.map((label) => {
-              const stand = stands.find((s) => s.label === label);
-              const exhibitor = exhibitors.find((e) => e.stand === label);
-              return (
-                <li
-                  key={label}
-                  style={{
-                    marginBottom: 16,
-                    borderBottom: "1px solid #eee",
-                    paddingBottom: 8,
-                  }}
-                >
-                  <label
+            {list.booths
+              .slice()
+              .sort((a, b) => {
+                // Sort by booth label as a string (e.g., 2A-123, 2A-124, 3-123)
+                return a.localeCompare(b, undefined, {
+                  numeric: true,
+                  sensitivity: "base",
+                });
+              })
+              .map((label) => {
+                const stand = stands.find((s) => s.label === label);
+                const exhibitor = exhibitors.find((e) => e.stand === label);
+                return (
+                  <li
+                    key={label}
                     style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: 12,
+                      marginBottom: 16,
+                      borderBottom: "1px solid #eee",
+                      paddingBottom: 8,
                     }}
                   >
-                    <input
-                      type="checkbox"
-                      checked={!!visited[label]}
-                      onChange={() => handleVisitedToggle(label)}
-                      style={{ marginTop: 4 }}
-                    />
-                    <div style={{ flex: 1 }}>
-                      <div>
-                        <strong>
-                          {stand?.label || label} {exhibitor?.title}
-                        </strong>
+                    <label
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 12,
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={!!visited[label]}
+                        onChange={() => handleVisitedToggle(label)}
+                        style={{ marginTop: 4 }}
+                      />
+                      <div style={{ flex: 1 }}>
+                        <div>
+                          <strong>
+                            {stand?.label || label} {exhibitor?.title}
+                          </strong>
+                        </div>
+                        {exhibitor && (
+                          <>
+                            {exhibitor.description && (
+                              <div
+                                style={{
+                                  fontSize: "0.95em",
+                                  color: "#555",
+                                  margin: "2px 0",
+                                }}
+                              >
+                                <span>{exhibitor.description}</span>
+                              </div>
+                            )}
+                            {exhibitor.logo && (
+                              <div style={{ margin: "2px 0" }}>
+                                <img
+                                  src={exhibitor.logo}
+                                  alt={exhibitor.title}
+                                  style={{ maxWidth: 80, maxHeight: 40 }}
+                                />
+                              </div>
+                            )}
+                            {(exhibitor.website || exhibitor.url) && (
+                              <div
+                                style={{ fontSize: "0.9em", margin: "2px 0" }}
+                              >
+                                {exhibitor.website && (
+                                  <a
+                                    href={exhibitor.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Website
+                                  </a>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        )}
                       </div>
-                      {exhibitor && (
-                        <>
-                          {exhibitor.description && (
-                            <div
-                              style={{
-                                fontSize: "0.95em",
-                                color: "#555",
-                                margin: "2px 0",
-                              }}
-                            >
-                              <span>{exhibitor.description}</span>
-                            </div>
-                          )}
-                          {exhibitor.logo && (
-                            <div style={{ margin: "2px 0" }}>
-                              <img
-                                src={exhibitor.logo}
-                                alt={exhibitor.title}
-                                style={{ maxWidth: 80, maxHeight: 40 }}
-                              />
-                            </div>
-                          )}
-                          {(exhibitor.website || exhibitor.url) && (
-                            <div style={{ fontSize: "0.9em", margin: "2px 0" }}>
-                              {exhibitor.website && (
-                                <a
-                                  href={exhibitor.website}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  Website
-                                </a>
-                              )}
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </label>
-                </li>
-              );
-            })}
+                    </label>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       ))}
