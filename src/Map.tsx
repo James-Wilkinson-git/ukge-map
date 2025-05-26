@@ -278,7 +278,7 @@ export const Map: React.FC = () => {
           </div>
         )}
         <details open>
-          <summary>ℹ️ Info</summary>
+          <summary>ℹ️ Info 🤏</summary>
           <p>
             Make your selections, then hit share link or copy the browser url
             and open it on your phone. If you go back and forth you will need to
@@ -311,7 +311,7 @@ export const Map: React.FC = () => {
           </p>
         </details>
         <details open>
-          <summary>🗺️ Hall Maps</summary>
+          <summary>🗺️ Hall Maps 🤏</summary>
           <select
             onChange={(e) => {
               const selected = maps.find((m) => m.title === e.target.value);
@@ -327,7 +327,7 @@ export const Map: React.FC = () => {
           </select>
         </details>
         <details open>
-          <summary>📜 Adventure Plans</summary>
+          <summary>📜 Adventure Plans 🤏</summary>
           <Link to="/list">
             <button className="button">📋 View Lists</button>
           </Link>
