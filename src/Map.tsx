@@ -11,54 +11,14 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
+import EasyPrintControl from "./EasyPrintControl";
 
 import "./normalize.css";
 import "./skeleton.css";
 import "./index.css";
 import { Link } from "react-router";
 
-// Type definitions for Spiel25 map data
-interface SpielMapData {
-  map: SpielMapInfo;
-  mapElements: SpielMapElement[];
-  companies: SpielCompany[];
-  maps: SpielMapInfo[];
-  events?: any[];
-}
-
-interface SpielMapInfo {
-  ID: string;
-  W: number;
-  H: number;
-  NAME: string;
-  PARENT_ELEMENT_ID: string;
-  FLOOR: number;
-  path?: string;
-}
-
-interface SpielMapElement {
-  ID: string;
-  KARTEN_ID: string;
-  X: number;
-  Y: number;
-  W: number;
-  H: number;
-  XCOORDS: string | null;
-  YCOORDS: string | null;
-  TYPE: number; // 0 = stand, 3 = structure/connection
-  STAND_ID: string | null;
-  NAME: string | null;
-}
-
-interface SpielCompany {
-  id: number;
-  name: string;
-  description: string;
-  website?: string;
-  booths: string[];
-}
-
-// Legacy interfaces for compatibility
+// Type definitions for map data
 interface MapData {
   maps: MapInfo[];
   stands: Stand[];
@@ -84,7 +44,6 @@ interface Exhibitor {
   logo?: string;
   website?: string;
   url?: string;
-  booths?: string[];
 }
 
 interface MapStand {
@@ -97,18 +56,15 @@ interface MapStand {
     logo: string | null;
     website: string;
     url?: string;
-    booths?: string[];
     all: Exhibitor[];
   };
 }
 
 export const Map: React.FC = () => {
-  const [spielMaps, setSpielMaps] = useState<SpielMapInfo[]>([]);
-  const [selectedSpielMap, setSelectedSpielMap] = useState<SpielMapInfo | null>(
-    null
-  );
-  const [mapElements, setMapElements] = useState<SpielMapElement[]>([]);
-  const [companies, setCompanies] = useState<SpielCompany[]>([]);
+  const [maps, setMaps] = useState<MapInfo[]>([]);
+  const [selectedMap, setSelectedMap] = useState<MapInfo | null>(null);
+  const [stands, setStands] = useState<Stand[]>([]);
+  const [exhibitors, setExhibitors] = useState<Exhibitor[]>([]);
   const [desktop, setDesktop] = useState<boolean | null>(null);
   const [listKey, setListKey] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -239,158 +195,66 @@ export const Map: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Load the main map (fairground) to get the list of all maps
-    fetch("/spiel-map-0.json")
+    fetch("/mapdata.json")
       .then((res) => res.json())
-      .then((data: SpielMapData) => {
-        setSpielMaps(data.maps);
-        // Start with Hall 1 instead of fairground since it has actual stands
-        setSelectedSpielMap(
-          data.maps.find((m) => m.ID === "1") || data.maps[0]
-        );
-        // Don't set fairground data, let the second useEffect load Hall 1 data
-      })
-      .catch((error) => {
-        console.error("Failed to load main map data:", error);
+      .then((data: MapData) => {
+        setMaps(data.maps);
+        setStands(data.stands);
+        setSelectedMap(data.maps[0]);
+        setExhibitors(data.exhibitors);
       });
   }, []);
 
-  // Fetch data for the selected map
-  useEffect(() => {
-    if (!selectedSpielMap) return;
-
-    fetch(`/spiel-map-${selectedSpielMap.ID}.json`)
-      .then((res) => res.json())
-      .then((data: SpielMapData) => {
-        setMapElements(data.mapElements);
-        setCompanies(data.companies);
-        console.log(
-          `Loaded ${data.companies.length} companies for map ${selectedSpielMap.ID}`
-        );
-        // Debug: Check if we have companies with booth 1E211
-        const companiesWithE211 = data.companies.filter((c) =>
-          c.booths.includes("1E211")
-        );
-        console.log(
-          `Companies with booth 1E211: ${companiesWithE211.length}`,
-          companiesWithE211
-        );
-      })
-      .catch((error) => {
-        console.error(
-          `Failed to load map data for ${selectedSpielMap.ID}:`,
-          error
-        );
-      });
-  }, [selectedSpielMap]);
-
   const bounds = useMemo(() => {
-    if (!selectedSpielMap) return new LatLngBounds([0, 0], [1, 1]);
-
-    // Create bounds from map dimensions (Spiel25 uses direct pixel coordinates)
-    const width = selectedSpielMap.W;
-    const height = selectedSpielMap.H;
-
+    if (!selectedMap) return new LatLngBounds([0, 0], [1, 1]);
+    const [xMin, yMin, xMax, yMax] = selectedMap.bounds
+      .split(" ")
+      .map(parseFloat);
     return new LatLngBounds(
-      new LatLng(-height, 0), // SW corner
-      new LatLng(0, width) // NE corner
+      new LatLng(-yMin, xMin), // SW corner
+      new LatLng(-yMax, xMax) // NE corner
     );
-  }, [selectedSpielMap]);
+  }, [selectedMap]);
 
-  // Convert Spiel25 mapElements to MapStand format
   const mapStands: MapStand[] = useMemo(() => {
-    if (!selectedSpielMap) return [];
+    if (!selectedMap) return [];
 
-    // Filter for stands only (TYPE 0) - include all stands even without company data
-    const standElements = mapElements.filter(
-      (element) => element.TYPE === 0 && (element.STAND_ID || element.NAME)
+    // Merge points by stand label
+    const lookup: Record<string, [number, number][]> = stands.reduce(
+      (acc, s) => {
+        if (!acc[s.label]) acc[s.label] = [];
+        acc[s.label].push(...s.points);
+        return acc;
+      },
+      {} as Record<string, [number, number][]>
     );
 
-    console.log(
-      `Processing ${standElements.length} stands for map ${selectedSpielMap.NAME}`
-    );
+    return selectedMap.stands
+      .map((label) => {
+        const matchingExhibitors = exhibitors.filter((e) => e.stand === label);
 
-    return standElements
-      .map((element) => {
-        // Find matching company data based on booth names
-        const standId = element.STAND_ID || element.NAME || "";
-
-        // Debug: Check standId format - the issue might be that STAND_ID has prefix
-        const boothName = standId.split(".").pop() || standId; // Remove "1." prefix if present
-
-        const matchingCompanies = companies.filter((company) =>
-          company.booths.includes(boothName)
-        );
-
-        // Convert coordinates from Spiel25 format
-        let points: [number, number][] = [];
-
-        if (element.XCOORDS && element.YCOORDS) {
-          // Use detailed polygon coordinates if available
-          const xCoords = element.XCOORDS.split("|").map(Number);
-          const yCoords = element.YCOORDS.split("|").map(Number);
-
-          points = xCoords.map((x, i) => [-yCoords[i], x] as [number, number]);
-        } else {
-          // Fall back to rectangle from X, Y, W, H
-          points = [
-            [-element.Y, element.X],
-            [-element.Y, element.X + element.W],
-            [-(element.Y + element.H), element.X + element.W],
-            [-(element.Y + element.H), element.X],
-          ];
-        }
+        if (matchingExhibitors.length === 0) return null;
 
         const exhibitor = {
-          stand: standId,
-          title:
-            matchingCompanies.length > 0
-              ? matchingCompanies.map((c) => c.name).join(" / ")
-              : element.NAME || "Unknown",
-          description:
-            matchingCompanies.length > 0
-              ? matchingCompanies.map((c) => c.description).join("\n\n")
-              : "No description available",
-          logo: null, // Not available in new data structure
-          website: matchingCompanies.find((c) => c.website)?.website || "",
-          url: matchingCompanies.find((c) => c.website)?.website || "",
-          booths:
-            matchingCompanies.length > 0
-              ? matchingCompanies[0].booths
-              : [boothName],
-          all: matchingCompanies.map((c) => ({
-            stand: standId,
-            title: c.name,
-            description: c.description,
-            website: c.website,
-            booths: c.booths,
-          })),
+          stand: label,
+          title: matchingExhibitors.map((e) => e.title).join(" / "),
+          description: matchingExhibitors
+            .map((e) => `${e.description}\n`)
+            .join("\n\n"),
+          logo: matchingExhibitors.find((e) => e.logo)?.logo || null,
+          website: matchingExhibitors.find((e) => e.website)?.website || "",
+          url: matchingExhibitors[0].url || "",
+          all: matchingExhibitors,
         };
 
-        // Debug logging
-        if (boothName === "1E211") {
-          console.log("Debug for 1E211:", {
-            standId,
-            boothName,
-            matchingCompanies: matchingCompanies.length,
-            exhibitor,
-          });
-        }
-
         return {
-          label: standId,
-          points,
+          label,
+          points: lookup[label],
           exhibitor,
         } as MapStand;
       })
-      .filter((stand) => stand.points.length > 0);
-  }, [selectedSpielMap, mapElements, companies]);
-
-  // Debug logging
-  console.log(`Rendering ${mapStands.length} stands on map`);
-  if (mapStands.length > 0) {
-    console.log("First stand:", mapStands[0]);
-  }
+      .filter((s): s is MapStand => s !== null && s.points?.length > 0);
+  }, [selectedMap, stands, exhibitors]);
 
   const toggleFavorite = (label: string) => {
     setFavorites((prev) => {
@@ -422,12 +286,13 @@ export const Map: React.FC = () => {
             name.
           </p>
           <p>
-            These maps are too busy and big to be able to get print working,
-            sorry!
+            For Printing and Downloading make sure you zoom out all the way,
+            then you may have to move the map left or right a bit to get it all
+            in the page and press print again.
           </p>
           <p>
-            All data is copyright Spiel and their Terms of Service and Privacy
-            Policy applies to their servers other images copyright their
+            All data is copyright UK Games Expo and their Terms of Service and
+            Privacy Policy applies to their servers other images copyright their
             respective owners, and this app is brought to you by{" "}
             <a
               href="http://boardgaymesjames.com"
@@ -435,8 +300,7 @@ export const Map: React.FC = () => {
               rel="noreferrer"
             >
               @BoardGaymesJames
-            </a>{" "}
-            provided as is with no warranty.
+            </a>
           </p>
           <p>
             <img
@@ -450,20 +314,23 @@ export const Map: React.FC = () => {
           <summary>🗺️ Hall Maps 🤏</summary>
           <select
             onChange={(e) => {
-              const selected = spielMaps.find((m) => m.NAME === e.target.value);
-              setSelectedSpielMap(selected || null);
+              const selected = maps.find((m) => m.title === e.target.value);
+              setSelectedMap(selected || null);
             }}
-            value={selectedSpielMap?.NAME || ""}
+            value={selectedMap?.title || ""}
           >
-            {spielMaps.map((m) => (
-              <option key={m.ID} value={m.NAME}>
-                {m.NAME}
+            {maps.map((m) => (
+              <option key={m.title} value={m.title}>
+                {m.title}
               </option>
             ))}
           </select>
         </details>
         <details open>
           <summary>📜 Adventure Plans 🤏</summary>
+          <Link to="/list">
+            <button className="button">📋 View Lists</button>
+          </Link>
           <button
             className="button"
             onClick={() => {
@@ -568,64 +435,52 @@ export const Map: React.FC = () => {
         </details>
       </div>
 
-      {selectedSpielMap && (
+      {selectedMap && (
         <MapContainer
           crs={CRS.Simple}
           bounds={bounds}
-          minZoom={-2}
-          maxZoom={1}
+          minZoom={-2.5}
+          maxZoom={2}
+          zoomSnap={0.2}
           style={{ height: "100%", width: "100%" }}
         >
-          <ImageOverlay url={`/${selectedSpielMap.ID}.png`} bounds={bounds} />
+          <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
+          <EasyPrintControl
+            position="topleft"
+            title="Print Map"
+            exportOnly={false}
+          />
+          <EasyPrintControl
+            position="topleft"
+            title="Export PNG"
+            // sizeModes prop removed for type safety
+            exportOnly
+          />
           {mapStands.map((stand) => (
             <Polygon
               key={stand.label}
               pathOptions={{
-                color: favorites.includes(stand.label) ? "#27ae60" : "#3498db",
-                weight: favorites.includes(stand.label) ? 3 : 2,
+                color: favorites.includes(stand.label) ? "green" : "black",
+                weight: 2,
                 fillColor: favorites.includes(stand.label)
-                  ? "#2ecc71"
-                  : "#ecf0f1",
-                fillOpacity: favorites.includes(stand.label) ? 0.7 : 0.3,
-                dashArray: favorites.includes(stand.label) ? undefined : "5, 5",
+                  ? "lightgreen"
+                  : "white",
+                fillOpacity: favorites.includes(stand.label) ? 0.5 : 0,
               }}
-              positions={stand.points}
+              positions={stand.points.map(([y, x]) => [y, x])}
             >
               {desktop && (
-                <Tooltip direction="top">
-                  <div>
-                    <strong>{stand.label}</strong>
-                    {stand.exhibitor?.title && (
-                      <>
-                        <br />
-                        {stand.exhibitor.title}
-                      </>
-                    )}
-                  </div>
+                <Tooltip>
+                  {stand.exhibitor?.title || "Unknown Exhibitor"}
                 </Tooltip>
               )}
               <Popup closeButton={true}>
                 <div>
                   <p>
-                    <strong>
-                      {stand.exhibitor?.title || "Exhibitor Information"}
-                    </strong>
+                    <strong>{stand.label}</strong>
                   </p>
-                  <p>📍{stand.label}</p>
-
-                  <div>
-                    {stand.exhibitor?.booths &&
-                      stand.exhibitor.booths.length > 1 && (
-                        <>
-                          <br />
-                          <strong>Additional booths:</strong>{" "}
-                          {stand.exhibitor.booths
-                            .filter((b: string) => b !== stand.label)
-                            .join(", ")}
-                        </>
-                      )}
-                  </div>
-
+                  <p>{stand.exhibitor?.title || "Unknown Exhibitor"}</p>
+                  <p className="desc">{stand.exhibitor?.description}</p>
                   <p>
                     <button
                       type="button"
@@ -634,8 +489,8 @@ export const Map: React.FC = () => {
                       }}
                     >
                       {favorites.includes(stand.label)
-                        ? "❌ Remove from My Plan"
-                        : "⭐ Add to My Plan"}
+                        ? "❌ Remove Favorite"
+                        : "⭐ Add to Favorites"}
                     </button>
                   </p>
                 </div>
