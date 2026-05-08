@@ -224,7 +224,9 @@ export const Map: React.FC = () => {
       })
       .catch((err: unknown) => {
         const msg =
-          err instanceof Error ? err.message : "Unknown error loading map data.";
+          err instanceof Error
+            ? err.message
+            : "Unknown error loading map data.";
         console.error(err);
         setMapdataError(msg);
       });
@@ -540,7 +542,7 @@ export const Map: React.FC = () => {
                         }}
                       >
                         {!listKey
-                          ? "⭐ Pick a list first"
+                          ? "⭐ Create a list first"
                           : favorites.includes(stand.label)
                             ? "❌ Remove Favorite"
                             : "⭐ Add to Favorites"}
