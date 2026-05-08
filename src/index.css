@@ -1,13 +1,74 @@
+html {
+  height: 100%;
+}
 body,
-html,
 #root {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+/* One full-screen pane; scrolling only inside labeled regions (map panel, list). */
+body {
+  overflow: hidden;
+}
+#root {
+  max-height: 100dvh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.app-shell {
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
 .leaflet-container {
   width: 100%;
   height: 100%;
+  background: #ffffff !important;
+}
+.map-viewport {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+.ukge-print-group {
+  display: flex;
+  flex-direction: column;
+}
+.ukge-print-group a:last-child {
+  border-top: none;
+}
+.ukge-print-group a:first-child:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+/* Larger glyphs only; Leaflet keeps control width/height. */
+.ukge-print-group.leaflet-bar a {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  line-height: 0 !important;
+}
+.ukge-print-group.leaflet-bar a .ukge-print-glyph {
+  font-size: 20px;
+  line-height: 1;
+  position: relative;
+  top: 0.04em;
+}
+.leaflet-touch .ukge-print-group.leaflet-bar a .ukge-print-glyph {
+  font-size: 23px;
+}
+.ukge-print-group.leaflet-bar a .ukge-print-glyph--download svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.leaflet-touch .ukge-print-group.leaflet-bar a .ukge-print-glyph--download svg {
+  width: 23px;
+  height: 23px;
 }
 a.leaflet-popup-close-button {
   width: 35px !important;
@@ -30,12 +91,70 @@ a.leaflet-popup-close-button {
   position: absolute;
   z-index: 9000;
   right: 10px;
-  top: 10px;
+  top: max(10px, env(safe-area-inset-top));
   border-radius: 6px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   width: 250px;
+  max-width: calc(100vw - 20px);
+  box-sizing: border-box;
+  max-height: calc(100dvh - 20px - env(safe-area-inset-top));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+}
+.controls-info-lead {
+  margin: 0.35em 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.controls-info-fine {
+  margin: 0.35em 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #555;
+}
+.controls-info-footer {
+  margin: 0.35em 0 0;
+  line-height: 0;
+}
+.controls-info-footer img {
+  display: block;
+  width: 112px;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  .controls {
+    right: 8px;
+    top: max(8px, env(safe-area-inset-top));
+    padding: 10px 12px;
+    width: min(250px, calc(100vw - 16px));
+    max-height: min(340px, calc(100dvh - 24px - env(safe-area-inset-top)));
+  }
+  /* iOS: 16px+ on inputs avoids focus-zoom */
+  .controls input[type="text"],
+  .controls select {
+    font-size: 16px;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  /* Pop-ups: slightly smaller copy on phones */
+  a.leaflet-popup-close-button {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 28px !important;
+  }
+  .leaflet-popup-content,
+  .leaflet-popup-content p {
+    font-size: 17px !important;
+  }
+  .leaflet-popup-content .desc,
+  .leaflet-popup-content p.desc {
+    font-size: 15px !important;
+  }
 }
 
 details {
@@ -44,6 +163,27 @@ details {
 details ul li button {
   border: none;
   padding: 4px 30px 4px 0px !important;
+}
+details ul li.favorite-list-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+details ul li.favorite-list-row .favorite-list-open {
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  padding-right: 4px !important;
+}
+details ul li.favorite-list-row .x-button {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  padding: 4px 6px !important;
 }
 summary {
   display: list-item;
@@ -68,6 +208,14 @@ p.desc {
 }
 .list-container {
   padding: 16px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  height: 100%;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .list-container h2 {
   font-size: 24px;
@@ -88,7 +236,9 @@ input[type="checkbox"] {
   background: #fff;
   cursor: pointer;
   position: relative;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   margin-right: 8px;
 }
 input[type="checkbox"]:checked {

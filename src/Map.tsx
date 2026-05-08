@@ -11,12 +11,17 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
-import EasyPrintControl from "./EasyPrintControl";
+import { HallPrintToolbar } from "./HallPrintToolbar";
 
 import "./normalize.css";
 import "./skeleton.css";
 import "./index.css";
 import { Link } from "react-router";
+import { resolveListingHref, resolveWebsiteHref } from "./exhibitorUrls";
+import {
+  generateRandomBoardGameListName,
+  uniqueRandomListName,
+} from "./listNameUtils";
 
 // Type definitions for map data
 interface MapData {
@@ -48,7 +53,8 @@ interface Exhibitor {
 
 interface MapStand {
   label: string;
-  points: [number, number][];
+  /** One Leaflet polygon per geometry chunk from the API (same label may have several rectangles). */
+  rings: [number, number][][];
   exhibitor: {
     stand: string;
     title: string;
@@ -60,6 +66,26 @@ interface MapStand {
   };
 }
 
+function exhibitorLinkPairs(
+  ex: Exhibitor[],
+): { label: string; href: string }[] {
+  const seen = new Set<string>();
+  const out: { label: string; href: string }[] = [];
+  for (const e of ex) {
+    const w = resolveWebsiteHref(e.website);
+    if (w && !seen.has(w)) {
+      seen.add(w);
+      out.push({ label: "Website", href: w });
+    }
+    const l = resolveListingHref(e.url);
+    if (l && !seen.has(l)) {
+      seen.add(l);
+      out.push({ label: "UKGE listing", href: l });
+    }
+  }
+  return out;
+}
+
 export const Map: React.FC = () => {
   const [maps, setMaps] = useState<MapInfo[]>([]);
   const [selectedMap, setSelectedMap] = useState<MapInfo | null>(null);
@@ -69,32 +95,16 @@ export const Map: React.FC = () => {
   const [listKey, setListKey] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [favoriteLists, setFavoriteLists] = useState<string[]>([]);
-  const [newListName, setNewListName] = useState<string>("");
+  const [newListName, setNewListName] = useState<string>(() =>
+    generateRandomBoardGameListName(),
+  );
 
-  function generateRandomListName(): string {
-    const adjectives = [
-      "brave",
-      "cheeky",
-      "happy",
-      "sleepy",
-      "sneaky",
-      "gentle",
-      "noisy",
-      "bouncy",
-    ];
-    const animals = [
-      "otter",
-      "fox",
-      "tiger",
-      "panda",
-      "sloth",
-      "owl",
-      "lizard",
-      "turtle",
-    ];
-    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const animal = animals[Math.floor(Math.random() * animals.length)];
-    return `${adjective}-${animal}`;
+  function clearHashInUrl(): void {
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}${window.location.search}`,
+    );
   }
 
   function loadInitialList(): void {
@@ -106,6 +116,13 @@ export const Map: React.FC = () => {
     const favEncoded = params.get("favs");
 
     if (keyFromHash) {
+      const stored = localStorage.getItem(`favorites:${keyFromHash}`);
+      if (!stored) {
+        setListKey(null);
+        setFavorites([]);
+        clearHashInUrl();
+        return;
+      }
       let favsFromUrl: string[] = [];
       try {
         if (favEncoded) {
@@ -120,17 +137,30 @@ export const Map: React.FC = () => {
       } catch (e) {
         console.warn("Error decoding favorites from URL:", e);
       }
+      if (favsFromUrl.length === 0) {
+        try {
+          const parsed = JSON.parse(stored);
+          favsFromUrl = Array.isArray(parsed) ? parsed : [];
+        } catch {
+          favsFromUrl = [];
+        }
+      }
       setListKey(keyFromHash);
-      setFavorites(favsFromUrl);
+      setFavorites(Array.isArray(favsFromUrl) ? favsFromUrl : []);
       return;
     }
 
     // Migrate legacy
     const legacy: string[] = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
+      localStorage.getItem("favorites") || "[]",
     );
     if (legacy.length > 0) {
-      const newKey = generateRandomListName();
+      const existing = new Set(
+        Object.keys(localStorage)
+          .filter((k) => k.startsWith("favorites:"))
+          .map((k) => k.replace("favorites:", "")),
+      );
+      const newKey = uniqueRandomListName(existing);
       localStorage.setItem(`favorites:${newKey}`, JSON.stringify(legacy));
       localStorage.removeItem("favorites");
       setListKey(newKey);
@@ -140,21 +170,7 @@ export const Map: React.FC = () => {
       return;
     }
 
-    // Load first saved list
-    const keys = Object.keys(localStorage)
-      .filter((k) => k.startsWith("favorites:"))
-      .map((k) => k.replace("favorites:", ""));
-    if (keys.length > 0) {
-      const firstKey = keys[0];
-      const stored: string[] = JSON.parse(
-        localStorage.getItem(`favorites:${firstKey}`) || "[]"
-      );
-      setListKey(firstKey);
-      setFavorites(stored);
-      return;
-    }
-
-    // No list at all
+    // No list in URL: user must choose an existing list or create one (no auto-pick).
     setListKey(null);
     setFavorites([]);
   }
@@ -179,7 +195,8 @@ export const Map: React.FC = () => {
     const updateLists = () => {
       const keys = Object.keys(localStorage)
         .filter((k) => k.startsWith("favorites:"))
-        .map((k) => k.replace("favorites:", ""));
+        .map((k) => k.replace("favorites:", ""))
+        .sort((a, b) => a.localeCompare(b));
       setFavoriteLists(keys);
     };
     updateLists();
@@ -212,24 +229,27 @@ export const Map: React.FC = () => {
       .map(parseFloat);
     return new LatLngBounds(
       new LatLng(-yMin, xMin), // SW corner
-      new LatLng(-yMax, xMax) // NE corner
+      new LatLng(-yMax, xMax), // NE corner
     );
   }, [selectedMap]);
 
   const mapStands: MapStand[] = useMemo(() => {
     if (!selectedMap) return [];
 
-    // Merge points by stand label
-    const lookup: Record<string, [number, number][]> = stands.reduce(
+    // Collect rings by stand label (do not flatten: multiple rects share one booth id)
+    const lookup: Record<string, [number, number][][]> = stands.reduce(
       (acc, s) => {
         if (!acc[s.label]) acc[s.label] = [];
-        acc[s.label].push(...s.points);
+        acc[s.label].push(s.points);
         return acc;
       },
-      {} as Record<string, [number, number][]>
+      {} as Record<string, [number, number][][]>,
     );
 
-    return selectedMap.stands
+    // Hall layout lists the same stand id more than once in a few cases; render once.
+    const labelsInHall = [...new Set(selectedMap.stands)];
+
+    return labelsInHall
       .map((label) => {
         const matchingExhibitors = exhibitors.filter((e) => e.stand === label);
 
@@ -247,16 +267,21 @@ export const Map: React.FC = () => {
           all: matchingExhibitors,
         };
 
+        const rings = lookup[label] ?? [];
         return {
           label,
-          points: lookup[label],
+          rings,
           exhibitor,
         } as MapStand;
       })
-      .filter((s): s is MapStand => s !== null && s.points?.length > 0);
+      .filter(
+        (s): s is MapStand =>
+          s !== null && s.rings.some((ring) => ring.length >= 3),
+      );
   }, [selectedMap, stands, exhibitors]);
 
   const toggleFavorite = (label: string) => {
+    if (!listKey) return;
     setFavorites((prev) => {
       const updated = prev.includes(label)
         ? prev.filter((f) => f !== label)
@@ -267,33 +292,17 @@ export const Map: React.FC = () => {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div className="map-viewport">
       <div className="controls">
-        {!listKey && (
-          <div>
-            <strong>
-              Please create a list before using the map or you will get a silly
-              name of null.
-            </strong>
-          </div>
-        )}
         <details open>
           <summary>ℹ️ Info 🤏</summary>
-          <p>
-            Make your selections, then hit share link or copy the browser url
-            and open it on your phone. If you go back and forth you will need to
-            make a new list first thats not on your other device, with a new
-            name.
+          <p className="controls-info-lead">
+            Select the booths you want to visit and click the star button to add
+            them to your list. Press share list to copy a url to open it on your
+            phone, make sure you use unique names
           </p>
-          <p>
-            For Printing and Downloading make sure you zoom out all the way,
-            then you may have to move the map left or right a bit to get it all
-            in the page and press print again.
-          </p>
-          <p>
-            All data is copyright UK Games Expo and their Terms of Service and
-            Privacy Policy applies to their servers other images copyright their
-            respective owners, and this app is brought to you by{" "}
+          <p className="controls-info-fine">
+            © UK Games Expo &amp; respective exhibitors ·{" "}
             <a
               href="http://boardgaymesjames.com"
               target="_blank"
@@ -302,11 +311,12 @@ export const Map: React.FC = () => {
               @BoardGaymesJames
             </a>
           </p>
-          <p>
+          <p className="controls-info-footer">
             <img
               src="/bo-arnak.png"
-              width="150"
-              alt="German Shepard Cartoon hold tokens from lost ruins of arnak"
+              width="112"
+              height="auto"
+              alt="Cartoon dog with board game tokens"
             />
           </p>
         </details>
@@ -333,9 +343,14 @@ export const Map: React.FC = () => {
           </Link>
           <button
             className="button"
+            disabled={!listKey}
+            title={
+              listKey ? undefined : "Choose or create a list before sharing."
+            }
             onClick={() => {
+              if (!listKey) return;
               const compressed = compressToEncodedURIComponent(
-                favorites.join(",")
+                favorites.join(","),
               );
               const url = `${window.location.origin}${window.location.pathname}#list=${listKey}&favs=${compressed}`;
               navigator.clipboard
@@ -349,23 +364,30 @@ export const Map: React.FC = () => {
           <div>
             <ul>
               {favoriteLists.map((key) => (
-                <li key={key}>
+                <li key={key} className="favorite-list-row">
                   <button
+                    type="button"
+                    className="favorite-list-open"
+                    title={key}
                     onClick={() => {
                       setListKey(key);
-                      const stored = JSON.parse(
-                        localStorage.getItem(`favorites:${key}`) || "[]"
+                      const stored: string[] = JSON.parse(
+                        localStorage.getItem(`favorites:${key}`) || "[]",
                       );
                       setFavorites(stored);
-                      window.location.hash = `list=${key}&favs=${stored.join(
-                        ","
-                      )}`;
+                      const compressed = compressToEncodedURIComponent(
+                        stored.join(","),
+                      );
+                      window.location.hash = `list=${key}&favs=${compressed}`;
                     }}
                   >
                     📄 {key}
                   </button>
                   <button
+                    type="button"
                     className="x-button"
+                    aria-label={`Delete list ${key}`}
+                    title="Delete list"
                     onClick={() => {
                       if (!window.confirm(`Delete list "${key}"?`)) return;
 
@@ -374,34 +396,22 @@ export const Map: React.FC = () => {
 
                       // If the deleted list is the active one:
                       if (key === listKey) {
-                        const allKeys = Object.keys(localStorage)
+                        setListKey(null);
+                        setFavorites([]);
+                        clearHashInUrl();
+                        const remaining = Object.keys(localStorage)
                           .filter((k) => k.startsWith("favorites:"))
                           .map((k) => k.replace("favorites:", ""));
-
-                        const fallbackKey = allKeys[0] || null;
-
-                        if (fallbackKey) {
-                          const fallbackFavorites = JSON.parse(
-                            localStorage.getItem(`favorites:${fallbackKey}`) ||
-                              "[]"
-                          );
-                          setListKey(fallbackKey);
-                          setFavorites(fallbackFavorites);
-                          const compressed = compressToEncodedURIComponent(
-                            fallbackFavorites.join(",")
-                          );
-                          window.location.hash = `list=${fallbackKey}&favs=${compressed}`;
-                        } else {
-                          setListKey(null);
-                          setFavorites([]);
-                          window.location.hash = "";
-                        }
+                        setNewListName(
+                          uniqueRandomListName(new Set(remaining)),
+                        );
                       }
 
                       // Update list view immediately
                       const updatedLists = Object.keys(localStorage)
                         .filter((k) => k.startsWith("favorites:"))
-                        .map((k) => k.replace("favorites:", ""));
+                        .map((k) => k.replace("favorites:", ""))
+                        .sort((a, b) => a.localeCompare(b));
                       setFavoriteLists(updatedLists);
                     }}
                   >
@@ -412,7 +422,7 @@ export const Map: React.FC = () => {
             </ul>
             <input
               type="text"
-              placeholder="New list name"
+              placeholder="List name (board-game style suggestion)"
               value={newListName}
               onChange={(e) => setNewListName(e.target.value)}
             />
@@ -420,13 +430,23 @@ export const Map: React.FC = () => {
               className="button"
               onClick={() => {
                 const newKey = newListName.trim();
-                if (newKey && !favoriteLists.includes(newKey)) {
-                  localStorage.setItem(`favorites:${newKey}`, "[]");
-                  setListKey(newKey);
-                  setFavorites([]);
-                  setNewListName("");
-                  window.location.hash = `list=${newKey}`;
+                if (!newKey) {
+                  alert("Enter a list name (or use the suggested one).");
+                  return;
                 }
+                if (favoriteLists.includes(newKey)) {
+                  alert(
+                    `A list named "${newKey}" already exists. Pick another name or open that list.`,
+                  );
+                  return;
+                }
+                localStorage.setItem(`favorites:${newKey}`, "[]");
+                setListKey(newKey);
+                setFavorites([]);
+                setNewListName(
+                  uniqueRandomListName(new Set([...favoriteLists, newKey])),
+                );
+                window.location.hash = `list=${newKey}`;
               }}
             >
               ➕ Create
@@ -445,58 +465,78 @@ export const Map: React.FC = () => {
           style={{ height: "100%", width: "100%" }}
         >
           <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
-          <EasyPrintControl
-            position="topleft"
-            title="Print Map"
-            exportOnly={false}
-          />
-          <EasyPrintControl
-            position="topleft"
-            title="Export PNG"
-            // sizeModes prop removed for type safety
-            exportOnly
-          />
-          {mapStands.map((stand) => (
-            <Polygon
-              key={stand.label}
-              pathOptions={{
-                color: favorites.includes(stand.label) ? "green" : "black",
-                weight: 2,
-                fillColor: favorites.includes(stand.label)
-                  ? "lightgreen"
-                  : "white",
-                fillOpacity: favorites.includes(stand.label) ? 0.5 : 0,
-              }}
-              positions={stand.points.map(([y, x]) => [y, x])}
-            >
-              {desktop && (
-                <Tooltip>
-                  {stand.exhibitor?.title || "Unknown Exhibitor"}
-                </Tooltip>
-              )}
-              <Popup closeButton={true}>
-                <div>
-                  <p>
-                    <strong>{stand.label}</strong>
-                  </p>
-                  <p>{stand.exhibitor?.title || "Unknown Exhibitor"}</p>
-                  <p className="desc">{stand.exhibitor?.description}</p>
-                  <p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        toggleFavorite(stand.label);
-                      }}
-                    >
-                      {favorites.includes(stand.label)
-                        ? "❌ Remove Favorite"
-                        : "⭐ Add to Favorites"}
-                    </button>
-                  </p>
-                </div>
-              </Popup>
-            </Polygon>
-          ))}
+          <HallPrintToolbar bounds={bounds} filenameBase={selectedMap.title} />
+          {mapStands.flatMap((stand) =>
+            stand.rings.map((ring, ringIndex) => (
+              <Polygon
+                key={`${stand.label}-${ringIndex}`}
+                pathOptions={{
+                  color: favorites.includes(stand.label) ? "green" : "black",
+                  weight: 2,
+                  fillColor: favorites.includes(stand.label)
+                    ? "lightgreen"
+                    : "white",
+                  fillOpacity: favorites.includes(stand.label) ? 0.5 : 0,
+                }}
+                positions={ring.map(([y, x]) => [y, x])}
+              >
+                {desktop && (
+                  <Tooltip>
+                    {stand.exhibitor?.title || "Unknown Exhibitor"}
+                  </Tooltip>
+                )}
+                <Popup closeButton={true}>
+                  <div>
+                    <p>
+                      <strong>{stand.label}</strong>
+                    </p>
+                    <p>{stand.exhibitor?.title || "Unknown Exhibitor"}</p>
+                    <p className="desc">{stand.exhibitor?.description}</p>
+                    {(() => {
+                      const links = exhibitorLinkPairs(stand.exhibitor.all);
+                      if (links.length === 0) return null;
+                      return (
+                        <p style={{ margin: "0.5em 0" }}>
+                          {links.map(({ label, href }, i) => (
+                            <span key={href}>
+                              {i > 0 ? " · " : null}
+                              <a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {label}
+                              </a>
+                            </span>
+                          ))}
+                        </p>
+                      );
+                    })()}
+                    <p>
+                      <button
+                        type="button"
+                        disabled={!listKey}
+                        title={
+                          listKey
+                            ? undefined
+                            : "Use Adventure Plans — pick or create a list first."
+                        }
+                        onClick={() => {
+                          toggleFavorite(stand.label);
+                        }}
+                      >
+                        {!listKey
+                          ? "⭐ Pick a list first"
+                          : favorites.includes(stand.label)
+                            ? "❌ Remove Favorite"
+                            : "⭐ Add to Favorites"}
+                      </button>
+                    </p>
+                  </div>
+                </Popup>
+              </Polygon>
+            )),
+          )}
         </MapContainer>
       )}
     </div>

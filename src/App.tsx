@@ -5,11 +5,13 @@ import List from "./List";
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/list" element={<List />} />
-      <Route index element={<Map />} />
-      <Route path="*" element={<Map />} />
-    </Routes>
+    <div className="app-shell">
+      <Routes>
+        <Route path="/list" element={<List />} />
+        <Route index element={<Map />} />
+        <Route path="*" element={<Map />} />
+      </Routes>
+    </div>
   );
 };
 

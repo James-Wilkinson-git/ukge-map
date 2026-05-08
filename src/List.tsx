@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import {
+  resolveListingHref,
+  resolveWebsiteHref,
+} from "./exhibitorUrls";
 import "./normalize.css";
 import "./skeleton.css";
 import "./index.css";
@@ -37,7 +41,8 @@ const List: React.FC = () => {
         // Load all favorite lists from localStorage
         const keys = Object.keys(localStorage)
           .filter((k) => k.startsWith("favorites:"))
-          .map((k) => k.replace("favorites:", ""));
+          .map((k) => k.replace("favorites:", ""))
+          .sort((a, b) => a.localeCompare(b));
         const lists = keys.map((key) => {
           const booths: string[] = JSON.parse(
             localStorage.getItem(`favorites:${key}`) || "[]"
@@ -80,6 +85,13 @@ const List: React.FC = () => {
               .map((label) => {
                 const stand = stands.find((s) => s.label === label);
                 const exhibitor = exhibitors.find((e) => e.stand === label);
+                const standOnMap = stands.some((s) => s.label === label);
+                const websiteHref = exhibitor
+                  ? resolveWebsiteHref(exhibitor.website)
+                  : null;
+                const listingHref = exhibitor
+                  ? resolveListingHref(exhibitor.url)
+                  : null;
                 return (
                   <li
                     key={label}
@@ -105,9 +117,33 @@ const List: React.FC = () => {
                       <div style={{ flex: 1 }}>
                         <div>
                           <strong>
-                            {stand?.label || label} {exhibitor?.title}
+                            {stand?.label || label}{" "}
+                            {exhibitor?.title}
                           </strong>
                         </div>
+                        {!standOnMap && (
+                          <div
+                            style={{
+                              fontSize: "0.9em",
+                              color: "#a63",
+                              margin: "4px 0",
+                            }}
+                          >
+                            Not on this year&apos;s map — booth may have moved or
+                            been removed.
+                          </div>
+                        )}
+                        {standOnMap && !exhibitor && (
+                          <div
+                            style={{
+                              fontSize: "0.9em",
+                              color: "#666",
+                              margin: "4px 0",
+                            }}
+                          >
+                            No exhibitor listing for this stand in current data.
+                          </div>
+                        )}
                         {exhibitor && (
                           <>
                             {exhibitor.description && (
@@ -130,19 +166,32 @@ const List: React.FC = () => {
                                 />
                               </div>
                             )}
-                            {(exhibitor.website || exhibitor.url) && (
+                            {(websiteHref || listingHref) && (
                               <div
                                 style={{ fontSize: "0.9em", margin: "2px 0" }}
                               >
-                                {exhibitor.website && (
+                                {websiteHref && (
                                   <a
-                                    href={exhibitor.website}
+                                    href={websiteHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                   >
                                     Website
                                   </a>
                                 )}
+                                {listingHref &&
+                                  listingHref !== websiteHref && (
+                                    <>
+                                      {websiteHref ? " · " : null}
+                                      <a
+                                        href={listingHref}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        UKGE listing
+                                      </a>
+                                    </>
+                                  )}
                               </div>
                             )}
                           </>
