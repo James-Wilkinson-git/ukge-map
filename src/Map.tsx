@@ -119,37 +119,36 @@ export const Map: React.FC = () => {
 
     if (keyFromHash) {
       const stored = localStorage.getItem(`favorites:${keyFromHash}`);
-      if (!stored) {
-        setListKey(null);
-        setFavorites([]);
-        clearHashInUrl();
-        return;
-      }
-      let favsFromUrl: string[] = [];
-      try {
-        if (favEncoded) {
-          const decoded = decompressFromEncodedURIComponent(favEncoded);
-          if (decoded) {
-            favsFromUrl = decoded
-              .split(",")
-              .map((f) => f.trim())
-              .filter(Boolean);
+      if (stored) {
+        let favsFromUrl: string[] = [];
+        try {
+          if (favEncoded) {
+            const decoded = decompressFromEncodedURIComponent(favEncoded);
+            if (decoded) {
+              favsFromUrl = decoded
+                .split(",")
+                .map((f) => f.trim())
+                .filter(Boolean);
+            }
+          }
+        } catch (e) {
+          console.warn("Error decoding favorites from URL:", e);
+        }
+        if (favsFromUrl.length === 0) {
+          try {
+            const parsed = JSON.parse(stored);
+            favsFromUrl = Array.isArray(parsed) ? parsed : [];
+          } catch {
+            favsFromUrl = [];
           }
         }
-      } catch (e) {
-        console.warn("Error decoding favorites from URL:", e);
+        setListKey(keyFromHash);
+        setFavorites(Array.isArray(favsFromUrl) ? favsFromUrl : []);
+        return;
       }
-      if (favsFromUrl.length === 0) {
-        try {
-          const parsed = JSON.parse(stored);
-          favsFromUrl = Array.isArray(parsed) ? parsed : [];
-        } catch {
-          favsFromUrl = [];
-        }
-      }
-      setListKey(keyFromHash);
-      setFavorites(Array.isArray(favsFromUrl) ? favsFromUrl : []);
-      return;
+      // Hash referenced a list that no longer exists; fall through to
+      // auto-select/auto-create so the user lands ready-to-favorite.
+      clearHashInUrl();
     }
 
     // Migrate legacy
@@ -172,9 +171,36 @@ export const Map: React.FC = () => {
       return;
     }
 
-    // No list in URL: user must choose an existing list or create one (no auto-pick).
-    setListKey(null);
+    // No list in URL: pick an existing list if any, otherwise spin one up
+    // so the user can start tapping ⭐ immediately on first paint.
+    const existingKeys = Object.keys(localStorage)
+      .filter((k) => k.startsWith("favorites:"))
+      .map((k) => k.replace("favorites:", ""))
+      .sort((a, b) => a.localeCompare(b));
+
+    if (existingKeys.length > 0) {
+      const key = existingKeys[0]!;
+      let stored: string[] = [];
+      try {
+        const raw = JSON.parse(
+          localStorage.getItem(`favorites:${key}`) || "[]",
+        );
+        stored = Array.isArray(raw) ? raw : [];
+      } catch {
+        stored = [];
+      }
+      setListKey(key);
+      setFavorites(stored);
+      const compressed = compressToEncodedURIComponent(stored.join(","));
+      window.location.hash = `list=${key}&favs=${compressed}`;
+      return;
+    }
+
+    const freshKey = uniqueRandomListName(new Set());
+    localStorage.setItem(`favorites:${freshKey}`, "[]");
+    setListKey(freshKey);
     setFavorites([]);
+    window.location.hash = `list=${freshKey}`;
   }
 
   // Run once on first load
