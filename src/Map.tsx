@@ -22,6 +22,7 @@ import {
   generateRandomBoardGameListName,
   uniqueRandomListName,
 } from "./listNameUtils";
+import { loadMapdata } from "./loadMapdata";
 
 // Type definitions for map data
 interface MapData {
@@ -98,6 +99,7 @@ export const Map: React.FC = () => {
   const [newListName, setNewListName] = useState<string>(() =>
     generateRandomBoardGameListName(),
   );
+  const [mapdataError, setMapdataError] = useState<string | null>(null);
 
   function clearHashInUrl(): void {
     window.history.replaceState(
@@ -212,13 +214,19 @@ export const Map: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch("/mapdata.json")
-      .then((res) => res.json())
-      .then((data: MapData) => {
+    setMapdataError(null);
+    loadMapdata<MapData>()
+      .then((data) => {
         setMaps(data.maps);
         setStands(data.stands);
-        setSelectedMap(data.maps[0]);
+        setSelectedMap(data.maps[0] ?? null);
         setExhibitors(data.exhibitors);
+      })
+      .catch((err: unknown) => {
+        const msg =
+          err instanceof Error ? err.message : "Unknown error loading map data.";
+        console.error(err);
+        setMapdataError(msg);
       });
   }, []);
 
@@ -294,6 +302,12 @@ export const Map: React.FC = () => {
   return (
     <div className="map-viewport">
       <div className="controls">
+        {mapdataError && (
+          <div className="mapdata-load-error" role="alert">
+            <strong>Map data failed to load.</strong>
+            <p>{mapdataError}</p>
+          </div>
+        )}
         <details open>
           <summary>ℹ️ Info 🤏</summary>
           <p className="controls-info-lead">

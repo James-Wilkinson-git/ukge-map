@@ -3,6 +3,7 @@ import {
   resolveListingHref,
   resolveWebsiteHref,
 } from "./exhibitorUrls";
+import { loadMapdata } from "./loadMapdata";
 import "./normalize.css";
 import "./skeleton.css";
 import "./index.css";
@@ -31,10 +32,11 @@ const List: React.FC = () => {
     }[]
   >([]);
   const [visited, setVisited] = useState<Record<string, boolean>>({});
+  const [mapdataError, setMapdataError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/mapdata.json")
-      .then((res) => res.json())
+    setMapdataError(null);
+    loadMapdata<{ stands: Stand[]; exhibitors: Exhibitor[] }>()
       .then((data) => {
         setStands(data.stands);
         setExhibitors(data.exhibitors);
@@ -53,6 +55,12 @@ const List: React.FC = () => {
         // Load visited state
         const visitedRaw = localStorage.getItem("visitedBooths") || "{}";
         setVisited(JSON.parse(visitedRaw));
+      })
+      .catch((err: unknown) => {
+        const msg =
+          err instanceof Error ? err.message : "Unknown error loading map data.";
+        console.error(err);
+        setMapdataError(msg);
       });
   }, []);
 
@@ -66,6 +74,12 @@ const List: React.FC = () => {
 
   return (
     <div className="list-container">
+      {mapdataError && (
+        <div className="mapdata-load-error" role="alert">
+          <strong>Map data failed to load.</strong>
+          <p>{mapdataError}</p>
+        </div>
+      )}
       <h2>Your Lists</h2>
       {favoriteLists.length === 0 && <p>No lists found in storage.</p>}
       {favoriteLists.map((list) => (

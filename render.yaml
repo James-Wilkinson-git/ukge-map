@@ -1,0 +1,16 @@
+# Render Static Site — Publish directory must be `dist` after `vite build`.
+# SPA fallback: React Router paths like /list only exist client-side; without this
+# rewrite, direct visits or refresh return 404. Render still serves real files
+# (mapdata.json, /assets/*, favicons) first — rules apply only when no file exists.
+#
+# Dashboard equivalent: Redirects/Rewrites → Rewrite source `/*` → `/index.html`
+services:
+  - type: web
+    name: ukge-map
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

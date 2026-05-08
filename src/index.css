@@ -126,6 +126,24 @@ a.leaflet-popup-close-button {
   height: auto;
 }
 
+.mapdata-load-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #7f1d1d;
+}
+.mapdata-load-error strong {
+  display: block;
+  margin-bottom: 6px;
+}
+.mapdata-load-error p {
+  margin: 0;
+}
+
 @media (max-width: 640px) {
   .controls {
     right: 8px;
