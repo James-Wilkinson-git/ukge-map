@@ -311,32 +311,6 @@ export const Map: React.FC = () => {
           </div>
         )}
         <details open>
-          <summary>ℹ️ Info 🤏</summary>
-          <p className="controls-info-lead">
-            Select the booths you want to visit and click the star button to add
-            them to your list. Press share list to copy a url to open it on your
-            phone, make sure you use unique names
-          </p>
-          <p className="controls-info-fine">
-            © UK Games Expo &amp; respective exhibitors ·{" "}
-            <a
-              href="http://boardgaymesjames.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              @BoardGaymesJames
-            </a>
-          </p>
-          <p className="controls-info-footer">
-            <img
-              src="/bo-arnak.png"
-              width="112"
-              height="auto"
-              alt="Cartoon dog with board game tokens"
-            />
-          </p>
-        </details>
-        <details open>
           <summary>🗺️ Hall Maps 🤏</summary>
           <select
             onChange={(e) => {
@@ -353,30 +327,8 @@ export const Map: React.FC = () => {
           </select>
         </details>
         <details open>
-          <summary>📜 Adventure Plans 🤏</summary>
-          <Link to="/list">
-            <button className="button">📋 View Lists</button>
-          </Link>
-          <button
-            className="button"
-            disabled={!listKey}
-            title={
-              listKey ? undefined : "Choose or create a list before sharing."
-            }
-            onClick={() => {
-              if (!listKey) return;
-              const compressed = compressToEncodedURIComponent(
-                favorites.join(","),
-              );
-              const url = `${window.location.origin}${window.location.pathname}#list=${listKey}&favs=${compressed}`;
-              navigator.clipboard
-                .writeText(url)
-                .then(() => alert("Link copied to clipboard!"))
-                .catch(() => alert("Failed to copy link"));
-            }}
-          >
-            🔗 Share List
-          </button>
+          <summary>📜 Lists 🤏</summary>
+
           <div>
             <ul>
               {favoriteLists.map((key) => (
@@ -468,6 +420,56 @@ export const Map: React.FC = () => {
               ➕ Create
             </button>
           </div>
+          <Link to="/list">
+            <button className="button">📋 View Lists</button>
+          </Link>
+          <button
+            className="button"
+            disabled={!listKey}
+            title={
+              listKey ? undefined : "Choose or create a list before sharing."
+            }
+            onClick={() => {
+              if (!listKey) return;
+              const compressed = compressToEncodedURIComponent(
+                favorites.join(","),
+              );
+              const url = `${window.location.origin}${window.location.pathname}#list=${listKey}&favs=${compressed}`;
+              navigator.clipboard
+                .writeText(url)
+                .then(() => alert("Link copied to clipboard!"))
+                .catch(() => alert("Failed to copy link"));
+            }}
+          >
+            🔗 Share Current List
+          </button>
+        </details>
+        <details open>
+          <summary>ℹ️ Info 🤏</summary>
+          <p className="controls-info-lead">
+            Create a list with unique name under adventure plans, then you can
+            select the booths you want to visit and click the star button to add
+            them to your list. Press share list to copy a url to open it on your
+            phone, make sure you use unique names
+          </p>
+          <p className="controls-info-fine">
+            © UK Games Expo &amp; respective exhibitors ·{" "}
+            <a
+              href="http://boardgaymesjames.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              @BoardGaymesJames
+            </a>
+          </p>
+          <p className="controls-info-footer">
+            <img
+              src="/bo-arnak.png"
+              width="112"
+              height="auto"
+              alt="Cartoon dog with board game tokens"
+            />
+          </p>
         </details>
       </div>
 
