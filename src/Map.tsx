@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import {
   MapContainer,
   ImageOverlay,
   Polygon,
   Popup,
   Tooltip,
+  useMap,
 } from "react-leaflet";
 import { CRS, LatLngBounds, LatLng } from "leaflet";
 import {
@@ -23,6 +24,11 @@ import {
   uniqueRandomListName,
 } from "./listNameUtils";
 import { loadMapdata } from "./loadMapdata";
+import {
+  boundsForStandGeometry,
+  mapForStand,
+  searchExhibitorsByStand,
+} from "./searchExhibitors";
 
 // Type definitions for map data
 interface MapData {
@@ -87,6 +93,78 @@ function exhibitorLinkPairs(
   return out;
 }
 
+function truncateSearchDescription(text: string, maxLen: number): string {
+  const t = text.replace(/\s+/g, " ").trim();
+  if (t.length <= maxLen) return t;
+  return `${t.slice(0, maxLen)}…`;
+}
+
+function getStandPolygonStyle(
+  label: string,
+  favorites: string[],
+  searchActive: boolean,
+  matchSet: Set<string>,
+): {
+  color: string;
+  weight: number;
+  fillColor: string;
+  fillOpacity: number;
+} {
+  const isFav = favorites.includes(label);
+  if (!searchActive) {
+    return {
+      color: isFav ? "green" : "black",
+      weight: 2,
+      fillColor: isFav ? "lightgreen" : "white",
+      fillOpacity: isFav ? 0.5 : 0,
+    };
+  }
+  const isMatch = matchSet.has(label);
+  if (isMatch) {
+    return {
+      color: isFav ? "green" : "#0d6efd",
+      weight: 3,
+      fillColor: isFav ? "lightgreen" : "#cfe2ff",
+      fillOpacity: isFav ? 0.55 : 0.45,
+    };
+  }
+  return {
+    color: "#999",
+    weight: 1,
+    fillColor: "#888",
+    fillOpacity: 0.08,
+  };
+}
+
+function MapFlyToStand({
+  flyToLabel,
+  stands,
+  onComplete,
+}: {
+  flyToLabel: string | null;
+  stands: Stand[];
+  onComplete: () => void;
+}) {
+  const map = useMap();
+  useEffect(() => {
+    if (!flyToLabel) return;
+    const b = boundsForStandGeometry(stands, flyToLabel);
+    if (!b) {
+      onComplete();
+      return;
+    }
+    const id = window.requestAnimationFrame(() => {
+      map.fitBounds(b, {
+        maxZoom: -0.5,
+        padding: [72, 72],
+      });
+      onComplete();
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [flyToLabel, stands, map, onComplete]);
+  return null;
+}
+
 export const Map: React.FC = () => {
   const [maps, setMaps] = useState<MapInfo[]>([]);
   const [selectedMap, setSelectedMap] = useState<MapInfo | null>(null);
@@ -100,6 +178,13 @@ export const Map: React.FC = () => {
     generateRandomBoardGameListName(),
   );
   const [mapdataError, setMapdataError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchHighlightIndex, setSearchHighlightIndex] = useState(0);
+  const [flyToStandLabel, setFlyToStandLabel] = useState<string | null>(null);
+
+  const clearFlyToStand = useCallback(() => {
+    setFlyToStandLabel(null);
+  }, []);
 
   function clearHashInUrl(): void {
     window.history.replaceState(
@@ -316,6 +401,36 @@ export const Map: React.FC = () => {
       );
   }, [selectedMap, stands, exhibitors]);
 
+  const searchResults = useMemo(
+    () => searchExhibitorsByStand(exhibitors, searchQuery),
+    [exhibitors, searchQuery],
+  );
+
+  const searchActive = searchQuery.trim().length > 0;
+
+  const searchMatchLabels = useMemo(() => {
+    const s = new Set<string>();
+    for (const r of searchResults) {
+      s.add(r.stand);
+    }
+    return s;
+  }, [searchResults]);
+
+  useEffect(() => {
+    setSearchHighlightIndex(0);
+  }, [searchQuery]);
+
+  const selectSearchResultAt = useCallback(
+    (index: number) => {
+      const r = searchResults[index];
+      if (!r) return;
+      const m = mapForStand(maps, r.stand);
+      if (m) setSelectedMap(m);
+      setFlyToStandLabel(r.stand);
+    },
+    [searchResults, maps],
+  );
+
   const toggleFavorite = (label: string) => {
     if (!listKey) return;
     setFavorites((prev) => {
@@ -351,6 +466,115 @@ export const Map: React.FC = () => {
               </option>
             ))}
           </select>
+        </details>
+        <details open>
+          <summary>🔎 Search 🤏</summary>
+          <label className="controls-search-label" htmlFor="ukge-exhibitor-search">
+            Find exhibitor or booth
+          </label>
+          <div className="controls-search-field">
+            <input
+              id="ukge-exhibitor-search"
+              type="text"
+              inputMode="search"
+              enterKeyHint="search"
+              className="controls-search-input"
+              placeholder="Name, description, or stand…"
+              autoComplete="off"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (searchResults.length === 0) {
+                  if (e.key === "Escape") {
+                    e.preventDefault();
+                    setSearchQuery("");
+                  }
+                  return;
+                }
+                if (e.key === "ArrowDown") {
+                  e.preventDefault();
+                  setSearchHighlightIndex((i) =>
+                    Math.min(searchResults.length - 1, i + 1),
+                  );
+                } else if (e.key === "ArrowUp") {
+                  e.preventDefault();
+                  setSearchHighlightIndex((i) => Math.max(0, i - 1));
+                } else if (e.key === "Enter") {
+                  e.preventDefault();
+                  selectSearchResultAt(searchHighlightIndex);
+                } else if (e.key === "Escape") {
+                  e.preventDefault();
+                  setSearchQuery("");
+                  setSearchHighlightIndex(0);
+                }
+              }}
+              aria-controls={
+                searchActive ? "ukge-search-results" : undefined
+              }
+              aria-activedescendant={
+                searchActive && searchResults.length > 0
+                  ? `ukge-search-opt-${searchHighlightIndex}`
+                  : undefined
+              }
+            />
+            {searchQuery.trim().length > 0 && (
+              <button
+                type="button"
+                className="controls-search-clear"
+                aria-label="Clear search"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSearchHighlightIndex(0);
+                }}
+              >
+                ×
+              </button>
+            )}
+          </div>
+          {searchActive && (
+            <div
+              id="ukge-search-results"
+              className="controls-search-results"
+              role="listbox"
+              aria-label="Search results"
+            >
+              {searchResults.length === 0 && (
+                <p className="controls-search-empty" role="status">
+                  No matches.
+                </p>
+              )}
+              {searchResults.length > 0 && (
+                <p className="controls-search-count" aria-live="polite">
+                  {searchResults.length} result
+                  {searchResults.length === 1 ? "" : "s"}
+                </p>
+              )}
+              {searchResults.map((r, index) => (
+                <button
+                  key={r.stand}
+                  type="button"
+                  id={`ukge-search-opt-${index}`}
+                  role="option"
+                  aria-selected={index === searchHighlightIndex}
+                  className={
+                    index === searchHighlightIndex
+                      ? "controls-search-result-row is-active"
+                      : "controls-search-result-row"
+                  }
+                  onMouseEnter={() => setSearchHighlightIndex(index)}
+                  onClick={() => selectSearchResultAt(index)}
+                >
+                  <div className="controls-search-result-stand">{r.stand}</div>
+                  <div className="controls-search-result-title">{r.title}</div>
+                  {r.description ? (
+                    <div className="controls-search-result-desc">
+                      {truncateSearchDescription(r.description, 56)}
+                    </div>
+                  ) : null}
+                </button>
+              ))}
+            </div>
+          )}
         </details>
         <details open>
           <summary>📜 Lists 🤏</summary>
@@ -510,18 +734,21 @@ export const Map: React.FC = () => {
         >
           <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
           <HallPrintToolbar bounds={bounds} filenameBase={selectedMap.title} />
+          <MapFlyToStand
+            flyToLabel={flyToStandLabel}
+            stands={stands}
+            onComplete={clearFlyToStand}
+          />
           {mapStands.flatMap((stand) =>
             stand.rings.map((ring, ringIndex) => (
               <Polygon
                 key={`${stand.label}-${ringIndex}`}
-                pathOptions={{
-                  color: favorites.includes(stand.label) ? "green" : "black",
-                  weight: 2,
-                  fillColor: favorites.includes(stand.label)
-                    ? "lightgreen"
-                    : "white",
-                  fillOpacity: favorites.includes(stand.label) ? 0.5 : 0,
-                }}
+                pathOptions={getStandPolygonStyle(
+                  stand.label,
+                  favorites,
+                  searchActive,
+                  searchMatchLabels,
+                )}
                 positions={ring.map(([y, x]) => [y, x])}
               >
                 {desktop && (
