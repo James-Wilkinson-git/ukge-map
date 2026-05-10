@@ -54,7 +54,7 @@
         "2-359",
         "2-264",
         "2-266",
-        "2-265",
+        "2-365",
         "2-363",
         "2-236",
         "2-237",
@@ -899,6 +899,22 @@
         "4-164",
         "4-168"
       ]
+    },
+    {
+      "pk": 7,
+      "title": "NEC Site",
+      "image": "/maps/nec-site-map_2026.png",
+      "flattened_image": "/maps/nec-site-map_2026.png",
+      "bounds": "0 0 3721 5262",
+      "stands": []
+    },
+    {
+      "pk": 8,
+      "title": "Piazza",
+      "image": "/maps/piazza-map_2026.png",
+      "flattened_image": "/maps/piazza-map_2026.png",
+      "bounds": "0 0 3721 5262",
+      "stands": []
     }
   ],
   "stands": [
@@ -1938,7 +1954,7 @@
     },
     {
       "pk": 9275,
-      "label": "2-265",
+      "label": "2-365",
       "points": [
         [
           -1251.74,
@@ -13094,7 +13110,7 @@
     },
     {
       "pk": 9716,
-      "label": "3A-751",
+      "label": "3A-752",
       "points": [
         [
           -2223.36,
@@ -14128,7 +14144,7 @@
     },
     {
       "pk": 9763,
-      "label": "3A-752",
+      "label": "3A-751",
       "points": [
         [
           -2053.28,
