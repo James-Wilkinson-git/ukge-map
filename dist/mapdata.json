@@ -345,7 +345,6 @@
         "3-720",
         "3-728",
         "3-738",
-        "3-746",
         "3-740",
         "3-837",
         "3-839",
@@ -365,6 +364,7 @@
         "3-866",
         "3-965",
         "3-967",
+        "3-773",
         "3-774",
         "3-873",
         "3-1002",
@@ -9323,28 +9323,6 @@
       ]
     },
     {
-      "pk": 9557,
-      "label": "3-746",
-      "points": [
-        [
-          -1777.65,
-          1700.79
-        ],
-        [
-          -1777.65,
-          1784.83
-        ],
-        [
-          -1889.04,
-          1784.83
-        ],
-        [
-          -1889.04,
-          1700.79
-        ]
-      ]
-    },
-    {
       "pk": 9558,
       "label": "3-740",
       "points": [
@@ -9415,20 +9393,20 @@
       "label": "3-844",
       "points": [
         [
-          -2075.29,
-          1501.36
+          -2273.72,
+          1616.75
         ],
         [
-          -2075.29,
-          1556.05
+          -2273.72,
+          2181.68
         ],
         [
-          -2158.33,
-          1556.05
+          -2470.15,
+          2181.68
         ],
         [
-          -2158.33,
-          1501.36
+          -2470.15,
+          1616.75
         ]
       ]
     },
@@ -10828,11 +10806,11 @@
         ],
         [
           -1777.65,
-          1700.79
+          1784.83
         ],
         [
           -1889.04,
-          1700.79
+          1784.83
         ],
         [
           -1889.04,
@@ -11057,6 +11035,28 @@
         [
           -1889.04,
           2183.68
+        ]
+      ]
+    },
+    {
+      "pk": 9636,
+      "label": "3-773",
+      "points": [
+        [
+          -1806,
+          2353.76
+        ],
+        [
+          -1806,
+          2521.84
+        ],
+        [
+          -1889.04,
+          2521.84
+        ],
+        [
+          -1889.04,
+          2353.76
         ]
       ]
     },
@@ -20189,15 +20189,6 @@
       "url": "/whats-on/show/exhibitors/tournaments-p/"
     },
     {
-      "pk": 21295,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "1-P",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-6/"
-    },
-    {
       "pk": 20826,
       "title": "Tournaments Q",
       "logo": null,
@@ -20592,15 +20583,6 @@
       "description": "Hand Crafted Artisan Resin Dice, Leather Table Top Gaming Accessories, and More...",
       "stand": "2-250",
       "url": "/whats-on/show/exhibitors/the-thornless-rose/"
-    },
-    {
-      "pk": 20791,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-260",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-2/"
     },
     {
       "pk": 20357,
@@ -21467,15 +21449,6 @@
       "url": "/whats-on/show/exhibitors/imagination-gaming/"
     },
     {
-      "pk": 19704,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-646",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands/"
-    },
-    {
       "pk": 20658,
       "title": "UKGE Children's Roleplaying Games",
       "logo": null,
@@ -21735,15 +21708,6 @@
       "description": "WeDJ! - The music party game that puts the PLAY in Playlist 🎶",
       "stand": "2-813",
       "url": "/whats-on/show/exhibitors/spring-chicken-games/"
-    },
-    {
-      "pk": 22359,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-815",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-4/"
     },
     {
       "pk": 18937,
@@ -23483,15 +23447,6 @@
       "url": "/whats-on/show/exhibitors/fandomonium/"
     },
     {
-      "pk": 22362,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-474",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-8/"
-    },
-    {
       "pk": 19044,
       "title": "Radical 8 Games ltd",
       "logo": "/vendor/logo_gms.png",
@@ -24170,8 +24125,8 @@
       "pk": 18838,
       "title": "GMS Table Top Games",
       "logo": null,
-      "website": "",
-      "description": "",
+      "website": "https://gmstabletopgames.com/",
+      "description": "The go to for RPG games. GMS is a company by gamers for gamers — the biggest supplier of RPG into the UK, working with major publishers and local gaming stores. GaMeS club: free to join, 20% off first order, 10% off future orders, and monthly offers. Also works with independent board and roleplaying publishers.",
       "stand": "3-844",
       "url": "/whats-on/show/exhibitors/gms-table-top-games/"
     },
@@ -26012,15 +25967,6 @@
       "url": "/whats-on/show/exhibitors/ukge-stores-area/"
     },
     {
-      "pk": 22358,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-B10",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-3/"
-    },
-    {
       "pk": 20665,
       "title": "UKGE Exhibition Services",
       "logo": null,
@@ -27839,15 +27785,6 @@
       "url": "/whats-on/show/exhibitors/ttcombat/"
     },
     {
-      "pk": 22360,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-658",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-5/"
-    },
-    {
       "pk": 19737,
       "title": "Modular Realms",
       "logo": "/vendor/logocb.jpg",
@@ -27900,15 +27837,6 @@
       "description": "Bushiroad is an Entertainment company known for developing prominent trading card games.",
       "stand": "4-677",
       "url": "/whats-on/show/exhibitors/bliss-distribution/"
-    },
-    {
-      "pk": 22363,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-678",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-9/"
     },
     {
       "pk": 20764,
@@ -28271,15 +28199,6 @@
       "url": "/whats-on/show/exhibitors/envy-born-games/"
     },
     {
-      "pk": 22361,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-865",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-7/"
-    },
-    {
       "pk": 21302,
       "title": "Ludus",
       "logo": null,
@@ -28629,15 +28548,6 @@
       "description": "Drop off your shopping and shop some more",
       "stand": "5-C",
       "url": "/whats-on/show/exhibitors/ukge-shop-and-drop-4/"
-    },
-    {
-      "pk": 22365,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "5-C",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-10/"
     },
     {
       "pk": 21089,

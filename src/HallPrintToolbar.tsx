@@ -45,7 +45,8 @@ export function HallPrintToolbar({
         m.invalidateSize();
         await nextFrames(2);
         return await toPng(el, {
-          pixelRatio: 2,
+          /** Larger than screen DPR so PNG + print preview use more pixels (was 2). */
+          pixelRatio: Math.min(4, Math.max(3, (window.devicePixelRatio || 1) * 2)),
           cacheBust: true,
           filter: (n) =>
             !(n instanceof HTMLElement) || includeInSnapshot(n),
@@ -76,9 +77,17 @@ export function HallPrintToolbar({
             body{display:flex;align-items:flex-start;justify-content:center;padding:12px;box-sizing:border-box}
             img{max-width:100%;width:auto;height:auto;object-fit:contain}
             @media print {
-              body{padding:0}
-              img{max-width:100%!important;max-height:100vh!important;page-break-inside:avoid}
-              @page { margin: 10mm; size: auto; }
+              body{padding:0;margin:0;display:block}
+              /* Fill paper width; avoid max-height which shrinks wide hall maps on the page */
+              img{
+                width:100%!important;
+                max-width:none!important;
+                height:auto!important;
+                max-height:none!important;
+                page-break-inside:avoid;
+                object-fit:contain;
+              }
+              @page { margin: 6mm; size: landscape; }
             }
           </style></head><body>
           <img src="${dataUrl}" alt="Hall map" id="m" />
