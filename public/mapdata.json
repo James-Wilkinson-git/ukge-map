@@ -915,6 +915,14 @@
       "flattened_image": "/maps/piazza-map_2026.png",
       "bounds": "0 0 3721 5262",
       "stands": []
+    },
+    {
+      "pk": 9,
+      "title": "Train Station",
+      "image": "/maps/Birmingham_International_station_map__ground_floor_concourse_.jpg",
+      "flattened_image": "/maps/Birmingham_International_station_map__ground_floor_concourse_.jpg",
+      "bounds": "0 0 800 643",
+      "stands": []
     }
   ],
   "stands": [
