@@ -559,7 +559,7 @@
         "3A-670",
         "3A-743",
         "3A-747",
-        "3A-751",
+        "3A-752",
         "3A-757",
         "3A-763",
         "3A-765",
@@ -14128,7 +14128,7 @@
     },
     {
       "pk": 9763,
-      "label": "3A-751",
+      "label": "3A-752",
       "points": [
         [
           -2053.28,
@@ -25387,7 +25387,7 @@
       "logo": "/vendor/Stacked_Logo_Black.png",
       "website": "https://greyhawkminiatures.co.uk",
       "description": "High quality miniatures for painters and gamers alike - animals, busts, paladins and more",
-      "stand": "3A-751",
+      "stand": "3A-752",
       "url": "/whats-on/show/exhibitors/greyhawk-miniatures/"
     },
     {
