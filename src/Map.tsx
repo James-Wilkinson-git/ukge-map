@@ -372,33 +372,41 @@ export const Map: React.FC = () => {
 
     return labelsInHall
       .map((label) => {
+        const rings = lookup[label] ?? [];
+        if (!rings.some((ring) => ring.length >= 3)) return null;
+
         const matchingExhibitors = exhibitors.filter((e) => e.stand === label);
 
-        if (matchingExhibitors.length === 0) return null;
+        const exhibitor =
+          matchingExhibitors.length === 0
+            ? {
+                stand: label,
+                title: "No data available",
+                description: "",
+                logo: null,
+                website: "",
+                url: "",
+                all: [] as Exhibitor[],
+              }
+            : {
+                stand: label,
+                title: matchingExhibitors.map((e) => e.title).join(" / "),
+                description: matchingExhibitors
+                  .map((e) => `${e.description}\n`)
+                  .join("\n\n"),
+                logo: matchingExhibitors.find((e) => e.logo)?.logo || null,
+                website: matchingExhibitors.find((e) => e.website)?.website || "",
+                url: matchingExhibitors[0].url || "",
+                all: matchingExhibitors,
+              };
 
-        const exhibitor = {
-          stand: label,
-          title: matchingExhibitors.map((e) => e.title).join(" / "),
-          description: matchingExhibitors
-            .map((e) => `${e.description}\n`)
-            .join("\n\n"),
-          logo: matchingExhibitors.find((e) => e.logo)?.logo || null,
-          website: matchingExhibitors.find((e) => e.website)?.website || "",
-          url: matchingExhibitors[0].url || "",
-          all: matchingExhibitors,
-        };
-
-        const rings = lookup[label] ?? [];
         return {
           label,
           rings,
           exhibitor,
         } as MapStand;
       })
-      .filter(
-        (s): s is MapStand =>
-          s !== null && s.rings.some((ring) => ring.length >= 3),
-      );
+      .filter((s): s is MapStand => s !== null);
   }, [selectedMap, stands, exhibitors]);
 
   const searchResults = useMemo(

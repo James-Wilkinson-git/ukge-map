@@ -51,7 +51,7 @@
         "2-397",
         "2-395",
         "2-260",
-        "2-259",
+        "2-359",
         "2-264",
         "2-266",
         "2-265",
@@ -90,6 +90,7 @@
         "2-301",
         "2-204",
         "2-305",
+        "2-306",
         "2-113",
         "2-117",
         "2-123",
@@ -183,7 +184,7 @@
         "2-978",
         "2-994",
         "2-996",
-        "2-998",
+        "2-988",
         "2-998a",
         "2-265",
         "2-267",
@@ -191,11 +192,11 @@
         "2-273",
         "2-279",
         "2-281",
-        "2-964",
         "2-916",
         "2-812",
         "2-921",
         "2-961",
+        "2-962",
         "2-959",
         "2-872",
         "2-985",
@@ -209,7 +210,6 @@
         "2-398",
         "2-559",
         "2-310",
-        "2-306",
         "2-T98",
         "2-T85",
         "2-T90",
@@ -345,10 +345,10 @@
         "3-720",
         "3-728",
         "3-738",
-        "3-746",
         "3-740",
         "3-837",
         "3-839",
+        "3-844",
         "3-802",
         "3-806",
         "3-909",
@@ -356,16 +356,15 @@
         "3-810",
         "3-814",
         "3-818",
-        "3-913",
         "3-919",
         "3-921",
         "3-824",
         "3-830",
-        "3-846",
         "3-971",
         "3-866",
         "3-965",
         "3-967",
+        "3-773",
         "3-774",
         "3-873",
         "3-1002",
@@ -415,6 +414,7 @@
         "3-626",
         "3-634",
         "3-743",
+        "3-744",
         "3-761",
         "3-666",
         "3-670",
@@ -424,7 +424,6 @@
         "3-662",
         "3-664",
         "3-767",
-        "3-773",
         "3-B48",
         "3-B45",
         "3-B42",
@@ -591,7 +590,6 @@
         "3A-543",
         "3A-448",
         "3A-559",
-        "3A-563",
         "3A-460",
         "3A-468",
         "3A-474",
@@ -678,6 +676,7 @@
         "4-614",
         "4-719",
         "4-620",
+        "4-625",
         "4-622",
         "4-588",
         "4-590",
@@ -820,6 +819,7 @@
         "4-T90",
         "4-T93",
         "4-T55",
+        "4-T65",
         "4-T75",
         "4-T76",
         "4-T78",
@@ -1871,8 +1871,8 @@
       ]
     },
     {
-      "pk": 9272,
-      "label": "2-259",
+      "pk": 10093,
+      "label": "2-359",
       "points": [
         [
           -1421.82,
@@ -2551,11 +2551,11 @@
           901.41
         ],
         [
-          -3235.0,
+          -3235,
           901.41
         ],
         [
-          -3235.0,
+          -3235,
           221.1
         ]
       ]
@@ -2661,11 +2661,11 @@
           1070.49
         ],
         [
-          -3234.0,
+          -3234,
           1070.49
         ],
         [
-          -3234.0,
+          -3234,
           1015.8
         ]
       ]
@@ -2733,6 +2733,28 @@
         [
           -3092.26,
           1072.65
+        ]
+      ]
+    },
+    {
+      "pk": 10094,
+      "label": "2-306",
+      "points": [
+        [
+          -2980.88,
+          1226.51
+        ],
+        [
+          -2980.88,
+          1305.78
+        ],
+        [
+          -3063.92,
+          1305.78
+        ],
+        [
+          -3063.92,
+          1226.51
         ]
       ]
     },
@@ -2881,11 +2903,11 @@
           1453.17
         ],
         [
-          -3234.0,
+          -3234,
           1453.17
         ],
         [
-          -3234.0,
+          -3234,
           1228.4
         ]
       ]
@@ -2903,11 +2925,11 @@
           1878.37
         ],
         [
-          -3234.0,
+          -3234,
           1878.37
         ],
         [
-          -3234.0,
+          -3234,
           1540.21
         ]
       ]
@@ -4784,7 +4806,7 @@
     },
     {
       "pk": 9404,
-      "label": "2-998",
+      "label": "2-988",
       "points": [
         [
           -344.66,
@@ -4959,28 +4981,6 @@
       ]
     },
     {
-      "pk": 9412,
-      "label": "2-964",
-      "points": [
-        [
-          -1308.44,
-          3294.86
-        ],
-        [
-          -1308.44,
-          3349.55
-        ],
-        [
-          -1448.17,
-          3349.55
-        ],
-        [
-          -1448.17,
-          3294.86
-        ]
-      ]
-    },
-    {
       "pk": 9413,
       "label": "2-916",
       "points": [
@@ -5065,6 +5065,28 @@
         [
           -1448.17,
           3138.95
+        ]
+      ]
+    },
+    {
+      "pk": 10092,
+      "label": "2-962",
+      "points": [
+        [
+          -1306.43,
+          3294.86
+        ],
+        [
+          -1306.43,
+          3349.55
+        ],
+        [
+          -1446.16,
+          3349.55
+        ],
+        [
+          -1446.16,
+          3294.86
         ]
       ]
     },
@@ -5359,28 +5381,6 @@
         [
           -2978.88,
           1228.69
-        ]
-      ]
-    },
-    {
-      "pk": 9430,
-      "label": "2-306",
-      "points": [
-        [
-          -2980.88,
-          1226.51
-        ],
-        [
-          -2980.88,
-          1305.78
-        ],
-        [
-          -3063.92,
-          1305.78
-        ],
-        [
-          -3063.92,
-          1226.51
         ]
       ]
     },
@@ -6490,7 +6490,7 @@
       "points": [
         [
           -1143.36,
-          1622.42
+          1734.81
         ],
         [
           -1143.36,
@@ -6499,6 +6499,28 @@
         [
           -1254.75,
           1847.19
+        ],
+        [
+          -1254.75,
+          1734.81
+        ]
+      ]
+    },
+    {
+      "pk": 10097,
+      "label": "4-625",
+      "points": [
+        [
+          -1143.36,
+          1622.42
+        ],
+        [
+          -1143.36,
+          1734.81
+        ],
+        [
+          -1254.75,
+          1734.81
         ],
         [
           -1254.75,
@@ -9301,28 +9323,6 @@
       ]
     },
     {
-      "pk": 9557,
-      "label": "3-746",
-      "points": [
-        [
-          -1990.25,
-          1616.75
-        ],
-        [
-          -1990.25,
-          2238.37
-        ],
-        [
-          -2158.33,
-          2238.37
-        ],
-        [
-          -2158.33,
-          1616.75
-        ]
-      ]
-    },
-    {
       "pk": 9558,
       "label": "3-740",
       "points": [
@@ -9385,6 +9385,28 @@
         [
           -2158.33,
           1446.67
+        ]
+      ]
+    },
+    {
+      "pk": 10096,
+      "label": "3-844",
+      "points": [
+        [
+          -2273.72,
+          1616.75
+        ],
+        [
+          -2273.72,
+          2181.68
+        ],
+        [
+          -2470.15,
+          2181.68
+        ],
+        [
+          -2470.15,
+          1616.75
         ]
       ]
     },
@@ -9543,28 +9565,6 @@
       ]
     },
     {
-      "pk": 9568,
-      "label": "3-913",
-      "points": [
-        [
-          -2387.1,
-          709.66
-        ],
-        [
-          -2387.1,
-          877.74
-        ],
-        [
-          -2470.14,
-          877.74
-        ],
-        [
-          -2470.14,
-          709.66
-        ]
-      ]
-    },
-    {
       "pk": 9569,
       "label": "3-919",
       "points": [
@@ -9649,28 +9649,6 @@
         [
           -2470.15,
           1163.2
-        ]
-      ]
-    },
-    {
-      "pk": 9573,
-      "label": "3-846",
-      "points": [
-        [
-          -2273.72,
-          1616.75
-        ],
-        [
-          -2273.72,
-          2181.68
-        ],
-        [
-          -2470.15,
-          2181.68
-        ],
-        [
-          -2470.15,
-          1616.75
         ]
       ]
     },
@@ -10841,15 +10819,37 @@
       ]
     },
     {
+      "pk": 10095,
+      "label": "3-744",
+      "points": [
+        [
+          -1990.25,
+          1616.75
+        ],
+        [
+          -1990.25,
+          2238.37
+        ],
+        [
+          -2158.33,
+          2238.37
+        ],
+        [
+          -2158.33,
+          1616.75
+        ]
+      ]
+    },
+    {
       "pk": 9627,
       "label": "3-761",
       "points": [
         [
-          -1806.0,
+          -1806,
           2041.94
         ],
         [
-          -1806.0,
+          -1806,
           2181.67
         ],
         [
@@ -10875,11 +10875,11 @@
           2351.76
         ],
         [
-          -1804.0,
+          -1804,
           2351.76
         ],
         [
-          -1804.0,
+          -1804,
           2240.37
         ]
       ]
@@ -10897,11 +10897,11 @@
           2436.8
         ],
         [
-          -1804.0,
+          -1804,
           2436.8
         ],
         [
-          -1804.0,
+          -1804,
           2353.76
         ]
       ]
@@ -10919,11 +10919,11 @@
           2521.84
         ],
         [
-          -1804.0,
+          -1804,
           2521.84
         ],
         [
-          -1804.0,
+          -1804,
           2438.8
         ]
       ]
@@ -10941,11 +10941,11 @@
           1954.91
         ],
         [
-          -1804.0,
+          -1804,
           1954.91
         ],
         [
-          -1804.0,
+          -1804,
           1871.87
         ]
       ]
@@ -10963,11 +10963,11 @@
           1869.87
         ],
         [
-          -1804.0,
+          -1804,
           1869.87
         ],
         [
-          -1804.0,
+          -1804,
           1786.83
         ]
       ]
@@ -10985,11 +10985,11 @@
           2153.33
         ],
         [
-          -1804.0,
+          -1804,
           2153.33
         ],
         [
-          -1804.0,
+          -1804,
           2041.94
         ]
       ]
@@ -11007,11 +11007,11 @@
           2237.66
         ],
         [
-          -1804.0,
+          -1804,
           2237.66
         ],
         [
-          -1804.0,
+          -1804,
           2154.62
         ]
       ]
@@ -11021,11 +11021,11 @@
       "label": "3-767",
       "points": [
         [
-          -1806.0,
+          -1806,
           2183.68
         ],
         [
-          -1806.0,
+          -1806,
           2351.76
         ],
         [
@@ -11043,11 +11043,11 @@
       "label": "3-773",
       "points": [
         [
-          -1806.0,
+          -1806,
           2353.76
         ],
         [
-          -1806.0,
+          -1806,
           2521.84
         ],
         [
@@ -11197,11 +11197,11 @@
       "label": "3-749",
       "points": [
         [
-          -1806.0,
+          -1806,
           1786.83
         ],
         [
-          -1806.0,
+          -1806,
           1954.91
         ],
         [
@@ -12063,11 +12063,11 @@
       "label": "4-509",
       "points": [
         [
-          -721.0,
+          -721,
           2231.87
         ],
         [
-          -721.0,
+          -721,
           2428.29
         ],
         [
@@ -12085,11 +12085,11 @@
       "label": "4-410",
       "points": [
         [
-          -721.0,
+          -721,
           2430.29
         ],
         [
-          -721.0,
+          -721,
           2513.33
         ],
         [
@@ -12489,11 +12489,11 @@
           211.6
         ],
         [
-          -2159.0,
+          -2159,
           211.6
         ],
         [
-          -2159.0,
+          -2159,
           128.56
         ]
       ]
@@ -12503,11 +12503,11 @@
       "label": "3A-T64",
       "points": [
         [
-          -2161.0,
+          -2161,
           128.56
         ],
         [
-          -2161.0,
+          -2161,
           211.6
         ],
         [
@@ -13080,11 +13080,11 @@
         ],
         [
           -2223.36,
-          1799.0
+          1799
         ],
         [
           -2278.05,
-          1799.0
+          1799
         ],
         [
           -2278.05,
@@ -13098,7 +13098,7 @@
       "points": [
         [
           -2223.36,
-          1801.0
+          1801
         ],
         [
           -2223.36,
@@ -13110,7 +13110,7 @@
         ],
         [
           -2278.05,
-          1801.0
+          1801
         ]
       ]
     },
@@ -14462,7 +14462,7 @@
       "points": [
         [
           -1628.09,
-          1801.0
+          1801
         ],
         [
           -1628.09,
@@ -14474,7 +14474,7 @@
         ],
         [
           -1852.86,
-          1801.0
+          1801
         ]
       ]
     },
@@ -14805,28 +14805,6 @@
         [
           -1541.05,
           1971.08
-        ]
-      ]
-    },
-    {
-      "pk": 9794,
-      "label": "3A-563",
-      "points": [
-        [
-          -1458.01,
-          2084.46
-        ],
-        [
-          -1458.01,
-          2139.15
-        ],
-        [
-          -1541.05,
-          2139.15
-        ],
-        [
-          -1541.05,
-          2084.46
         ]
       ]
     },
@@ -15588,11 +15566,11 @@
         ],
         [
           -210.76,
-          2142.0
+          2142
         ],
         [
           -322.15,
-          2142.0
+          2142
         ],
         [
           -322.15,
@@ -18202,7 +18180,7 @@
       "points": [
         [
           -264.62,
-          1642.26
+          1782.99
         ],
         [
           -264.62,
@@ -18211,6 +18189,28 @@
         [
           -347.66,
           1923.72
+        ],
+        [
+          -347.66,
+          1782.99
+        ]
+      ]
+    },
+    {
+      "pk": 10098,
+      "label": "4-T65",
+      "points": [
+        [
+          -264.62,
+          1642.26
+        ],
+        [
+          -264.62,
+          1782.99
+        ],
+        [
+          -347.66,
+          1782.99
         ],
         [
           -347.66,
@@ -18224,7 +18224,7 @@
       "points": [
         [
           -292.97,
-          1081.0
+          1081
         ],
         [
           -292.97,
@@ -18236,7 +18236,7 @@
         ],
         [
           -347.66,
-          1081.0
+          1081
         ]
       ]
     },
@@ -18250,11 +18250,11 @@
         ],
         [
           -264.62,
-          1079.0
+          1079
         ],
         [
           -347.66,
-          1079.0
+          1079
         ],
         [
           -347.66,
@@ -18759,11 +18759,11 @@
           2839.31
         ],
         [
-          -719.0,
+          -719,
           2839.31
         ],
         [
-          -719.0,
+          -719,
           2614.54
         ]
       ]
@@ -20189,15 +20189,6 @@
       "url": "/whats-on/show/exhibitors/tournaments-p/"
     },
     {
-      "pk": 21295,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "1-P",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-6/"
-    },
-    {
       "pk": 20826,
       "title": "Tournaments Q",
       "logo": null,
@@ -20376,6 +20367,24 @@
       "description": "",
       "stand": "2-119",
       "url": "/whats-on/show/exhibitors/york-university/"
+    },
+    {
+      "pk": 22371,
+      "title": "Food Stall",
+      "logo": null,
+      "website": "",
+      "description": "",
+      "stand": "2-121",
+      "url": "/whats-on/show/exhibitors/food-stall/"
+    },
+    {
+      "pk": 22378,
+      "title": "Invincible Games",
+      "logo": null,
+      "website": "",
+      "description": "",
+      "stand": "3-T14",
+      "url": "/whats-on/show/exhibitors/invincible-games/"
     },
     {
       "pk": 19515,
@@ -20576,15 +20585,6 @@
       "url": "/whats-on/show/exhibitors/the-thornless-rose/"
     },
     {
-      "pk": 20791,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-260",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-2/"
-    },
-    {
       "pk": 20357,
       "title": "Ralph Horsley",
       "logo": "/vendor/logocb.jpg",
@@ -20779,7 +20779,7 @@
       "logo": null,
       "website": "",
       "description": "Drop off your shopping and shop some more",
-      "stand": "2-299",
+      "stand": "2-299a",
       "url": "/whats-on/show/exhibitors/ukge-shop-and-drop/"
     },
     {
@@ -21229,7 +21229,7 @@
       "logo": null,
       "website": "https://www.yugioh-card.com/eu/",
       "description": "Yu-Gi-Oh! is an exciting world built around a card game using monsters, spells, and traps.",
-      "stand": "2-464",
+      "stand": "2-463",
       "url": "/whats-on/show/exhibitors/konami-2/"
     },
     {
@@ -21447,15 +21447,6 @@
       "description": "Family and educational games specialist.",
       "stand": "2-646",
       "url": "/whats-on/show/exhibitors/imagination-gaming/"
-    },
-    {
-      "pk": 19704,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-646",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands/"
     },
     {
       "pk": 20658,
@@ -21717,15 +21708,6 @@
       "description": "WeDJ! - The music party game that puts the PLAY in Playlist 🎶",
       "stand": "2-813",
       "url": "/whats-on/show/exhibitors/spring-chicken-games/"
-    },
-    {
-      "pk": 22359,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "2-815",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-4/"
     },
     {
       "pk": 18937,
@@ -22273,7 +22255,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "2-998b",
+      "stand": "2-998a",
       "url": "/whats-on/show/exhibitors/1000-giveaway-standee/"
     },
     {
@@ -22282,7 +22264,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "2-t11",
+      "stand": "2-T11",
       "url": "/whats-on/show/exhibitors/seemint-sp-z-oo/"
     },
     {
@@ -23465,15 +23447,6 @@
       "url": "/whats-on/show/exhibitors/fandomonium/"
     },
     {
-      "pk": 22362,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-474",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-8/"
-    },
-    {
       "pk": 19044,
       "title": "Radical 8 Games ltd",
       "logo": "/vendor/logo_gms.png",
@@ -24152,8 +24125,8 @@
       "pk": 18838,
       "title": "GMS Table Top Games",
       "logo": null,
-      "website": "",
-      "description": "",
+      "website": "https://gmstabletopgames.com/",
+      "description": "The go to for RPG games. GMS is a company by gamers for gamers — the biggest supplier of RPG into the UK, working with major publishers and local gaming stores. GaMeS club: free to join, 20% off first order, 10% off future orders, and monthly offers. Also works with independent board and roleplaying publishers.",
       "stand": "3-844",
       "url": "/whats-on/show/exhibitors/gms-table-top-games/"
     },
@@ -24235,7 +24208,7 @@
       "logo": null,
       "website": "https://www.badsquiddogames.com",
       "description": "Hand Sculpted and Hand Cast Femme Minis in 28mm scale. And guinea pigs. and capybaras.",
-      "stand": "3-917",
+      "stand": "3-919",
       "url": "/whats-on/show/exhibitors/bad-squiddo-games/"
     },
     {
@@ -25108,7 +25081,7 @@
       "logo": null,
       "website": "https://www.grandgamersguild.com",
       "description": "GGG publishes a wide range of titles for all kinds of gamers.",
-      "stand": "3A-635",
+      "stand": "3A-638",
       "url": "/whats-on/show/exhibitors/grand-gamers-guild/"
     },
     {
@@ -25378,7 +25351,7 @@
       "logo": "/vendor/Allplay_LOGO_1600_px_tr-01v2.png",
       "website": "",
       "description": "We are a UK based Independent Games company selling our original games",
-      "stand": "3a-747",
+      "stand": "3A-747",
       "url": "/whats-on/show/exhibitors/royal-stag-press/"
     },
     {
@@ -25414,7 +25387,7 @@
       "logo": "/vendor/Stacked_Logo_Black.png",
       "website": "https://greyhawkminiatures.co.uk",
       "description": "High quality miniatures for painters and gamers alike - animals, busts, paladins and more",
-      "stand": "3A-752",
+      "stand": "3A-751",
       "url": "/whats-on/show/exhibitors/greyhawk-miniatures/"
     },
     {
@@ -25657,7 +25630,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "3A-866",
+      "stand": "3A-865",
       "url": "/whats-on/show/exhibitors/exhibitor-pallet-store-3/"
     },
     {
@@ -25846,7 +25819,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "3A-B73",
+      "stand": "3A-B71",
       "url": "/whats-on/show/exhibitors/1000-giveaway-standee-2/"
     },
     {
@@ -25855,7 +25828,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "3A- Office",
+      "stand": "3A-701",
       "url": "/whats-on/show/exhibitors/hall-3a-offices/"
     },
     {
@@ -25981,7 +25954,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "3-B10a",
+      "stand": "3-B10",
       "url": "/whats-on/show/exhibitors/exhibitor-pallet-store/"
     },
     {
@@ -25990,17 +25963,8 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "3-B10a",
+      "stand": "3-B10",
       "url": "/whats-on/show/exhibitors/ukge-stores-area/"
-    },
-    {
-      "pk": 22358,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "3-B10a",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-3/"
     },
     {
       "pk": 20665,
@@ -26494,7 +26458,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "4-145",
+      "stand": "4-146",
       "url": "/whats-on/show/exhibitors/godcone-miniatures/"
     },
     {
@@ -27178,7 +27142,7 @@
       "logo": null,
       "website": "https://play.caladium.co.uk/",
       "description": "An indie game developer making there first board game and establishing themselves",
-      "stand": "4-354",
+      "stand": "4-352",
       "url": "/whats-on/show/exhibitors/danster189/"
     },
     {
@@ -27340,7 +27304,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "4-398",
+      "stand": "4-392",
       "url": "/whats-on/show/exhibitors/exhibitor-pallet-store-2/"
     },
     {
@@ -27394,7 +27358,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "4-421",
+      "stand": "4-420",
       "url": "/whats-on/show/exhibitors/dice-coalition-games/"
     },
     {
@@ -27637,7 +27601,7 @@
       "logo": null,
       "website": "https://www.blocksofglory.com",
       "description": "Blocks of Glory® introduces WarPlay - a new tactile and immersive wargaming experience.",
-      "stand": "4-560",
+      "stand": "4-566",
       "url": "/whats-on/show/exhibitors/rt-unlimited-limited/"
     },
     {
@@ -27821,15 +27785,6 @@
       "url": "/whats-on/show/exhibitors/ttcombat/"
     },
     {
-      "pk": 22360,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-658",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-5/"
-    },
-    {
       "pk": 19737,
       "title": "Modular Realms",
       "logo": "/vendor/logocb.jpg",
@@ -27882,15 +27837,6 @@
       "description": "Bushiroad is an Entertainment company known for developing prominent trading card games.",
       "stand": "4-677",
       "url": "/whats-on/show/exhibitors/bliss-distribution/"
-    },
-    {
-      "pk": 22363,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-678",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-9/"
     },
     {
       "pk": 20764,
@@ -28253,15 +28199,6 @@
       "url": "/whats-on/show/exhibitors/envy-born-games/"
     },
     {
-      "pk": 22361,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "4-865",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-7/"
-    },
-    {
       "pk": 21302,
       "title": "Ludus",
       "logo": null,
@@ -28384,7 +28321,7 @@
       "logo": null,
       "website": "",
       "description": "",
-      "stand": "4-Office",
+      "stand": "4-164",
       "url": "/whats-on/show/exhibitors/hall-4-offices/"
     },
     {
@@ -28611,15 +28548,6 @@
       "description": "Drop off your shopping and shop some more",
       "stand": "5-C",
       "url": "/whats-on/show/exhibitors/ukge-shop-and-drop-4/"
-    },
-    {
-      "pk": 22365,
-      "title": "UK Games Expo Stands",
-      "logo": null,
-      "website": "",
-      "description": "",
-      "stand": "5-C",
-      "url": "/whats-on/show/exhibitors/uk-games-expo-stands-10/"
     },
     {
       "pk": 21089,
