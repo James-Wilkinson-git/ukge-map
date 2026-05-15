@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import {
   MapContainer,
-  ImageOverlay,
   Polygon,
   Popup,
   Tooltip,
@@ -26,9 +25,15 @@ import {
 import { loadMapdata } from "./loadMapdata";
 import {
   boundsForStandGeometry,
-  mapForStand,
   searchExhibitorsByStand,
 } from "./searchExhibitors";
+import { svgPointToLatLngTuple } from "./ukgeCoords";
+import {
+  parseViewBoxString,
+  ringToSvgPoints,
+  standSvgStyle,
+  UkgeHallSvgOverlay,
+} from "./UkgeHallSvgOverlay";
 
 // Type definitions for map data
 interface MapData {
@@ -37,16 +42,114 @@ interface MapData {
   exhibitors: Exhibitor[];
 }
 
-interface MapInfo {
-  title: string;
-  bounds: string;
-  flattened_image: string;
-  stands: string[];
+interface StandLabelVariant {
+  cx: number;
+  cy: number;
+  font_size: number;
+  lines: string[];
 }
 
+interface StandLabelEntry {
+  numbers?: Partial<StandLabelVariant>;
+  exhibitors?: Partial<StandLabelVariant>;
+  both?: Partial<StandLabelVariant>;
+}
+
+interface MapInfo {
+  /** Present on vendor maps; used to match stand rows (`expo_map`). */
+  pk?: number;
+  title: string;
+  bounds: string;
+  /** Same as bounds when emitted from scripts/build_mapdata_from_newdata.py */
+  view_box?: string;
+  flattened_image: string;
+  stands: string[];
+  stand_labels?: Record<string, StandLabelEntry>;
+}
+
+/** Matches UKGE `stand_labels` keys — fixed to both (stand id + exhibitor title). */
+const STAND_LABEL_VARIANT = "both" as const;
+
+/** During print/PNG capture: number-only labels, font scaled for legibility on paper. */
+const PRINT_CAPTURE_LABEL_FONT_SCALE = 1.5;
+
+function coerceStandLabelVariant(
+  raw: Partial<StandLabelVariant> | undefined,
+): StandLabelVariant | null {
+  if (!raw || !Array.isArray(raw.lines) || raw.lines.length === 0) return null;
+  const cx = Number(raw.cx);
+  const cy = Number(raw.cy);
+  const font_size = Number(raw.font_size);
+  if (!Number.isFinite(cx) || !Number.isFinite(cy)) return null;
+  return {
+    cx,
+    cy,
+    font_size: Number.isFinite(font_size) && font_size > 0 ? font_size : 12,
+    lines: raw.lines.map((x) => String(x)),
+  };
+}
+
+/** Stand label text halo (print/PNG snapshot only): UKGE amber / favourite green on polygons. */
+const STAND_LABEL_STROKE_DEFAULT = "#fba831";
+const STAND_LABEL_STROKE_FAVOURITE = "#2e7d32";
+
+/** Matches UKGE `ExpoMap/StandLabel.js` (SVG), so anchors match baked site labels. */
+const ExpoStandLabel = React.memo(function ExpoStandLabel({
+  labelData,
+  isFavorite = false,
+  showTextOutline = false,
+}: {
+  labelData: StandLabelVariant;
+  isFavorite?: boolean;
+  /** When true (PNG/print capture), draw stroke halo so labels stay readable when scaled. */
+  showTextOutline?: boolean;
+}) {
+  const { cx, cy, font_size, lines } = labelData;
+  const strokeWidth = Math.round(font_size * 0.25 * 100) / 100;
+  const common = {
+    x: cx,
+    y: cy,
+    fontSize: font_size,
+    textAnchor: "middle" as const,
+    dominantBaseline: "central" as const,
+    fontFamily: "Arial, Helvetica, sans-serif",
+    fontWeight: "bold" as const,
+    fill: "#333",
+    stroke: showTextOutline
+      ? isFavorite
+        ? STAND_LABEL_STROKE_FAVOURITE
+        : STAND_LABEL_STROKE_DEFAULT
+      : "none",
+    strokeWidth: showTextOutline ? strokeWidth : 0,
+    strokeLinejoin: "round" as const,
+    paintOrder: showTextOutline ? ("stroke" as const) : ("normal" as const),
+    style: { pointerEvents: "none" as const },
+  };
+
+  if (lines.length === 1) {
+    return <text {...common}>{lines[0]}</text>;
+  }
+
+  const lineHeight = font_size * 1.3;
+  const startOffset = -((lines.length - 1) * lineHeight) / 2;
+  return (
+    <text {...common}>
+      {lines.map((line, i) => (
+        <tspan key={i} x={cx} dy={i === 0 ? startOffset : lineHeight}>
+          {line}
+        </tspan>
+      ))}
+    </text>
+  );
+});
+
 interface Stand {
+  pk?: number;
   label: string;
+  /** Vertex ring in UKGE SVG / map `viewBox` space `[x, y]`. */
   points: [number, number][];
+  /** Matches `MapInfo.pk` from the vendor export. */
+  expo_map?: number;
 }
 
 interface Exhibitor {
@@ -60,7 +163,7 @@ interface Exhibitor {
 
 interface MapStand {
   label: string;
-  /** One Leaflet polygon per geometry chunk from the API (same label may have several rectangles). */
+  /** One SVG-space ring per API row (`expo_map` rows may share one booth id). */
   rings: [number, number][][];
   exhibitor: {
     stand: string;
@@ -99,42 +202,14 @@ function truncateSearchDescription(text: string, maxLen: number): string {
   return `${t.slice(0, maxLen)}…`;
 }
 
-function getStandPolygonStyle(
-  label: string,
-  favorites: string[],
-  searchActive: boolean,
-  matchSet: Set<string>,
-): {
-  color: string;
-  weight: number;
-  fillColor: string;
-  fillOpacity: number;
-} {
-  const isFav = favorites.includes(label);
-  if (!searchActive) {
-    return {
-      color: isFav ? "green" : "black",
-      weight: 2,
-      fillColor: isFav ? "lightgreen" : "white",
-      fillOpacity: isFav ? 0.5 : 0,
-    };
-  }
-  const isMatch = matchSet.has(label);
-  if (isMatch) {
-    return {
-      color: isFav ? "green" : "#0d6efd",
-      weight: 3,
-      fillColor: isFav ? "lightgreen" : "#cfe2ff",
-      fillOpacity: isFav ? 0.55 : 0.45,
-    };
-  }
-  return {
-    color: "#999",
-    weight: 1,
-    fillColor: "#888",
-    fillOpacity: 0.08,
-  };
-}
+/** Leaflet polygons: hit targets only (`UkgeHallSvgOverlay` draws favourites / floor). */
+const BOOTH_HIT_LAYER = {
+  color: "#000000",
+  weight: 0,
+  opacity: 0,
+  fillColor: "#000000",
+  fillOpacity: 0,
+} as const;
 
 function MapFlyToStand({
   flyToLabel,
@@ -154,14 +229,35 @@ function MapFlyToStand({
       return;
     }
     const id = window.requestAnimationFrame(() => {
-      map.fitBounds(b, {
-        maxZoom: -0.5,
-        padding: [72, 72],
+      window.requestAnimationFrame(() => {
+        map.fitBounds(b, {
+          maxZoom: -0.5,
+          padding: [72, 72],
+        });
+        onComplete();
       });
-      onComplete();
     });
     return () => window.cancelAnimationFrame(id);
   }, [flyToLabel, stands, map, onComplete]);
+  return null;
+}
+
+/** react-leaflet `MapContainer` only fits `bounds` on first mount — refit whenever the hall changes. */
+function FitMapToHallBounds({
+  bounds,
+}: {
+  bounds: LatLngBounds;
+}) {
+  const map = useMap();
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        map.fitBounds(bounds, { padding: [20, 20], maxZoom: 2 });
+        map.invalidateSize({ animate: false });
+      });
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [map, bounds]);
   return null;
 }
 
@@ -181,6 +277,9 @@ export const Map: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchHighlightIndex, setSearchHighlightIndex] = useState(0);
   const [flyToStandLabel, setFlyToStandLabel] = useState<string | null>(null);
+  /** True only while html-to-image capture runs — larger stand-id-only labels. */
+  const [snapshotLabelsForCapture, setSnapshotLabelsForCapture] =
+    useState(false);
 
   const clearFlyToStand = useCallback(() => {
     setFlyToStandLabel(null);
@@ -345,20 +444,38 @@ export const Map: React.FC = () => {
 
   const bounds = useMemo(() => {
     if (!selectedMap) return new LatLngBounds([0, 0], [1, 1]);
-    const [xMin, yMin, xMax, yMax] = selectedMap.bounds
-      .split(" ")
-      .map(parseFloat);
+    const box = selectedMap.bounds || selectedMap.view_box || "";
+    const parts = box.trim().split(/\s+/).map(Number);
+    if (parts.length < 4 || parts.some((n) => !Number.isFinite(n))) {
+      return new LatLngBounds([0, 0], [1, 1]);
+    }
+    const [vx, vy, vw, vh] = parts;
+    // `view_box` is `min-x min-y width height` (UKGE SVG). Map to CRS.Simple like UKGE SvgMap:
+    // Leaflet lat = -svgY, lng = svgX.
     return new LatLngBounds(
-      new LatLng(-yMin, xMin), // SW corner
-      new LatLng(-yMax, xMax), // NE corner
+      new LatLng(-(vy + vh), vx),
+      new LatLng(-vy, vx + vw),
     );
   }, [selectedMap]);
+
+  /** Match ExpoMap rows to the active hall; coerce in case pk/expo_map type differs (string vs number in JSON). */
+  const standsOnSelectedMap = useMemo(() => {
+    const pk = selectedMap?.pk;
+    if (pk == null) return stands;
+    const pkNum = Number(pk);
+    if (!Number.isFinite(pkNum)) return stands;
+    return stands.filter((s) => {
+      const em = s.expo_map;
+      if (em == null) return true;
+      return Number(em) === pkNum;
+    });
+  }, [stands, selectedMap?.pk]);
 
   const mapStands: MapStand[] = useMemo(() => {
     if (!selectedMap) return [];
 
     // Collect rings by stand label (do not flatten: multiple rects share one booth id)
-    const lookup: Record<string, [number, number][][]> = stands.reduce(
+    const lookup: Record<string, [number, number][][]> = standsOnSelectedMap.reduce(
       (acc, s) => {
         if (!acc[s.label]) acc[s.label] = [];
         acc[s.label].push(s.points);
@@ -407,7 +524,62 @@ export const Map: React.FC = () => {
         } as MapStand;
       })
       .filter((s): s is MapStand => s !== null);
-  }, [selectedMap, stands, exhibitors]);
+  }, [selectedMap, standsOnSelectedMap, exhibitors]);
+
+  const hallDims = useMemo(
+    () => parseViewBoxString(selectedMap?.bounds || selectedMap?.view_box || ""),
+    [selectedMap?.bounds, selectedMap?.view_box],
+  );
+  const hallViewBoxStr = hallDims
+    ? `${hallDims.vx} ${hallDims.vy} ${hallDims.vw} ${hallDims.vh}`
+    : null;
+
+  const standLabelSvgNodes = useMemo((): React.ReactNode[] | null => {
+    if (!selectedMap?.stand_labels || !hallViewBoxStr) return null;
+    const sl = selectedMap.stand_labels;
+    const standIds = [...new Set(selectedMap.stands)];
+    const out: React.ReactNode[] = [];
+    for (const standId of standIds) {
+      const entry = sl[standId];
+      let data: StandLabelVariant | null = null;
+
+      if (snapshotLabelsForCapture) {
+        data = coerceStandLabelVariant(entry?.numbers);
+        if (!data) {
+          const both = coerceStandLabelVariant(entry?.both);
+          if (both?.lines?.[0]) {
+            data = {
+              ...both,
+              lines: [both.lines[0]],
+              font_size: Math.max(both.font_size, 14),
+            };
+          }
+        }
+        if (data) {
+          data = {
+            ...data,
+            font_size:
+              Math.round(
+                data.font_size * PRINT_CAPTURE_LABEL_FONT_SCALE * 100,
+              ) / 100,
+          };
+        }
+      } else {
+        data = coerceStandLabelVariant(entry?.[STAND_LABEL_VARIANT]);
+      }
+
+      if (!data) continue;
+      out.push(
+        <ExpoStandLabel
+          key={standId}
+          labelData={data}
+          isFavorite={favorites.includes(standId)}
+          showTextOutline={snapshotLabelsForCapture}
+        />,
+      );
+    }
+    return out.length > 0 ? out : null;
+  }, [selectedMap, hallViewBoxStr, favorites, snapshotLabelsForCapture]);
 
   const searchResults = useMemo(
     () => searchExhibitorsByStand(exhibitors, searchQuery),
@@ -432,7 +604,7 @@ export const Map: React.FC = () => {
     (index: number) => {
       const r = searchResults[index];
       if (!r) return;
-      const m = mapForStand(maps, r.stand);
+      const m = maps.find((map) => map.stands.includes(r.stand));
       if (m) setSelectedMap(m);
       setFlyToStandLabel(r.stand);
     },
@@ -449,6 +621,17 @@ export const Map: React.FC = () => {
       return updated;
     });
   };
+
+  /** Leaflet SVGOverlay/Polygon reuse by position can leave stale geometry when swapping halls — force full layer remount. */
+  const hallLayerKey = useMemo(
+    () =>
+      selectedMap
+        ? selectedMap.pk != null
+          ? `hall-pk-${selectedMap.pk}`
+          : `hall-${selectedMap.title}`
+        : "none",
+    [selectedMap],
+  );
 
   return (
     <div className="map-viewport">
@@ -734,34 +917,59 @@ export const Map: React.FC = () => {
       {selectedMap && (
         <MapContainer
           crs={CRS.Simple}
-          bounds={bounds}
+          center={[0, 0]}
+          zoom={0}
           minZoom={-2.5}
           maxZoom={2}
           zoomSnap={0.2}
           style={{ height: "100%", width: "100%" }}
         >
-          <ImageOverlay url={selectedMap.flattened_image} bounds={bounds} />
-          <HallPrintToolbar bounds={bounds} filenameBase={selectedMap.title} />
+          <FitMapToHallBounds bounds={bounds} />
+          {hallDims && hallViewBoxStr ? (
+            <UkgeHallSvgOverlay
+              key={hallLayerKey}
+              bounds={bounds}
+              viewBoxStr={hallViewBoxStr}
+              vb={hallDims}
+              imageUrl={selectedMap.flattened_image}
+            >
+              {mapStands.flatMap((stand) =>
+                stand.rings.map((ring, ringIndex) => (
+                  <polygon
+                    key={`svg-${stand.label}-${ringIndex}`}
+                    points={ringToSvgPoints(ring)}
+                    {...standSvgStyle(
+                      stand.label,
+                      favorites,
+                      searchActive,
+                      searchMatchLabels,
+                    )}
+                  />
+                )),
+              )}
+              {standLabelSvgNodes}
+            </UkgeHallSvgOverlay>
+          ) : null}
+          <HallPrintToolbar
+            bounds={bounds}
+            filenameBase={selectedMap.title}
+            setSnapshotLabels={setSnapshotLabelsForCapture}
+          />
           <MapFlyToStand
             flyToLabel={flyToStandLabel}
-            stands={stands}
+            stands={standsOnSelectedMap}
             onComplete={clearFlyToStand}
           />
           {mapStands.flatMap((stand) =>
             stand.rings.map((ring, ringIndex) => (
               <Polygon
-                key={`${stand.label}-${ringIndex}`}
-                pathOptions={getStandPolygonStyle(
-                  stand.label,
-                  favorites,
-                  searchActive,
-                  searchMatchLabels,
-                )}
-                positions={ring.map(([y, x]) => [y, x])}
+                key={`${hallLayerKey}-${stand.label}-${ringIndex}`}
+                pathOptions={BOOTH_HIT_LAYER}
+                positions={ring.map(svgPointToLatLngTuple)}
               >
                 {desktop && (
                   <Tooltip>
-                    {stand.exhibitor?.title || "Unknown Exhibitor"}
+                    {`${stand.label} — ${stand.exhibitor?.title || "Unknown Exhibitor"}`}
                   </Tooltip>
                 )}
                 <Popup closeButton={true}>

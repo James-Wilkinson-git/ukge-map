@@ -25,9 +25,12 @@ async function nextFrames(n = 2): Promise<void> {
 export function HallPrintToolbar({
   bounds,
   filenameBase,
+  setSnapshotLabels,
 }: {
   bounds: LatLngBounds;
   filenameBase: string;
+  /** Larger stand-number-only SVG labels during PNG capture (print + download). */
+  setSnapshotLabels?: (value: boolean) => void;
 }) {
   const map = useMap();
   const busy = useRef(false);
@@ -41,6 +44,8 @@ export function HallPrintToolbar({
       const saved = { center: m.getCenter(), zoom: m.getZoom() };
       m.closePopup?.();
       try {
+        setSnapshotLabels?.(true);
+        await nextFrames(2);
         m.fitBounds(bounds, { animate: false, padding: [56, 56] });
         m.invalidateSize();
         await nextFrames(2);
@@ -54,6 +59,7 @@ export function HallPrintToolbar({
       } finally {
         m.setView(saved.center, saved.zoom, { animate: false });
         m.invalidateSize();
+        setSnapshotLabels?.(false);
         await nextFrames(1);
         m.invalidateSize();
       }
@@ -166,7 +172,7 @@ export function HallPrintToolbar({
     return () => {
       c.remove();
     };
-  }, [map, bounds, filenameBase]);
+  }, [map, bounds, filenameBase, setSnapshotLabels]);
 
   return null;
 }

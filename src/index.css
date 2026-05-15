@@ -26,6 +26,13 @@ body {
   height: 100%;
   background: #ffffff !important;
 }
+
+/* UKGE-style combined SVG (image + polygons + labels): never steal pointer events from Leaflet hit layer. */
+svg.ukge-expo-svg,
+svg.ukge-expo-svg * {
+  pointer-events: none !important;
+}
+
 .map-viewport {
   position: relative;
   box-sizing: border-box;
@@ -153,6 +160,13 @@ a.leaflet-popup-close-button {
   display: block;
   font-size: 13px;
   margin-bottom: 6px;
+  color: #333;
+}
+.controls-label-inline {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+  margin-bottom: 4px;
   color: #333;
 }
 /* Skeleton sets input { margin-bottom: 1.5rem } — tighten search layout */

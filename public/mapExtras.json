@@ -1,0 +1,44 @@
+{
+  "maps": [
+    {
+      "title": "Food - NEC Site",
+      "view_box": "0 0 3721 5262",
+      "bounds": "0 0 3721 5262",
+      "image": "/maps/nec-site-map_2026.jpg",
+      "flattened_image": "/maps/nec-site-map_2026.jpg",
+      "stands": [],
+      "stand_labels": {},
+      "pk": 7
+    },
+    {
+      "title": "Food - Piazza",
+      "view_box": "0 0 3721 5262",
+      "bounds": "0 0 3721 5262",
+      "image": "/maps/piazza-map_2026.png",
+      "flattened_image": "/maps/piazza-map_2026.png",
+      "stands": [],
+      "stand_labels": {},
+      "pk": 8
+    },
+    {
+      "title": "Food - Train Station",
+      "view_box": "0 0 1874 1215",
+      "bounds": "0 0 1874 1215",
+      "image": "/maps/Birmingham_International_station_map__ground_floor_concourse_.jpg",
+      "flattened_image": "/maps/Birmingham_International_station_map__ground_floor_concourse_.jpg",
+      "stands": [],
+      "stand_labels": {},
+      "pk": 9
+    },
+    {
+      "title": "Food - Resorts World",
+      "view_box": "0 0 3721 5262",
+      "bounds": "0 0 3721 5262",
+      "image": "/maps/Rwb-mall-guide-map_2026.png",
+      "flattened_image": "/maps/Rwb-mall-guide-map_2026.png",
+      "stands": [],
+      "stand_labels": {},
+      "pk": 10
+    }
+  ]
+}

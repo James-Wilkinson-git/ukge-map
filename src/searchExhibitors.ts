@@ -1,4 +1,5 @@
 import { LatLng, LatLngBounds } from "leaflet";
+import { svgPointToLatLng } from "./ukgeCoords";
 
 export interface ExhibitorRow {
   stand: string;
@@ -16,6 +17,7 @@ export interface MapInfoLite {
 
 export interface StandGeometry {
   label: string;
+  /** Polygon vertices in UKGE SVG / viewBox space `[x, y]`. */
   points: [number, number][];
 }
 
@@ -76,8 +78,8 @@ export function boundsForStandGeometry(
   let b: LatLngBounds | null = null;
   for (const s of stands) {
     if (s.label !== standLabel) continue;
-    for (const [y, x] of s.points) {
-      const ll = new LatLng(y, x);
+    for (const xy of s.points) {
+      const ll = svgPointToLatLng(xy);
       if (!b) b = new LatLngBounds(ll, ll);
       else b.extend(ll);
     }

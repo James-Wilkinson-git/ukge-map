@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "build-mapdata": "python scripts/merge_public_mapdata.py",
     "vendor-images": "python scripts/vendor_map_images.py",
     "mapdata-use-vendor-paths": "python scripts/mapdata_use_vendor_paths.py",
     "normalize-vendor-downloads": "python scripts/normalize_vendor_downloads.py",
