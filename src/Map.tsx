@@ -23,6 +23,7 @@ import {
   uniqueRandomListName,
 } from "./listNameUtils";
 import { loadMapdata } from "./loadMapdata";
+import { publicAssetUrl } from "./mapdataUrl";
 import {
   boundsForStandGeometry,
   searchExhibitorsByStand,
@@ -63,6 +64,8 @@ interface MapInfo {
   /** Same as bounds when emitted from scripts/build_mapdata_from_newdata.py */
   view_box?: string;
   flattened_image: string;
+  /** Optional duplicate of floor art path from some exports. */
+  image?: string;
   stands: string[];
   stand_labels?: Record<string, StandLabelEntry>;
 }
@@ -931,7 +934,9 @@ export const Map: React.FC = () => {
               bounds={bounds}
               viewBoxStr={hallViewBoxStr}
               vb={hallDims}
-              imageUrl={selectedMap.flattened_image}
+              imageUrl={publicAssetUrl(
+                selectedMap.flattened_image || selectedMap.image || "",
+              )}
             >
               {mapStands.flatMap((stand) =>
                 stand.rings.map((ring, ringIndex) => (
