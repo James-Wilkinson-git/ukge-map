@@ -68,7 +68,13 @@ export function mapForStand(
   maps: MapInfoLite[],
   standLabel: string,
 ): MapInfoLite | undefined {
-  return maps.find((m) => m.stands.includes(standLabel));
+  return maps.find((m) =>
+    m.stands.some((s) => standLabelMatches(s, standLabel)),
+  );
+}
+
+function standLabelMatches(a: string, b: string): boolean {
+  return a.trim().toLowerCase() === b.trim().toLowerCase();
 }
 
 export function boundsForStandGeometry(
@@ -77,7 +83,7 @@ export function boundsForStandGeometry(
 ): LatLngBounds | null {
   let b: LatLngBounds | null = null;
   for (const s of stands) {
-    if (s.label !== standLabel) continue;
+    if (!standLabelMatches(s.label, standLabel)) continue;
     for (const xy of s.points) {
       const ll = svgPointToLatLng(xy);
       if (!b) b = new LatLngBounds(ll, ll);

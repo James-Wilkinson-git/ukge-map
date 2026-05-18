@@ -22,14 +22,98 @@ async function nextFrames(n = 2): Promise<void> {
   }
 }
 
+const PRINT_PAGE_CSS = `
+  html,body{margin:0;background:#fff}
+  body{padding:12px;box-sizing:border-box}
+  .print-frame{width:100%;min-height:calc(100vh - 24px);display:flex;align-items:center;justify-content:center}
+  .print-frame img{display:block;max-width:100%;max-height:calc(100vh - 24px);width:auto;height:auto}
+  @media print {
+    @page{margin:5mm;size:landscape}
+    html,body{padding:0;height:100%}
+    body{display:block}
+    .print-frame{
+      width:100vw;
+      height:100vh;
+      min-height:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .print-frame img{
+      max-width:100%;
+      max-height:100%;
+      width:auto;
+      height:auto;
+      page-break-inside:avoid;
+    }
+  }`;
+
+/** Resize the Leaflet container to the hall aspect ratio so capture + print aren't letterboxed. */
+function applyCaptureLayout(
+  container: HTMLElement,
+  hallAspect: number,
+): () => void {
+  const parent = container.parentElement;
+  const saved = {
+    containerWidth: container.style.width,
+    containerHeight: container.style.height,
+    containerMaxWidth: container.style.maxWidth,
+    containerMaxHeight: container.style.maxHeight,
+    parentPosition: parent?.style.position ?? "",
+    parentWidth: parent?.style.width ?? "",
+    parentHeight: parent?.style.height ?? "",
+    parentOverflow: parent?.style.overflow ?? "",
+  };
+
+  const maxW = Math.min(window.innerWidth - 32, 2800);
+  const maxH = Math.min(window.innerHeight - 32, 2000);
+  let w = maxW;
+  let h = w / hallAspect;
+  if (h > maxH) {
+    h = maxH;
+    w = h * hallAspect;
+  }
+
+  if (parent) {
+    parent.style.position = "relative";
+    parent.style.width = `${Math.ceil(w)}px`;
+    parent.style.height = `${Math.ceil(h)}px`;
+    parent.style.overflow = "hidden";
+  }
+  container.style.width = `${Math.ceil(w)}px`;
+  container.style.height = `${Math.ceil(h)}px`;
+  container.style.maxWidth = "none";
+  container.style.maxHeight = "none";
+
+  return () => {
+    container.style.width = saved.containerWidth;
+    container.style.height = saved.containerHeight;
+    container.style.maxWidth = saved.containerMaxWidth;
+    container.style.maxHeight = saved.containerMaxHeight;
+    if (parent) {
+      parent.style.position = saved.parentPosition;
+      parent.style.width = saved.parentWidth;
+      parent.style.height = saved.parentHeight;
+      parent.style.overflow = saved.parentOverflow;
+    }
+  };
+}
+
+function capturePixelRatio(container: HTMLElement): number {
+  const { width, height } = container.getBoundingClientRect();
+  const longSide = Math.max(width, height, 400);
+  return Math.min(5, Math.max(3, 4800 / longSide));
+}
+
 export function HallPrintToolbar({
   bounds,
   filenameBase,
+  viewBoxSize,
   setSnapshotLabels,
 }: {
   bounds: LatLngBounds;
   filenameBase: string;
-  /** Larger stand-number-only SVG labels during PNG capture (print + download). */
+  viewBoxSize?: { vw: number; vh: number };
   setSnapshotLabels?: (value: boolean) => void;
 }) {
   const map = useMap();
@@ -37,26 +121,40 @@ export function HallPrintToolbar({
 
   useEffect(() => {
     const safeName = filenameBase.replace(/[^a-z0-9]+/gi, "_").slice(0, 60);
+    const vw = viewBoxSize?.vw ?? 1;
+    const vh = viewBoxSize?.vh ?? 1;
+    const hallAspect = vw > 0 && vh > 0 ? vw / vh : 1;
 
     const capturePng = async (): Promise<string> => {
       const m = map;
       const el = m.getContainer();
-      const saved = { center: m.getCenter(), zoom: m.getZoom() };
+      const saved = {
+        center: m.getCenter(),
+        zoom: m.getZoom(),
+        minZoom: m.getMinZoom(),
+        maxZoom: m.getMaxZoom(),
+      };
       m.closePopup?.();
+      const restoreLayout = applyCaptureLayout(el, hallAspect);
       try {
         setSnapshotLabels?.(true);
+        m.setMinZoom(-6);
+        m.setMaxZoom(8);
         await nextFrames(2);
-        m.fitBounds(bounds, { animate: false, padding: [56, 56] });
         m.invalidateSize();
-        await nextFrames(2);
+        m.fitBounds(bounds, { animate: false, padding: [16, 16] });
+        m.invalidateSize();
+        await nextFrames(3);
         return await toPng(el, {
-          /** Larger than screen DPR so PNG + print preview use more pixels (was 2). */
-          pixelRatio: Math.min(4, Math.max(3, (window.devicePixelRatio || 1) * 2)),
+          pixelRatio: capturePixelRatio(el),
           cacheBust: true,
           filter: (n) =>
             !(n instanceof HTMLElement) || includeInSnapshot(n),
         });
       } finally {
+        restoreLayout();
+        m.setMinZoom(saved.minZoom);
+        m.setMaxZoom(saved.maxZoom);
         m.setView(saved.center, saved.zoom, { animate: false });
         m.invalidateSize();
         setSnapshotLabels?.(false);
@@ -78,31 +176,14 @@ export function HallPrintToolbar({
         w.document.open();
         w.document.write(
           `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>UKGE ${safeName}</title>
-          <style>
-            html,body{height:100%;margin:0;background:#fff}
-            body{display:flex;align-items:flex-start;justify-content:center;padding:12px;box-sizing:border-box}
-            img{max-width:100%;width:auto;height:auto;object-fit:contain}
-            @media print {
-              body{padding:0;margin:0;display:block}
-              /* Fill paper width; avoid max-height which shrinks wide hall maps on the page */
-              img{
-                width:100%!important;
-                max-width:none!important;
-                height:auto!important;
-                max-height:none!important;
-                page-break-inside:avoid;
-                object-fit:contain;
-              }
-              @page { margin: 6mm; size: landscape; }
-            }
-          </style></head><body>
-          <img src="${dataUrl}" alt="Hall map" id="m" />
+          <style>${PRINT_PAGE_CSS}</style></head><body>
+          <div class="print-frame"><img src="${dataUrl}" alt="Hall map" id="m" /></div>
           <script>
             document.getElementById("m").onload = function () {
               setTimeout(function () { window.print(); }, 250);
             };
           </script>
-          </body></html>`
+          </body></html>`,
         );
         w.document.close();
       } catch (e) {
@@ -172,7 +253,7 @@ export function HallPrintToolbar({
     return () => {
       c.remove();
     };
-  }, [map, bounds, filenameBase, setSnapshotLabels]);
+  }, [map, bounds, filenameBase, setSnapshotLabels, viewBoxSize?.vw, viewBoxSize?.vh]);
 
   return null;
 }

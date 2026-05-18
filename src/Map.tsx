@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import {
   MapContainer,
   Polygon,
@@ -74,7 +74,7 @@ interface MapInfo {
 const STAND_LABEL_VARIANT = "both" as const;
 
 /** During print/PNG capture: number-only labels, font scaled for legibility on paper. */
-const PRINT_CAPTURE_LABEL_FONT_SCALE = 1.5;
+const PRINT_CAPTURE_LABEL_FONT_SCALE = 2.25;
 
 function coerceStandLabelVariant(
   raw: Partial<StandLabelVariant> | undefined,
@@ -227,20 +227,26 @@ function MapFlyToStand({
   useEffect(() => {
     if (!flyToLabel) return;
     const b = boundsForStandGeometry(stands, flyToLabel);
-    if (!b) {
-      onComplete();
-      return;
-    }
-    const id = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
+    if (!b) return;
+
+    let cancelled = false;
+    let innerId = 0;
+    const outerId = window.requestAnimationFrame(() => {
+      innerId = window.requestAnimationFrame(() => {
+        if (cancelled) return;
         map.fitBounds(b, {
-          maxZoom: -0.5,
+          maxZoom: 1.5,
           padding: [72, 72],
+          animate: true,
         });
         onComplete();
       });
     });
-    return () => window.cancelAnimationFrame(id);
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(outerId);
+      if (innerId) window.cancelAnimationFrame(innerId);
+    };
   }, [flyToLabel, stands, map, onComplete]);
   return null;
 }
@@ -248,11 +254,15 @@ function MapFlyToStand({
 /** react-leaflet `MapContainer` only fits `bounds` on first mount — refit whenever the hall changes. */
 function FitMapToHallBounds({
   bounds,
+  enabled,
 }: {
   bounds: LatLngBounds;
+  /** When false (e.g. search zoom active), skip fitting the whole hall. */
+  enabled: boolean;
 }) {
   const map = useMap();
   useEffect(() => {
+    if (!enabled) return;
     const id = window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
         map.fitBounds(bounds, { padding: [20, 20], maxZoom: 2 });
@@ -260,7 +270,7 @@ function FitMapToHallBounds({
       });
     });
     return () => window.cancelAnimationFrame(id);
-  }, [map, bounds]);
+  }, [map, bounds, enabled]);
   return null;
 }
 
@@ -280,6 +290,9 @@ export const Map: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchHighlightIndex, setSearchHighlightIndex] = useState(0);
   const [flyToStandLabel, setFlyToStandLabel] = useState<string | null>(null);
+  /** Booth highlighted + zoomed from search (persists until search cleared). */
+  const [searchFocusStand, setSearchFocusStand] = useState<string | null>(null);
+  const skipSearchFlyRef = useRef(false);
   /** True only while html-to-image capture runs — larger stand-id-only labels. */
   const [snapshotLabelsForCapture, setSnapshotLabelsForCapture] =
     useState(false);
@@ -600,19 +613,56 @@ export const Map: React.FC = () => {
   }, [searchResults]);
 
   useEffect(() => {
+    skipSearchFlyRef.current = true;
     setSearchHighlightIndex(0);
+    if (!searchQuery.trim()) {
+      setSearchFocusStand(null);
+    }
   }, [searchQuery]);
+
+  const findMapForStand = useCallback(
+    (stand: string) =>
+      maps.find((map) =>
+        map.stands.some((s) => s.toLowerCase() === stand.toLowerCase()),
+      ),
+    [maps],
+  );
+
+  const applySearchFocus = useCallback(
+    (index: number, options?: { fly?: boolean }) => {
+      const r = searchResults[index];
+      if (!r) return;
+      const m = findMapForStand(r.stand);
+      if (m) setSelectedMap(m);
+      setSearchFocusStand(r.stand);
+      if (options?.fly !== false) {
+        setFlyToStandLabel(r.stand);
+      }
+    },
+    [searchResults, findMapForStand],
+  );
 
   const selectSearchResultAt = useCallback(
     (index: number) => {
-      const r = searchResults[index];
-      if (!r) return;
-      const m = maps.find((map) => map.stands.includes(r.stand));
-      if (m) setSelectedMap(m);
-      setFlyToStandLabel(r.stand);
+      applySearchFocus(index, { fly: true });
     },
-    [searchResults, maps],
+    [applySearchFocus],
   );
+
+  /** Arrow keys in the result list: highlight + zoom without re-fitting whole hall on each keystroke while typing. */
+  useEffect(() => {
+    if (!searchActive) return;
+    const r = searchResults[searchHighlightIndex];
+    if (!r) return;
+    const m = findMapForStand(r.stand);
+    if (m) setSelectedMap(m);
+    setSearchFocusStand(r.stand);
+    if (skipSearchFlyRef.current) {
+      skipSearchFlyRef.current = false;
+      return;
+    }
+    setFlyToStandLabel(r.stand);
+  }, [searchHighlightIndex, searchResults, searchActive, findMapForStand]);
 
   const toggleFavorite = (label: string) => {
     if (!listKey) return;
@@ -700,6 +750,7 @@ export const Map: React.FC = () => {
                   e.preventDefault();
                   setSearchQuery("");
                   setSearchHighlightIndex(0);
+                  setSearchFocusStand(null);
                 }
               }}
               aria-controls={
@@ -719,6 +770,7 @@ export const Map: React.FC = () => {
                 onClick={() => {
                   setSearchQuery("");
                   setSearchHighlightIndex(0);
+                  setSearchFocusStand(null);
                 }}
               >
                 ×
@@ -927,7 +979,10 @@ export const Map: React.FC = () => {
           zoomSnap={0.2}
           style={{ height: "100%", width: "100%" }}
         >
-          <FitMapToHallBounds bounds={bounds} />
+          <FitMapToHallBounds
+            bounds={bounds}
+            enabled={!searchFocusStand}
+          />
           {hallDims && hallViewBoxStr ? (
             <UkgeHallSvgOverlay
               key={hallLayerKey}
@@ -948,6 +1003,7 @@ export const Map: React.FC = () => {
                       favorites,
                       searchActive,
                       searchMatchLabels,
+                      searchFocusStand,
                     )}
                   />
                 )),
@@ -958,6 +1014,11 @@ export const Map: React.FC = () => {
           <HallPrintToolbar
             bounds={bounds}
             filenameBase={selectedMap.title}
+            viewBoxSize={
+              hallDims
+                ? { vw: hallDims.vw, vh: hallDims.vh }
+                : undefined
+            }
             setSnapshotLabels={setSnapshotLabelsForCapture}
           />
           <MapFlyToStand
